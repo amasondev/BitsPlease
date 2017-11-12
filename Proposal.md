@@ -21,3 +21,15 @@ The bulk of our video operations will be performed by the open source library FF
 We intend to use the agile software engineering method to develop each individual application. Since functionality may be moved from one application to another, or to an entirely new application, an interative approach is required. For example, the decision to separate video cutting and sequencing into two seperate applications came out of the usability design of the sequencer interface.
 
 For user testing, we intend to perform usability studies.
+
+## Design Approach
+
+Our approach will be iterative, undertaking a series of steps:
+
+1) Outline subgoals which achieve the main end goal (ie. outputting an edited video).
+2) Outline the functionality required to complete the subgoals.
+3) Propose tasks that achieve that functionality.
+4) Sketch/storyboard the workflow.
+5) Implement tasks in code and interface.
+6) User test new features for efficiency and UX.
+7) Revise and reiterate steps 3-6.
