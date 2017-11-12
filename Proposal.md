@@ -20,6 +20,15 @@ The bulk of our video operations will be performed by the open source library FF
 
 We intend to use the agile software engineering method to develop each individual application. Since functionality may be moved from one application to another, or to an entirely new application, an interative approach is required. For example, the decision to separate video cutting and sequencing into two seperate applications came out of the usability design of the sequencer interface.
 
+For IAT 351, we intent to implement the following components:
+
+* Sequencer
+* Clipper
+* Cropper
+* Converter
+* Colour Correct
+* YouTube Downloader
+
 For user testing, we intend to perform usability studies.
 
 ## Design Approach
