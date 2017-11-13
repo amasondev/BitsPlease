@@ -42,3 +42,9 @@ Our approach will be iterative, undertaking a series of steps:
 5) Implement tasks in code and interface.
 6) User test new features for efficiency and UX.
 7) Revise and reiterate steps 3-6.
+
+## Preliminary Analysis
+
+We are considering Nielsen's heuristic evaluations to analyze usability in our interface. Nielsen's heuristics cover a broad range of concepts, such as "error prevention rather than error messages," and "information should appear in a natural and logical order." We can use them to assess our overall interface, as well as more granular interactions within it. Heuristic evaluations are a flexible way to plan and reflect on our design process.
+
+As designers, we run the danger of being biased by our familiarity to the project. We believe that heuristic evaluations will allow us to think about the interface more objectively. Comparing the UI against sets of criteria may reveal issues that otherwise wouldn't occur to us. To verify the strength of our implementation, we can incorporate heuristics as goals to be tested in user studies.
