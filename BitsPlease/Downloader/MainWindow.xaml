@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="101*"/>
+
+            <RowDefinition Height="218*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="256*"/>
+            <ColumnDefinition Width="261*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="urlInput" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Download" HorizontalAlignment="Left" Margin="75,95,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="DownloadVideoURL"/>
+
+
     </Grid>
 </Window>
