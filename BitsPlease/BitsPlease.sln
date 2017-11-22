@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsPlease", "BitsPlease\BitsPlease.csproj", "{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sequencer", "Sequencer\Sequencer.csproj", "{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "Converter\Converter.csproj", "{8A80CB5B-7828-4CC6-B2AA-4C5E17C6D1CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slicer", "Slicer\Slicer.csproj", "{74FE4A5E-BDAF-4AB0-A471-539A1F9A34DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cropper", "Cropper\Cropper.csproj", "{B3919535-3B04-40DB-9DE9-1BBA8F160594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorEffects", "ColorEffects\ColorEffects.csproj", "{AFCDB4E9-D3BD-4246-9A41-B951760FD0A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader", "Downloader\Downloader.csproj", "{59C1E80A-3C55-492B-A37F-7678D51685BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A80CB5B-7828-4CC6-B2AA-4C5E17C6D1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A80CB5B-7828-4CC6-B2AA-4C5E17C6D1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A80CB5B-7828-4CC6-B2AA-4C5E17C6D1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A80CB5B-7828-4CC6-B2AA-4C5E17C6D1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74FE4A5E-BDAF-4AB0-A471-539A1F9A34DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74FE4A5E-BDAF-4AB0-A471-539A1F9A34DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74FE4A5E-BDAF-4AB0-A471-539A1F9A34DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74FE4A5E-BDAF-4AB0-A471-539A1F9A34DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3919535-3B04-40DB-9DE9-1BBA8F160594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3919535-3B04-40DB-9DE9-1BBA8F160594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3919535-3B04-40DB-9DE9-1BBA8F160594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3919535-3B04-40DB-9DE9-1BBA8F160594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCDB4E9-D3BD-4246-9A41-B951760FD0A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCDB4E9-D3BD-4246-9A41-B951760FD0A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCDB4E9-D3BD-4246-9A41-B951760FD0A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCDB4E9-D3BD-4246-9A41-B951760FD0A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAEA91C2-0D9F-49D2-AC5B-B5EBCB8D39FE}
+	EndGlobalSection
+EndGlobal
