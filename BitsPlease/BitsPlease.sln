@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsPlease", "BitsPlease\BitsPlease.csproj", "{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "BitsPlease\Launcher.csproj", "{A53F60A7-0EC5-40A9-8B42-0B0CD236D9FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sequencer", "Sequencer\Sequencer.csproj", "{3CCC410B-7DCA-47AC-9A20-C1277850A2AD}"
 EndProject
@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ffmpeg\ffplay.exe = ffmpeg\ffplay.exe
 		ffmpeg\ffprobe.exe = ffmpeg\ffprobe.exe
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsPleaseCommon", "BitsPleaseCommon\BitsPleaseCommon.csproj", "{E8428560-F9A4-4CA1-90E7-3F6F884B503A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8428560-F9A4-4CA1-90E7-3F6F884B503A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8428560-F9A4-4CA1-90E7-3F6F884B503A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8428560-F9A4-4CA1-90E7-3F6F884B503A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8428560-F9A4-4CA1-90E7-3F6F884B503A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
