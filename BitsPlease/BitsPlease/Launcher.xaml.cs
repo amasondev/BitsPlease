@@ -18,16 +18,11 @@ namespace BitsPlease
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Launcher : Window
     {
-        public MainWindow()
+        public Launcher()
         {
             InitializeComponent();
-        }
-
-        private void OnCLikThisButton(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }
