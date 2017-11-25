@@ -11,6 +11,11 @@ namespace BitsPlease
   /// </summary>
   public class VideoDropWindow : Window
   {
+    public VideoDropWindow()
+    {
+      AllowDrop = true;
+    }
+
     protected static bool GetIsValidVideoPath(out string path, DragEventArgs e)
     {
       path = "";

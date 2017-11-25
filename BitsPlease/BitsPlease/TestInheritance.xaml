@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BitsPlease"
         mc:Ignorable="d"
-        Title="TestInheritance" Height="300" Width="300" DragEnter="OnDragEnter" Drop="OnDragDrop" AllowDrop="True">
+        Title="TestInheritance" Height="300" Width="300" DragEnter="OnDragEnter" Drop="OnDragDrop">
     <Grid>
         
     </Grid>
