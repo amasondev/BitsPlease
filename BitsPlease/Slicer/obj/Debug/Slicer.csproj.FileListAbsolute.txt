@@ -1,0 +1,15 @@
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\BitsPlease\bin\Debug\Slicer.exe.config
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\BitsPlease\bin\Debug\Slicer.exe
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\BitsPlease\bin\Debug\Slicer.pdb
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.csprojResolveAssemblyReference.cache
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\MainWindow.g.cs
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\App.g.cs
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer_MarkupCompile.cache
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer_MarkupCompile.lref
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\MainWindow.baml
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.g.resources
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.Properties.Resources.resources
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.csproj.GenerateResource.Cache
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.csproj.CoreCompileInputs.cache
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.exe
+C:\Users\goshe\Desktop\Новая папка\BitsPlease-master\BitsPlease\Slicer\obj\Debug\Slicer.pdb
