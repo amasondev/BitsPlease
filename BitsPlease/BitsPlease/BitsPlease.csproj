@@ -63,9 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="VideoDropWindow.xaml.cs">
-      <DependentUpon>VideoDropWindow.xaml</DependentUpon>
+    <Compile Include="TestInheritance.xaml.cs">
+      <DependentUpon>TestInheritance.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VideoDropWindow.cs" />
     <Page Include="Launcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,7 +79,7 @@
       <DependentUpon>Launcher.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="VideoDropWindow.xaml">
+    <Page Include="TestInheritance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
