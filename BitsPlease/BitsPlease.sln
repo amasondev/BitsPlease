@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorEffects", "ColorEffect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader", "Downloader\Downloader.csproj", "{59C1E80A-3C55-492B-A37F-7678D51685BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unosquare.FFME", "ffmediaelement\Unosquare.FFME\Unosquare.FFME.csproj", "{A6EB99A6-AAE2-4E6E-AB9E-93992CE5B84D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unosquare.FFME.Common", "ffmediaelement\Unosquare.FFME.Common\Unosquare.FFME.Common.csproj", "{6FDC1840-C290-4BC7-AEBD-85AAE7F601DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,14 @@ Global
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59C1E80A-3C55-492B-A37F-7678D51685BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6EB99A6-AAE2-4E6E-AB9E-93992CE5B84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EB99A6-AAE2-4E6E-AB9E-93992CE5B84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EB99A6-AAE2-4E6E-AB9E-93992CE5B84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EB99A6-AAE2-4E6E-AB9E-93992CE5B84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FDC1840-C290-4BC7-AEBD-85AAE7F601DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FDC1840-C290-4BC7-AEBD-85AAE7F601DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FDC1840-C290-4BC7-AEBD-85AAE7F601DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FDC1840-C290-4BC7-AEBD-85AAE7F601DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
