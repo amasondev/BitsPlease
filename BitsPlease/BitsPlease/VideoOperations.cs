@@ -49,7 +49,8 @@ namespace BitsPlease
       // Unlock the window
       window.IsEnabled = true;
     }
-
+    
+        /*!!!!!!!!!!!!George's changes!!!!!!!!!!!*/
     private static bool FF_Crop(
       out Process process,
       string inputPath,
@@ -72,7 +73,50 @@ namespace BitsPlease
       return process.Start();
     }
 
+        public static void PerformTrim(
+                Window window,
+                string inputPath,
+                string outputPath,
+                string start,
+                string duration)
 
+        {
+
+
+            Process trimProcess;
+            if (!FF_Trim(out trimProcess, inputPath, outputPath, start, duration))
+            {
+                Console.WriteLine("Error starting FF_Trim");
+                return;
+            }
+
+            StreamReader streamreader = trimProcess.StandardError;
+            string line;
+            while ((line = streamreader.ReadLine()) != null)
+                Console.WriteLine(line);
+
+            trimProcess.WaitForExit();
+            trimProcess.Close();
+
+            
+            window.IsEnabled = true;
+        }
+
+        private static bool FF_Trim(
+            out Process process,
+            string inputPath,
+            string outputPath,
+            string start,
+            string duration)
+        {
+            process = FFmpegProcess();
+            process.StartInfo.Arguments +=
+            "-y -i \"" + inputPath + "\" -ss " + start + " -t " + duration + outputPath;
+
+            Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
+
+            return process.Start();
+        }
     private static Process FFmpegProcess()
     {
       Process process = new Process();
