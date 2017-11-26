@@ -13,14 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.IO;
+using BitsPlease;
 
 namespace Slicer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : VideoDropWindow
     {
+        public string FileLocation {get; set;}
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,10 +41,27 @@ namespace Slicer
                 ss = start.Text;
                 t = end.Text;
 
-                Process.Start("ffmpeg.exe", "-i IMG_0163.mp4"+"-"+ ss +"-"+ t +"OutputVideoFile.mp4");
+                Process process = new Process();
+                process.StartInfo.FileName = "ffmpeg.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Arguments = "-y -i \""+FileLocation+"\" -ss "+ ss +" -t "+ t +" OutputVideoFile.mp4";
+                Console.WriteLine("COMMAND: ffmpeg " + process.StartInfo.Arguments);
+                process.Start();
+
+                StreamReader reader = process.StandardOutput;
+                string output = reader.ReadToEnd();
+                Console.WriteLine(output);
+                process.WaitForExit();
+                process.Close();
             }
         }
 
-       
-    }
+        protected override void OnDropVideo(string filepath)
+        {
+              Console.WriteLine("Got video at location: " + filepath);
+              FileLocation = filepath;
+        }
+  }
 }

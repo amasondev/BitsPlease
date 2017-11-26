@@ -14,20 +14,20 @@ using System.Windows.Shapes;
 
 namespace BitsPlease
 {
-    /// <summary>
-    /// Interaction logic for TestInheritance.xaml
-    /// </summary>
-    public partial class TestInheritance : VideoDropWindow
+  /// <summary>
+  /// Interaction logic for TestInheritance.xaml
+  /// </summary>
+  public partial class TestInheritance : VideoDropWindow
+  {
+    public TestInheritance()
     {
-        public TestInheritance()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
+    }
 
     protected override void OnDropVideo(string filepath)
     {
       MessageBox.Show("Got a valid video!");
     }
-    
+
   }
 }
