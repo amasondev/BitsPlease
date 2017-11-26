@@ -14,6 +14,8 @@ namespace BitsPlease
     public VideoDropWindow()
     {
       AllowDrop = true;
+      DragEnter += OnDragEnter;
+      Drop += OnDragDrop;
     }
 
     protected static bool GetIsValidVideoPath(out string path, DragEventArgs e)
