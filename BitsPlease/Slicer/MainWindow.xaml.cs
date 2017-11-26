@@ -37,7 +37,7 @@ namespace Slicer
 
             if (!String.IsNullOrEmpty(start.Text) && (!String.IsNullOrEmpty(end.Text)))
             {
-                i = "C:\\Users\\goshe\\Desktop\\IMG_0163.mp4";
+               
                 ss = start.Text;
                 t = end.Text;
 
