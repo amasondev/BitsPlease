@@ -5,16 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
-using System.IO;
 using BitsPlease;
+using System.IO;
+using Microsoft.Win32;
 
 namespace Slicer
 {
@@ -23,45 +16,98 @@ namespace Slicer
     /// </summary>
     public partial class MainWindow : VideoDropWindow
     {
-        public string FileLocation {get; set;}
+        //public string FileLocation {get; set;}
+        string filelabelprefix, inputFilePath;
+
 
         public MainWindow()
         {
             InitializeComponent();
+            filelabelprefix = LBL_File.Content.ToString();
+        }
+
+
+        protected override void OnDropVideo(string filepath)
+        {
+            LBL_File.Content = filelabelprefix + filepath;
+
+            inputFilePath = filepath;
         }
 
 
         private void Trim(object sender, RoutedEventArgs e)
         {
-            String i, ss, t; //i = path ss= start point t = duration
+            string  ss, t; // ss = start point t = duration
+            if (!string.TryParse(start.Text, out ss)) return;
+            if (!string.TryParse(end.Text, out t)) return;
+            string ext = Path.GetExtension(inputFilePath);
 
-            if (!String.IsNullOrEmpty(start.Text) && (!String.IsNullOrEmpty(end.Text)))
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
+
+            Console.WriteLine("Input file: " + inputFilePath);
+
+            if (saveFileDialog.ShowDialog() == true
+              && !string.IsNullOrEmpty(inputFilePath)
+              && !string.IsNullOrEmpty(saveFileDialog.FileName))
             {
-               
-                ss = start.Text;
-                t = end.Text;
-
-                Process process = new Process();
-                process.StartInfo.FileName = "ffmpeg.exe";
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.Arguments = "-y -i \""+FileLocation+"\" -ss "+ ss +" -t "+ t +" OutputVideoFile.mp4";
-                Console.WriteLine("COMMAND: ffmpeg " + process.StartInfo.Arguments);
-                process.Start();
-
-                StreamReader reader = process.StandardOutput;
-                string output = reader.ReadToEnd();
-                Console.WriteLine(output);
-                process.WaitForExit();
-                process.Close();
+                Console.WriteLine("Output file: " + saveFileDialog.FileName);
+                VideoOperations.PerformTrim(
+                    this,
+                    inputFilePath,
+                    saveFileDialog.FileName,
+                    (string)ss, (string)t);
             }
-        }
 
-        protected override void OnDropVideo(string filepath)
-        {
-              Console.WriteLine("Got video at location: " + filepath);
-              FileLocation = filepath;
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /* if (!String.IsNullOrEmpty(start.Text) && (!String.IsNullOrEmpty(end.Text)))
+                {
+
+                    ss = start.Text;
+                    t = end.Text;
+
+                    Process process = new Process();
+                    process.StartInfo.FileName = "ffmpeg.exe";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.StartInfo.Arguments = "-y -i \""+inputFilePath+"\" -ss "+ ss +" -t "+ t +" OutputVideoFile.mp4";
+                    Console.WriteLine("COMMAND: ffmpeg " + process.StartInfo.Arguments);
+                    process.Start();
+
+                    StreamReader reader = process.StandardOutput;
+                    string output = reader.ReadToEnd();
+                    Console.WriteLine(output);
+                    process.WaitForExit();
+                    process.Close();
+                }*/
+            }
+
+        
   }
 }
