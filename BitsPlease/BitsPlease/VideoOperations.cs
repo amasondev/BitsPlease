@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using System.Windows;
 
 namespace BitsPlease
 {
-  class VideoOperations
+  public class VideoOperations
   {
     private static string FFMPEG = "ffmpeg.exe";
     private static string BASEARGS = "-y ";
@@ -16,18 +17,63 @@ namespace BitsPlease
     
 
     public static void PerformCrop(
-      string inputFile,
-      string outputFile,
+      Window window,
+      string inputPath,
+      string outputPath,
       uint x,
       uint y,
       uint width,
       uint height)
     {
+      // Lock the window during the operation
+      window.IsEnabled = false;
+
+      // TODO: Create a progress window
+
+      Process cropProcess;
       
+      if (!FF_Crop(out cropProcess, inputPath, outputPath, x, y, width, height))
+      {
+        Console.WriteLine("Error starting FF_Crop");
+        return;
+      }
+
+      StreamReader streamreader = cropProcess.StandardError;
+      string line;
+      while ((line = streamreader.ReadLine()) != null)
+        Console.WriteLine(line);
+
+      cropProcess.WaitForExit();
+      cropProcess.Close();
+
+      // Unlock the window
+      window.IsEnabled = true;
+    }
+
+    private static bool FF_Crop(
+      out Process process,
+      string inputPath,
+      string outputPath,
+      uint x,
+      uint y,
+      uint width,
+      uint height
+      )
+    {
+      process = FFmpegProcess();
+      process.StartInfo.Arguments +=
+        "-i \"" + inputPath + "\" " +
+        "-vf crop=" + width.ToString() + ":" + height.ToString() + ":" +
+        x.ToString() + ":" + y.ToString() + " " +
+        outputPath;
+
+      Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
+
+      return process.Start();
     }
 
 
-    Process FfmpegProcess()
+    private static Process FFmpegProcess()
     {
       Process process = new Process();
       process.StartInfo.FileName = FFMPEG;
