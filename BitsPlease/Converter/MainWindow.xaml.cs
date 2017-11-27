@@ -5,24 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using BitsPlease;
+using System.IO;
+using Microsoft.Win32;
 namespace Converter
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : VideoDropWindow
     {
+        string filelabelprefix, inputFilePath;
+
+
         public MainWindow()
         {
             InitializeComponent();
+            filelabelprefix = LBL_File.Content.ToString();
         }
+
+
+        protected override void OnDropVideo(string filepath)
+        {
+            LBL_File.Content = filelabelprefix + filepath;
+
+            inputFilePath = filepath;
+        }
+    }
+
+
+    private void Convert(object sender, RoutedEventArgs e)
+    {
+
+        string ext = Path.GetExtension(inputFilePath);
+
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
+
+        Console.WriteLine("Input file: " + inputFilePath);
+
+        if (saveFileDialog.ShowDialog() == true
+          && !string.IsNullOrEmpty(inputFilePath)
+          && !string.IsNullOrEmpty(saveFileDialog.FileName))
+        {
+            Console.WriteLine("Output file: " + saveFileDialog.FileName);
+            VideoOperations.PerformConvert(
+                this,
+                inputFilePath,
+                saveFileDialog.FileName,
+                format.Text);
+        }
+
     }
 }

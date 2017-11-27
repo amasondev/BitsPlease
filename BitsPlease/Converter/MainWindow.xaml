@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <TextBox x:Name="format" HorizontalAlignment="Left" Height="23" Margin="219,141,0,0" TextWrapping="Wrap" Text="format" VerticalAlignment="Top" Width="120" AllowDrop="False"/>
+        <Button Content="Convert" HorizontalAlignment="Left" Margin="171,233,0,0" VerticalAlignment="Top" Width="75" Click="Convert"/>
+        <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
