@@ -130,5 +130,48 @@ namespace BitsPlease
       return process;
     }
 
-  }
+
+    //fix line 169
+    public static void PerformConvert(
+        Window window,
+        string inputPath,
+        string outputPath,
+        string format
+        )
+        {
+            Process convertProcess;
+            if(!FF_Convert (out convertProcess, inputPath, outputPath,format))
+            {
+                Console.WriteLine("Error starting FF_Convert");
+                return;
+            }
+
+            StreamReader streamreader = convertProcess.StandardError;
+            string line;
+            while ((line = streamreader.ReadLine()) != null)
+                Console.WriteLine(line);
+
+            convertProcess.WaitForExit();
+            convertProcess.Close();
+
+
+            window.IsEnabled = true;
+        }
+
+        private static bool FF_Convert(
+        out Process process,
+        string inputPath,
+        string outputPath,
+        string format)
+        {
+            process = FFmpegProcess();
+            process.StartInfo.Arguments +=
+            "-y -i \"" + inputPath + "\" -ss " + start + " -t " + duration + " " + outputPath; //Must be chanched!!
+
+            Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
+
+            return process.Start();
+        }
+
+    }
 }
