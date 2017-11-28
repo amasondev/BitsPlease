@@ -1,11 +1,11 @@
-﻿<Window x:Class="Downloader.MainWindow"
+﻿<Window x:Class="Downloader.DownloaderMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Downloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="370.982" Width="479.224">
+        Title="Video Downloader" Height="370.982" Width="479.224">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>

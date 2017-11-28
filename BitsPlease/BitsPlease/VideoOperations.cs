@@ -64,7 +64,8 @@ namespace BitsPlease
       process.StartInfo.Arguments +=
         "-i \"" + inputPath + "\" " +
         "-vf crop=" + width.ToString() + ":" + height.ToString() + ":" +
-        x.ToString() + ":" + y.ToString() + " " +
+        x.ToString() + ":" + y.ToString() +
+        "-vcodec copy -acodec copy " +
         outputPath;
 
       Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
@@ -132,6 +133,7 @@ namespace BitsPlease
 
 
     //fix line 169
+    /*
     public static void PerformConvert(
         Window window,
         string inputPath,
@@ -173,5 +175,6 @@ namespace BitsPlease
             return process.Start();
         }
 
+    */
     }
 }

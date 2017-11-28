@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Sequencer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SequencerMain.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SequencerMain : Window
     {
-        public MainWindow()
+        public SequencerMain()
         {
             InitializeComponent();
         }

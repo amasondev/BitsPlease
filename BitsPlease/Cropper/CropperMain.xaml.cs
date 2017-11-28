@@ -11,16 +11,16 @@ using Microsoft.Win32;
 
 namespace Cropper
 {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
-  public partial class MainWindow : VideoDropWindow
+    /// <summary>
+    /// Interaction logic for CropperMain.xaml
+    /// </summary>
+    public partial class CropperMain : VideoDropWindow
   {
     string filelabelprefix;
 
     string inputFilePath;
 
-    public MainWindow()
+    public CropperMain()
     {
       InitializeComponent();
 

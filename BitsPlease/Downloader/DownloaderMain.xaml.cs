@@ -17,12 +17,12 @@ using System.Diagnostics;
 namespace Downloader
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DownloaderMain.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DownloaderMain : Window
     {
 
-        public MainWindow()
+        public DownloaderMain()
         {
             InitializeComponent();
         }
