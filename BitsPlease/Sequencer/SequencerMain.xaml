@@ -7,20 +7,21 @@
         mc:Ignorable="d"
         Title="Sequencer" Height="774" Width="1000" Background="White">
     <Grid Background="#FF434343">
-        <Button Name="Help" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Height="47" Background="DimGray" FontSize="24" FontWeight="Bold" Foreground="#FFCDCDCD"/>
+        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                Name="Help" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Height="47" Background="DimGray" FontSize="24" FontWeight="Bold" Foreground="#FFCDCDCD"/>
         <TextBlock HorizontalAlignment="Left" Margin="703,10,0,0" TextWrapping="NoWrap" Text="Video name here.format" VerticalAlignment="Top" Height="26" Width="231" FontSize="18" TextAlignment="Right" Foreground="#FFD0D0D0"/>
         <Rectangle Fill="#FF1F1F1F" HorizontalAlignment="Left" Height="480" Margin="73,46,0,0" Stroke="Black" VerticalAlignment="Top" Width="843" StrokeThickness="0"/>
         <MediaElement HorizontalAlignment="Left" Height="480" Margin="135,46,0,0" VerticalAlignment="Top" Width="720"/>
 
-        <Button Name="Rewind" Content="Rewind" HorizontalAlignment="Left" Margin="376,526,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"/>
-        <Button Name="PlaySelection" Content="Play" HorizontalAlignment="Left" Margin="425,526,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"/>
-        <Button Name="PlayAll" Content="Play" HorizontalAlignment="Left" Margin="474,526,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"/>
-        <Button Content="Pause" HorizontalAlignment="Left" Margin="523,526,0,0" VerticalAlignment="Top" Width="46" Height="40" IsCancel="True" Cursor="Hand" Background="DimGray"/>
-        <Button Name="Fastforward" Content="Fastforward" HorizontalAlignment="Left" Margin="572,526,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"/>
+        <Button Name="Rewind" Content="Rewind" HorizontalAlignment="Left" Margin="376,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+        <Button Name="PlaySelection" Content="Play" HorizontalAlignment="Left" Margin="425,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+        <Button Name="PlayAll" Content="Play" HorizontalAlignment="Left" Margin="474,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+        <Button Name="Pause" Content="Pause" HorizontalAlignment="Left" Margin="523,528,0,0" VerticalAlignment="Top" Width="46" Height="40" IsCancel="True" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+        <Button Name="Fastforward" Content="Fastforward" HorizontalAlignment="Left" Margin="572,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
 
         <TextBlock Name="DurationLabel" HorizontalAlignment="Left" Margin="385,688,0,0" TextWrapping="Wrap" Text="Duration:" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
         <TextBlock Name="Duration" HorizontalAlignment="Left" Margin="494,688,0,0" TextWrapping="Wrap" Text="0 : 00 : 00" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
-        <Button Name="Save" Content="Save As..." HorizontalAlignment="Left" Margin="820,677,0,0" VerticalAlignment="Top" Width="127" Height="37" Background="#FF58C6FF" Foreground="White" FontSize="16"/>
+        <Button Name="Save" Content="Save As..." HorizontalAlignment="Left" Margin="820,677,0,0" VerticalAlignment="Top" Width="127" Height="37" Background="#FF58C6FF" Foreground="White" FontSize="16" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
         <Rectangle Fill="#FF383838" HorizontalAlignment="Left" Height="39" Margin="73,599,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="843"/>
 
         <Slider HorizontalAlignment="Left" Margin="73,607,0,0" VerticalAlignment="Top" Width="843" Height="18"/>
