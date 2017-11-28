@@ -7,23 +7,53 @@
         mc:Ignorable="d"
         Title="Sequencer" Height="774" Width="1000" Background="White">
     <Grid Background="#FF434343">
-        <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                Name="Help" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Height="47" Background="DimGray" FontSize="24" FontWeight="Bold" Foreground="#FFCDCDCD"/>
-        <TextBlock HorizontalAlignment="Left" Margin="703,10,0,0" TextWrapping="NoWrap" Text="Video name here.format" VerticalAlignment="Top" Height="26" Width="231" FontSize="18" TextAlignment="Right" Foreground="#FFD0D0D0"/>
-        <Rectangle Fill="#FF1F1F1F" HorizontalAlignment="Left" Height="480" Margin="73,46,0,0" Stroke="Black" VerticalAlignment="Top" Width="843" StrokeThickness="0"/>
-        <MediaElement HorizontalAlignment="Left" Height="480" Margin="135,46,0,0" VerticalAlignment="Top" Width="720"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
 
-        <Button Name="Rewind" Content="Rewind" HorizontalAlignment="Left" Margin="376,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-        <Button Name="PlaySelection" Content="Play" HorizontalAlignment="Left" Margin="425,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-        <Button Name="PlayAll" Content="Play" HorizontalAlignment="Left" Margin="474,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-        <Button Name="Pause" Content="Pause" HorizontalAlignment="Left" Margin="523,528,0,0" VerticalAlignment="Top" Width="46" Height="40" IsCancel="True" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-        <Button Name="Fastforward" Content="Fastforward" HorizontalAlignment="Left" Margin="572,528,0,0" VerticalAlignment="Top" Width="46" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-
-        <TextBlock Name="DurationLabel" HorizontalAlignment="Left" Margin="385,688,0,0" TextWrapping="Wrap" Text="Duration:" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
-        <TextBlock Name="Duration" HorizontalAlignment="Left" Margin="494,688,0,0" TextWrapping="Wrap" Text="0 : 00 : 00" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
-        <Button Name="Save" Content="Save As..." HorizontalAlignment="Left" Margin="820,677,0,0" VerticalAlignment="Top" Width="127" Height="37" Background="#FF58C6FF" Foreground="White" FontSize="16" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-        <Rectangle Fill="#FF383838" HorizontalAlignment="Left" Height="39" Margin="73,599,0,0" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="843"/>
-
-        <Slider HorizontalAlignment="Left" Margin="73,607,0,0" VerticalAlignment="Top" Width="843" Height="18"/>
+        <Grid Grid.ColumnSpan="1" Margin="10"  MaxWidth="1000">
+            <StackPanel Grid.ColumnSpan="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="Help" Content="?" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Height="47" Background="DimGray" FontSize="24" FontWeight="Bold" Foreground="#FFCDCDCD" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <TextBlock Name="VideoName" Text="Video name here.format" HorizontalAlignment="Left" Margin="703,10,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="26" Width="231" FontSize="18" TextAlignment="Right" Foreground="#FFD0D0D0"/>
+                </Grid>
+                <Grid>
+                    <Rectangle Width="800" Fill="#FF1F1F1F" HorizontalAlignment="Center" Height="480" VerticalAlignment="Top" StrokeThickness="0"/>
+                    <MediaElement MaxWidth="720" HorizontalAlignment="Center" Height="480" Margin="30,0" VerticalAlignment="Top" Width="720"/>
+                </Grid>
+                <Grid Width="250">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="Rewind" Content="Rewind" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Top" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <Button Name="PlaySelection" Content="Play" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Top" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <Button Name="PlayAll" Content="Play" HorizontalAlignment="Center" Grid.Column="2" VerticalAlignment="Top" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <Button Name="Pause" Content="Pause" HorizontalAlignment="Center" Grid.Column="3" VerticalAlignment="Top" Height="40" IsCancel="True" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <Button Name="Fastforward" Content="Fastforward" HorizontalAlignment="Center" Grid.Column="4" VerticalAlignment="Top" Height="40" Cursor="Hand" Background="DimGray" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                </Grid>
+                <Grid>
+                    <!--TODO values for video seeker -->
+                </Grid>
+                <Grid Margin="20, 40, 20, 20">
+                    <Rectangle Fill="#FF383838" HorizontalAlignment="Center" Height="39" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Width="843"/>
+                    <Slider HorizontalAlignment="Center" VerticalAlignment="Center" Width="843" Height="18"/>
+                </Grid>
+                <Grid Margin="10">
+                    <Grid HorizontalAlignment="Center" Width="Auto">
+                        <TextBlock Name="DurationLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Duration:" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
+                        <TextBlock Name="Duration" HorizontalAlignment="Left" TextWrapping="Wrap" Text="00 : 00 : 00" VerticalAlignment="Top" Height="25" Width="99" FontSize="18" Foreground="#FFBCBCBC" Margin="86,0,-13.8,0"/>
+                    </Grid>
+                    <Button Name="Save" Content="Save As..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="127" Height="37" Background="#FF58C6FF" Foreground="White" FontSize="16" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
