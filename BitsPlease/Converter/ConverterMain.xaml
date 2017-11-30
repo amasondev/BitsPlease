@@ -6,10 +6,20 @@
         xmlns:local="clr-namespace:Converter"
         xmlns:bitsplease="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
-        Title="Converter" Height="350" Width="525">
-    <Grid>
-        <TextBox x:Name="format" HorizontalAlignment="Left" Height="23" Margin="219,141,0,0" TextWrapping="Wrap" Text="format" VerticalAlignment="Top" Width="120" AllowDrop="False"/>
-        <Button Content="Convert" HorizontalAlignment="Left" Margin="171,233,0,0" VerticalAlignment="Top" Width="75" Click="Convert"/>
-        <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        Title="Converter" Height="350" Width="525" Background="#FF434343">
+    <Grid Grid.ColumnSpan="1" Width="450">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#FF5A5A5A" HorizontalAlignment="Left" Height="113" Margin="0,56,0,0" VerticalAlignment="Top" Width="444"/>
+        <Grid>
+            <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="0,202,0,0" VerticalAlignment="Top" Foreground="#FFD6D6D6"/>
+            <TextBox x:Name="format" HorizontalAlignment="Left" Height="23" Margin="171,205,0,0" TextWrapping="Wrap" Text="format" VerticalAlignment="Top" Width="120" AllowDrop="False" Background="#FF797979" Foreground="White"/>
+            <Button Content="Convert" HorizontalAlignment="Left" Margin="171,241,0,0" VerticalAlignment="Top" Width="75" Click="Convert" Background="#FF58C6FF" Foreground="White" Height="27" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
+            <ProgressBar HorizontalAlignment="Left" Height="22" Margin="264,244,0,0" VerticalAlignment="Top" Width="176"/>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="0,22,0,0" TextWrapping="Wrap" Text="Format Converter" VerticalAlignment="Top" FontWeight="Bold" Foreground="#FFDDDDDD"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFCECDFF"><Run Text="Drag a video into this window"/><LineBreak/><Run/></TextBlock>
+        <Button Content="Or browse files..." HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" Width="111" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="#FF9593DD" Foreground="White" Height="28" />
     </Grid>
 </bitsplease:VideoDropWindow>
