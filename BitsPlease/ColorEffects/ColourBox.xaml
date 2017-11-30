@@ -11,11 +11,22 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Rectangle>
             <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <!-- Saturation of Colour  -->
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Color="White" Offset="0.0"/>
+                    <GradientStop Color="Blue" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle>
+            <Rectangle.Fill>
+                <!-- Saturation of Colour  -->
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Transparent" Offset="0.0"/>
                     <GradientStop Color="Black" Offset="1.0"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
