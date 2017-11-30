@@ -16,7 +16,7 @@
             <Grid>
                 <!-- File add zone -->
                 <Rectangle Fill="#FF5A5A5A" HorizontalAlignment="Center" Height="113" Margin="0,20,0,0" VerticalAlignment="Top" Width="800"/>
-                <TextBlock HorizontalAlignment="Center" Margin="0,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFCECDFF"><Run Text="Drag a video into this window"/><LineBreak/><Run/></TextBlock>
+                <TextBlock HorizontalAlignment="Center" Margin="0,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFCECDFF" Text="Drag a video into this window"/>
                 <Button Content="Or browse files..." HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="111" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="#FF9593DD" Foreground="White" Height="28" />
             </Grid>
             <Grid Margin="0, 20" MaxWidth="800">
