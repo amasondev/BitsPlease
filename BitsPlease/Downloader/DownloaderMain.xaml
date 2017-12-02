@@ -62,22 +62,22 @@
                         <GridView>
                             <GridViewColumn Width="70">
                                 <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Extension" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Extension</GridViewColumnHeader>
+                                    <GridViewColumnHeader Tag="Extension" Background="#FF868686" BorderBrush="{x:Null}" Foreground="White">Extension</GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn Width="80">
                                 <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Resolution" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Resolution</GridViewColumnHeader>
+                                    <GridViewColumnHeader Tag="Resolution" Background="#FF868686" BorderBrush="{x:Null}" Foreground="White">Resolution</GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn Width="80">
                                 <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Framerate" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Framerate</GridViewColumnHeader>
+                                    <GridViewColumnHeader Tag="Framerate" Background="#FF868686" BorderBrush="{x:Null}" Foreground="White">Framerate</GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                             <GridViewColumn Width="80">
                                 <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Filesize" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Filesize</GridViewColumnHeader>
+                                    <GridViewColumnHeader Tag="Filesize" Background="#FF868686" BorderBrush="{x:Null}" Foreground="White">Filesize</GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
                         </GridView>

@@ -65,7 +65,7 @@
                         <TextBlock Name="DurationLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Duration:" VerticalAlignment="Top" Height="25" Width="109" FontSize="18" Foreground="#FFBCBCBC"/>
                         <TextBlock Name="Duration" HorizontalAlignment="Left" TextWrapping="Wrap" Text="00 : 00 : 00" VerticalAlignment="Top" Height="25" Width="99" FontSize="18" Foreground="#FFBCBCBC" Margin="86,0,-13.8,0"/>
                     </Grid>
-                    <Button Name="Save" Content="Save As..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="127" Height="37" Background="#7F58C6FF" Foreground="White" FontSize="16" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                    <Button Name="Save" Content="Save As..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="127" Height="37" Background="#7FA6A6A6" Foreground="#FFF1FBFF" FontSize="16" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="{x:Null}"/>
                 </Grid>
             </StackPanel>
         </Grid>
