@@ -63,6 +63,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PlaybackTools.xaml.cs">
+      <DependentUpon>PlaybackTools.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestInheritance.xaml.cs">
       <DependentUpon>TestInheritance.xaml</DependentUpon>
     </Compile>
@@ -84,6 +87,10 @@
       <DependentUpon>Launcher.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlaybackTools.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TestInheritance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
