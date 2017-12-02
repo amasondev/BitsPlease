@@ -66,8 +66,12 @@
     <Compile Include="TestInheritance.xaml.cs">
       <DependentUpon>TestInheritance.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimelineHeader.cs" />
     <Compile Include="VideoDropWindow.cs" />
     <Compile Include="VideoOperations.cs" />
+    <Compile Include="VideoTimelineBar.xaml.cs">
+      <DependentUpon>VideoTimelineBar.xaml</DependentUpon>
+    </Compile>
     <Page Include="Launcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +85,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TestInheritance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VideoTimelineBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

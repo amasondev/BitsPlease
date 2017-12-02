@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="BitsPlease.VideoTimelineBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BitsPlease"
+             mc:Ignorable="d" Height="201.972" Width="635.493">
+  <Grid ScrollViewer.HorizontalScrollBarVisibility="Visible" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="18"/>
+      <RowDefinition/>
+      <RowDefinition Height="18"/>
+    </Grid.RowDefinitions>
+    <local:TimelineHeader HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="1058" Margin="0,0,-423,0"/>
+
+  </Grid>
+</UserControl>
