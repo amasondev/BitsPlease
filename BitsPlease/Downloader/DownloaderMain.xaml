@@ -57,7 +57,32 @@
                     <ComboBox Name="AudioFormatSelector" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Background="#FF838383" Foreground="White"/>
                 </Grid>
                 <Label Content="Video Quality" Foreground="#FFB1B1B1"/>
-                <ListBox Name="OutputQualityList" Height="84" Background="#FF626262" />
+                <ListView Name="OutputQualityList" Height="84" Background="#FF626262">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="70">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Extension" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Extension</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Resolution" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Resolution</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Framerate" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Framerate</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="Filesize" Background="#FFA0A0A0" BorderBrush="{x:Null}" Foreground="White">Filesize</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
                 <TextBlock Name="SelectedOutput" Margin="0,5,0,15" Text="Output:" Foreground="#FFB4B4B4" />
                 <StackPanel Background="#FF5A5A5A">
                     <Button Content="Download" Margin="0" VerticalAlignment="Center" Click="DownloadVideoURL" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="#FF5BE27A" />
