@@ -11,9 +11,9 @@ namespace BitsPlease
 {
   public class VideoOperations
   {
-    private static string FFMPEG = "ffmpeg.exe";
-    private static string BASEARGS = "-y ";
-    private static string FFPROBE = "ffprobe.exe";
+    public static string FFMPEG = "ffmpeg.exe";
+    public static string BASEARGS = "-y ";
+    public static string FFPROBE = "ffprobe.exe";
 
 
     public static void PerformCrop(

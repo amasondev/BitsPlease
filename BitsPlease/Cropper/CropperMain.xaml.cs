@@ -24,6 +24,8 @@ namespace Cropper
     {
       InitializeComponent();
 
+      Unosquare.FFME.MediaElement.FFmpegDirectory = ".";
+
       filelabelprefix = LBL_File.Content.ToString();
     }
 
@@ -32,6 +34,18 @@ namespace Cropper
       LBL_File.Content = filelabelprefix + filepath;
 
       inputFilePath = filepath;
+
+      // Open the media in video preview
+      try {
+        VideoPreview.Source = new Uri(filepath);
+        
+        Console.WriteLine("Set media source to: " + VideoPreview.Source);
+      } catch (Exception ex)
+      {
+        MessageBox.Show("Failed to open media: " + ex.Message);
+        inputFilePath = "";
+        LBL_File.Content = filelabelprefix;
+      }
     }
 
     private void Crop_OnClick(object sender, RoutedEventArgs e)
@@ -68,6 +82,29 @@ namespace Cropper
 
       }
 
+    }
+
+    private void OnPlayClicked(object sender, RoutedEventArgs e)
+    {
+      if (VideoPreview.HasVideo)
+      {
+        VideoPreview.Play();
+        Console.WriteLine("Playing video.");
+      }
+    }
+
+    private void OnPauseClicked(object sender, RoutedEventArgs e)
+    {
+      if (VideoPreview.IsPlaying)
+      {
+        VideoPreview.Pause();
+        Console.WriteLine("Pausing video.");
+      }
+    }
+
+    private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
+    {
+      Console.WriteLine(e.Message);
     }
   }
 
