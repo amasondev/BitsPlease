@@ -57,7 +57,8 @@
                     </Grid>
                     <Grid>
                         <Rectangle Fill="#FF383838" HorizontalAlignment="Center" Height="39" StrokeThickness="0" VerticalAlignment="Top" Width="840"/>
-                        <Slider HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="840"/>
+                        <Slider HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="840" Foreground="Black">
+                        </Slider>
                     </Grid>
                 </StackPanel>
                 <Grid Margin="40,20">

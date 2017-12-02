@@ -29,7 +29,7 @@
                 <Grid Grid.Column="1">
                     <TextBox x:Name="format" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="format" VerticalAlignment="Top" Width="120" AllowDrop="False" Background="#FF797979" Foreground="White"/>
                     <Button Content="Convert" HorizontalAlignment="Left" Margin="0,51,0,0" VerticalAlignment="Top" Width="75" Click="Convert" Background="#7F58C6FF" Foreground="White" Height="27" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
-                    <ProgressBar HorizontalAlignment="Left" Height="15" Margin="98,56,0,0" VerticalAlignment="Top" Width="176"/>
+                    <ProgressBar HorizontalAlignment="Left" Height="22" Margin="98,56,0,0" VerticalAlignment="Top" Width="176"/>
                 </Grid>
             </Grid>
             <!-- Back button -->
