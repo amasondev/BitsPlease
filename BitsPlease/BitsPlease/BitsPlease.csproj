@@ -151,19 +151,24 @@
     <Content Include="ffprobe.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\playseeker.png">
+    <EmbeddedResource Include="Images\playseeker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\pause.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\play.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\play.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\rewind.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\rewind.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\download.png" />
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\download.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\downloadgrey.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="postproc-54.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
