@@ -24,5 +24,10 @@ namespace Sequencer
         {
             InitializeComponent();
         }
+
+    private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
+    {
+      Console.WriteLine(e.Message);
     }
+  }
 }
