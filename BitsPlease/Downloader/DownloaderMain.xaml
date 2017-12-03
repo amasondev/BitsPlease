@@ -93,7 +93,7 @@
                         </StackPanel>
                     </Button>
                     <Label x:Name="downloadPercentLabel" Content="Downloading: 0%" HorizontalAlignment="Center" Foreground="#FFD6D6D6"/>
-                    <ProgressBar Height="23" VerticalAlignment="Top" Margin="20, 10" />
+                    <ProgressBar Height="15" VerticalAlignment="Top" Margin="20,0,20,10" />
                 </StackPanel>
                 <Button Name="BackButton" Content="&lt; Back to Suite" HorizontalAlignment="Left" Margin="0, 40" Background="#FF595959" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="#FFE7E7E7" Height="32" Width="110"/>
             </StackPanel>
