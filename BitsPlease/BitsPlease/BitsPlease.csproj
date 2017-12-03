@@ -163,6 +163,7 @@
     <Resource Include="Images\rewind.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\download.png" />
     <Content Include="postproc-54.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
