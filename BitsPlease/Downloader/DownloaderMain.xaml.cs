@@ -136,7 +136,6 @@ namespace Downloader
 
         private void AppendData(object sendingProcess, DataReceivedEventArgs line)
         {
-            MessageBox.Show(line.Data);
             output.Add(line.Data);
         }
     }
