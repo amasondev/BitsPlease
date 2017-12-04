@@ -25,6 +25,9 @@ namespace Downloader
         private const double URLINPUT_WAIT_TIME = 1000.0f;
         DispatcherTimer urlInputTimer;
 
+        string SelectedOutput; // This should get checked for validity if the URL changes.
+        string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
+
         public DownloaderMain()
         {
             urlInputTimer = new DispatcherTimer{Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME)};
@@ -33,13 +36,10 @@ namespace Downloader
             InitializeComponent();
         }
 
-        string SelectedOutput; // This should get checked for validity if the URL changes.
-
         private void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(urlInput.Text))
             {
-                string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
                 ProcessStartInfo info = GetDownloaderStartInfo(urlInput.Text);
                 Process.Start(info);
             }
@@ -61,9 +61,9 @@ namespace Downloader
 
         private List<string> GetVideoQualityList()
         {
-            //string Query = "-F" + urlInput.Text;
-            string Query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
-            ProcessStartInfo info = GetDownloaderStartInfo(Query);
+            //string query = "-F" + urlInput.Text;
+            string query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
+            ProcessStartInfo info = GetDownloaderStartInfo(query);
             List<string> output = new LineReader(info).GetOutput();
             return output;
         }
