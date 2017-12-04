@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace Downloader
 {
@@ -21,9 +22,14 @@ namespace Downloader
     /// </summary>
     public partial class DownloaderMain : Window
     {
+        private const double URLINPUT_WAIT_TIME = 1000.0f;
+        DispatcherTimer urlInputTimer;
 
         public DownloaderMain()
         {
+            urlInputTimer = new DispatcherTimer{Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME)};
+            urlInputTimer.Tick += OnURLInputTimerComplete;
+            
             InitializeComponent();
         }
 
@@ -69,8 +75,7 @@ namespace Downloader
             {
                 DisableVideoQuality();
                 EnableAudioQuality();
-                string message = String.Join(", ", GetVideoQualityList().ToArray()); // temp
-                MessageBox.Show(message);
+                
             } 
             else 
             {
@@ -110,10 +115,25 @@ namespace Downloader
             // Change the SelectedOutput text to the selected audio/video quality
             SelectedOutput = "";
             SelectedOutputLabel.Text = "Output:";
-        }    
-    }
+        }
 
-    public class LineReader
+        private void OnURLInputTimerComplete(object sender, EventArgs e)
+        {
+            urlInputTimer.Stop();
+            if (string.IsNullOrEmpty(urlInput.Text)) return;
+
+            string message = String.Join(", ", GetVideoQualityList().ToArray()); // temp
+                MessageBox.Show(message);
+        }
+
+        private void On_URLTextInput(object sender, TextChangedEventArgs e)
+        {
+            urlInputTimer.Stop();
+            urlInputTimer.Start();
+        }
+  }
+
+  public class LineReader
     {
         // TODO filter video versus audio formats.
         Process process;

@@ -23,7 +23,7 @@
             <StackPanel Margin="25,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
                 <Label Content="Video Downloader" Margin="0,10,0,0" FontWeight="Bold" Foreground="#FF2C2C2C"/>
                 <Label Content="Video URL" Margin="0,10,10,0" Foreground="#FF4F4F4F"/>
-                <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
+                <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="On_URLTextInput">
                     <TextBox.BorderBrush>
                         <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
                             <GradientStop Color="#FFABADB3" Offset="0.05"/>
