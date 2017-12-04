@@ -61,10 +61,10 @@ namespace Downloader
 
         private List<string> GetVideoQualityList()
         {
-            //string query = "-F" + urlInput.Text;
-            string query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
+            string query = "-F " + urlInput.Text;
+            //string query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
             ProcessStartInfo info = GetDownloaderStartInfo(query);
-            List<string> output = new LineReader(info).GetOutput();
+            List<string> output = new LineReader(info).GetVideoOutputs();
             return output;
         }
 
@@ -75,7 +75,6 @@ namespace Downloader
             {
                 DisableVideoQuality();
                 EnableAudioQuality();
-                
             } 
             else 
             {
@@ -123,7 +122,7 @@ namespace Downloader
             if (string.IsNullOrEmpty(urlInput.Text)) return;
 
             string message = String.Join(", ", GetVideoQualityList().ToArray()); // temp
-                MessageBox.Show(message);
+            MessageBox.Show(message);
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
