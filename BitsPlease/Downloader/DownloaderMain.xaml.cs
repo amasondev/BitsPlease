@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Downloader
         private const double URLINPUT_WAIT_TIME = 1000.0f;
         DispatcherTimer urlInputTimer;
 
+        StringDictionary Outputs = new StringDictionary();
         string SelectedOutput; // This should get checked for validity if the URL changes.
         string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
 
@@ -32,7 +34,6 @@ namespace Downloader
         {
             urlInputTimer = new DispatcherTimer{Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME)};
             urlInputTimer.Tick += OnURLInputTimerComplete;
-            
             InitializeComponent();
         }
 
@@ -59,12 +60,11 @@ namespace Downloader
             return startInfo;
         }
 
-        private List<string> GetVideoQualityList()
+        private List<string[]> GetVideoQualityList()
         {
             string query = "-F " + urlInput.Text;
-            //string query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
             ProcessStartInfo info = GetDownloaderStartInfo(query);
-            List<string> output = new LineReader(info).GetVideoOutputs();
+            List<string[]> output = new ProcessFilter(info).GetVideoOutputs();
             return output;
         }
 
@@ -121,8 +121,12 @@ namespace Downloader
             urlInputTimer.Stop();
             if (string.IsNullOrEmpty(urlInput.Text)) return;
 
-            string message = String.Join(", ", GetVideoQualityList().ToArray()); // temp
-            MessageBox.Show(message);
+            List<string[]> videoQualityList = GetVideoQualityList();
+            foreach (string[] qualityOption in videoQualityList)
+            {
+                string extension = qualityOption[1];
+                VideoOutputs.Items.Add(extension);
+            }
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
@@ -132,13 +136,12 @@ namespace Downloader
         }
   }
 
-  public class LineReader
+  public class ProcessFilter
     {
-        // TODO filter video versus audio formats.
         Process process;
         List<string> output = new List<string>();
 
-        public LineReader(ProcessStartInfo info)
+        public ProcessFilter(ProcessStartInfo info)
         {
             process = new Process();
             process.OutputDataReceived += new DataReceivedEventHandler(AppendData);
@@ -148,43 +151,74 @@ namespace Downloader
             process.WaitForExit();
         }
 
-        public List<string> GetVideoOutputs()
+        public List<string[]> GetVideoOutputs()
         {
-            return GetFiltered(IsValidVideo);
+            List<string[]> filtered = GetFilteredVideo();
+            return filtered;
         }
 
-        public List<string> GetAudioOutputs()
+        public List<string[]> GetAudioOutputs()
         {
-            return GetFiltered(IsValidAudio);
+            List<string[]> filtered = GetFilteredAudio();
+            return filtered;
         }
 
-        private List<string> GetFiltered(Func<string, bool> IsValid)
+        private List<string[]> GetFilteredVideo()
         {
-            List<string> filtered = new List<string>();
+            List<string[]> filtered = new List<string[]>();
+            foreach (string outputLine in output)
+            {
+                if (IsValidVideo(outputLine))
+                {
+                    string[] formattedLine = FilterVideo(outputLine);
+                    filtered.Add(formattedLine);
+                }
+            }
+            return filtered;
+        }
+
+        private string[] FilterVideo(string outputLine)
+        {
+            /* yt-dl outputs a line such as: 
+             * 43           webm       640x360    medium , vp8.0, vorbis@128k
+             * The goal is to get the format code, extension, and resolution 
+             * (File size is not offered in muxed video/audio option)
+             */
+
+            string[] dividedLine = outputLine.Split(','); 
+            string firstEntry = dividedLine[0]; // 43           webm       640x360    medium 
+            string[] info = firstEntry.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
+            return info;
+        }
+
+        private List<string[]> GetFilteredAudio()
+        {
+            List<string[]> filtered = new List<string[]>();
 
             foreach (string outputLine in output)
             {
-                if (IsValid(outputLine))
+                if (IsValidAudio(outputLine))
                 {
-                    filtered.Add(outputLine);
+                    string[] dividedLine = outputLine.Split(',');
+                    filtered.Add(dividedLine);
                 }
             }
-
             return filtered;
         }
 
         private bool IsValidVideo(string outputLine)
         {
-            if (string.IsNullOrEmpty(outputLine)) return false;
+            if (String.IsNullOrEmpty(outputLine)) return false;
             bool notVideoOnly = !outputLine.Contains("video only");
             bool notAudioOnly = !outputLine.Contains("audio only");
-            char firstCharacter = outputLine.Trim().ToCharArray().ElementAt(0);
+            char firstCharacter = outputLine.ToCharArray().ElementAt(0);
             bool hasFormatCode = char.IsNumber(firstCharacter);
             return notVideoOnly && notAudioOnly && hasFormatCode;
         }
 
         private bool IsValidAudio(string outputLine)
         {
+            if (String.IsNullOrEmpty(outputLine)) return false;
             return outputLine.Contains("audio only");
         }
 
