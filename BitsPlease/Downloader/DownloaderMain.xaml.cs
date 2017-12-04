@@ -154,6 +154,21 @@ namespace Downloader
             return output;
         }
 
+        private List<string> FilterVideos()
+        {
+            List<string> filtered = new List<string>();
+
+            foreach (string outputLine in output)
+            {
+                if (!outputLine.Contains("video only"))
+                {
+
+                }
+            }
+
+            return filtered;
+        }
+
         private void AppendData(object sendingProcess, DataReceivedEventArgs line)
         {
             output.Add(line.Data);
