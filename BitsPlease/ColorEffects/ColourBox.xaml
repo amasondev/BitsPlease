@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Rectangle>
+        <Rectangle Stroke="LightGray">
             <Rectangle.Fill>
                 <!-- Saturation of Colour  -->
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -22,7 +22,7 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Rectangle>
+        <Rectangle Stroke="LightGray">
             <Rectangle.Fill>
                 <!-- Saturation of Colour  -->
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">

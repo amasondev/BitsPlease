@@ -22,7 +22,7 @@ namespace ColorEffects
     {
         public ColorEffectsMain()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }
