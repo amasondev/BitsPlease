@@ -34,28 +34,32 @@ namespace Downloader
             if (!String.IsNullOrEmpty(urlInput.Text))
             {
                 string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
-                LaunchStartInfo(urlInput.Text);
+                ProcessStartInfo info = GetDownloaderStartInfo(urlInput.Text);
+                Process.Start(info);
             }
         }
 
-        private Process LaunchStartInfo(string Arguments) 
+        private ProcessStartInfo GetDownloaderStartInfo(string Arguments)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo("youtube-dl.exe");
-            startInfo.CreateNoWindow = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
-            startInfo.Arguments = Arguments;
-            Process p = Process.Start(startInfo);
-            return p;
+            ProcessStartInfo startInfo = new ProcessStartInfo("youtube-dl.exe")
+            {
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                Arguments = Arguments
+            };
+
+            return startInfo;
         }
 
-        private string GetVideoQualityList() 
+        private List<string> GetVideoQualityList()
         {
             //string Query = "-F" + urlInput.Text;
             string Query = "-F https://www.youtube.com/watch?v=F04iu5IR3CM";
-            Process StartInfo = LaunchStartInfo(Query);
-            return StartInfo.StandardOutput.ReadToEnd();
+            ProcessStartInfo info = GetDownloaderStartInfo(Query);
+            List<string> output = new LineReader(info).GetOutput();
+            return output;
         }
 
         private void SetAudioOnly(object sender, RoutedEventArgs e) 
@@ -65,7 +69,8 @@ namespace Downloader
             {
                 DisableVideoQuality();
                 EnableAudioQuality();
-                MessageBox.Show(GetVideoQualityList());
+                string message = String.Join(", ", GetVideoQualityList().ToArray()); // temp
+                MessageBox.Show(message);
             } 
             else 
             {
@@ -105,6 +110,34 @@ namespace Downloader
             // Change the SelectedOutput text to the selected audio/video quality
             SelectedOutput = "";
             SelectedOutputLabel.Text = "Output:";
+        }    
+    }
+
+    public class LineReader
+    {
+        // TODO filter video versus audio formats.
+        Process process;
+        List<string> output = new List<string>();
+
+        public LineReader(ProcessStartInfo info)
+        {
+            process = new Process();
+            process.OutputDataReceived += new DataReceivedEventHandler(AppendData);
+            process.StartInfo = info;
+            process.Start();
+            process.BeginOutputReadLine();
+            process.WaitForExit();
+        }
+
+        public List<string> GetOutput()
+        {
+            return output;
+        }
+
+        private void AppendData(object sendingProcess, DataReceivedEventArgs line)
+        {
+            MessageBox.Show(line.Data);
+            output.Add(line.Data);
         }
     }
 }
