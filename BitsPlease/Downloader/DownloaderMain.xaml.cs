@@ -148,24 +148,44 @@ namespace Downloader
             process.WaitForExit();
         }
 
-        public List<string> GetOutput()
+        public List<string> GetVideoOutputs()
         {
-            return output;
+            return GetFiltered(IsValidVideo);
         }
 
-        private List<string> FilterVideos()
+        public List<string> GetAudioOutputs()
+        {
+            return GetFiltered(IsValidAudio);
+        }
+
+        private List<string> GetFiltered(Func<string, bool> IsValid)
         {
             List<string> filtered = new List<string>();
 
             foreach (string outputLine in output)
             {
-                if (!outputLine.Contains("video only"))
+                if (IsValid(outputLine))
                 {
-
+                    filtered.Add(outputLine);
                 }
             }
 
             return filtered;
+        }
+
+        private bool IsValidVideo(string outputLine)
+        {
+            if (string.IsNullOrEmpty(outputLine)) return false;
+            bool notVideoOnly = !outputLine.Contains("video only");
+            bool notAudioOnly = !outputLine.Contains("audio only");
+            char firstCharacter = outputLine.Trim().ToCharArray().ElementAt(0);
+            bool hasFormatCode = char.IsNumber(firstCharacter);
+            return notVideoOnly && notAudioOnly && hasFormatCode;
+        }
+
+        private bool IsValidAudio(string outputLine)
+        {
+            return outputLine.Contains("audio only");
         }
 
         private void AppendData(object sendingProcess, DataReceivedEventArgs line)
