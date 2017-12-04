@@ -50,14 +50,16 @@
                     <Button x:Name="destBrowseButton" HorizontalAlignment="Right" Content="Browse" Width="69" Margin="0,0,0,1.8"/>
                 </Grid>
                 <Grid Margin="0, 10, 0, 5">
-                    <CheckBox VerticalAlignment="Center">
-                        <Label Name="AudioOnlyBox" Content="Audio Only" Foreground="#FF4F4F4F"/>
+                    <CheckBox x:Name="AudioOnlyBox" VerticalAlignment="Center" Cursor="Hand" Click="SetAudioOnly">
+                        <Label Content="Audio Only" Foreground="#FF4F4F4F"/>
                     </CheckBox>
-                    <Label Content="Audio Format:" Margin="101,0,0,0" Foreground="#FF4F4F4F"/>
-                    <ComboBox Name="AudioFormatSelector" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120"/>
+                    <Grid x:Name="AudioFormat" Visibility="Hidden">
+                        <Label Content="Audio Format:" Foreground="#FF4F4F4F" HorizontalAlignment="Center" Margin="98,0,125,-0.4"/>
+                        <ComboBox x:Name="AudioFormatSelector" VerticalAlignment="Center" Width="120" HorizontalAlignment="Right"/>
+                    </Grid>
                 </Grid>
                 <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
-                <ListView Name="OutputQualityList" Height="84">
+                <ListView x:Name="VideoOutputs" Height="84" Cursor="Hand">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="70">
@@ -83,7 +85,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <TextBlock Name="SelectedOutput" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
+                <TextBlock Name="SelectedOutputLabel" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
                 <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                     <Button Margin="0,10,0,0" VerticalAlignment="Center" Click="DownloadVideoURL" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                         <StackPanel>
