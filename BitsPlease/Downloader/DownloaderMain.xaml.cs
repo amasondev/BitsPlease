@@ -147,6 +147,7 @@ namespace Downloader
             {
                 AudioFormatSelector.Items.Add(new AudioOption(qualityOption));
             }
+            AudioFormatSelector.SelectedIndex = 0;
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
