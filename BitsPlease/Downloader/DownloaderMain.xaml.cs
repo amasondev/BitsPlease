@@ -48,7 +48,7 @@ namespace Downloader
                 return;
             }
             // TODO: Get file extension properly
-            VideoOption selected = VideoOutputs.SelectedValue as VideoOption;
+            OutputOption selected = VideoOutputs.SelectedValue as OutputOption;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Video file (*" + selected.Extension + ")|*" + selected.Extension;
 
@@ -201,7 +201,7 @@ namespace Downloader
             List<string[]> videoQualityList = processFilter.GetVideoOutputs();
             foreach (string[] qualityOption in videoQualityList)
             {
-                VideoOutputs.Items.Add(new VideoOption(qualityOption));
+                VideoOutputs.Items.Add(new OutputOption(qualityOption));
             }
         }
 
@@ -210,7 +210,7 @@ namespace Downloader
             List<string[]> audioQualityList = processFilter.GetAudioOutputs();
             foreach (string[] qualityOption in audioQualityList)
             {
-                AudioFormatSelector.Items.Add(new AudioOption(qualityOption));
+                AudioFormatSelector.Items.Add(new OutputOption(qualityOption));
             }
             AudioFormatSelector.SelectedIndex = 0;
         }
@@ -241,7 +241,7 @@ namespace Downloader
 
         private void UpdateVideoSelection()
         {
-            VideoOption selectedItem = (VideoOption)VideoOutputs.SelectedItem;
+            OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
             string label = selectedItem.Extension + ", " + selectedItem.Resolution;
             UpdateSelectedOutput(selectedFormat, label);
@@ -249,7 +249,7 @@ namespace Downloader
 
         private void UpdateAudioSelection()
         {
-            AudioOption selectedItem = (AudioOption)AudioFormatSelector.SelectedItem;
+            OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
             string label = selectedItem.Bitrate;
             UpdateSelectedOutput(selectedFormat, label);
@@ -262,33 +262,20 @@ namespace Downloader
         }
     }
 
-    public class VideoOption
+    public class OutputOption
     {
-        // Binder for VideoOutputs
+        // Binder for XAML
         public string FormatCode { get; set; }
         public string Extension { get; set; }
         public string Resolution { get; set; }
+        public string Bitrate { get; set; }
 
-        public VideoOption(string[] qualityOption)
+        public OutputOption(string[] qualityOption)
         {
             FormatCode = qualityOption[0];
             Extension = qualityOption[1];
             Resolution = qualityOption[2];
-        }
-    }
-
-    public class AudioOption
-    {
-        // Binder for AudioFormatSelector
-        public string FormatCode { get; set; }
-        public string Extension { get; set; }
-        public string Bitrate { get; set; }
-
-        public AudioOption(string[] qualityOption)
-        {
-            FormatCode = qualityOption[0];
-            Extension = qualityOption[1];
-            Bitrate = qualityOption[qualityOption.Length - 2];
+            Bitrate = qualityOption[qualityOption.Length - 2]; // Not always second last
         }
     }
 
@@ -314,7 +301,7 @@ namespace Downloader
             {
                 if (IsValidVideo(outputLine))
                 {
-                    filtered.Add(FlattenDetails(outputLine));
+                    filtered.Add(FormatDetails(outputLine));
                 }
             }
             return filtered;
@@ -327,13 +314,13 @@ namespace Downloader
             {
                 if (IsValidAudio(outputLine))
                 {
-                    filtered.Add(FlattenDetails(outputLine));
+                    filtered.Add(FormatDetails(outputLine));
                 }
             }
             return filtered;
         }
 
-        private string[] FlattenDetails(string outputLine)
+        private string[] FormatDetails(string outputLine)
         {
             /* yt-dl outputs a line such as: 
              * 43           webm       640x360    medium , vp8.0, vorbis@128k
@@ -341,13 +328,11 @@ namespace Downloader
              */
 
             string[] dividedLine = outputLine.Split(',');
-            string firstEntry = dividedLine[0]; 
-            // 43           webm       640x360    medium 
-            
-            string[] initialDetails = firstEntry.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string initialDetails = dividedLine[0]; // 43           webm       640x360    medium 
+            string[] formattedInitialDetails = initialDetails.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             // [43, webm, 640x360, medium]
-            string[] concatenated = initialDetails.Union(dividedLine).ToArray();
-            return concatenated;
+            string[] otherDetails = dividedLine.Skip(1).ToArray(); // [vp8.0, vorbis@128k]
+            return formattedInitialDetails.Union(otherDetails).ToArray();
         }
 
         private bool IsValidVideo(string outputLine)
