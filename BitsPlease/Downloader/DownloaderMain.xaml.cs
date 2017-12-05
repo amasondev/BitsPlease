@@ -91,9 +91,8 @@ namespace Downloader
 
         private void EnableVideoQuality()
         {
-            // Set the video quality appearance and interactions to default.
-            // Your SelectedOutput becomes whichever one of these has been selected.
             VideoOutputs.Cursor = Cursors.Hand;
+            UpdateVideoSelection();
         }
 
         private void DisableAudioQuality()
@@ -104,6 +103,7 @@ namespace Downloader
         private void EnableAudioQuality()
         {
             AudioFormat.Visibility = Visibility.Visible;
+            UpdateAudioSelection();
         }
 
         private void OnURLInputTimerComplete(object sender, EventArgs e)
@@ -154,13 +154,31 @@ namespace Downloader
 
         private void VideoOutputs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
+            if (!IsAudioOnly)
+            {
+                UpdateVideoSelection();
+            }
+        }
+
+        private void AudioFormatSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
+            if (IsAudioOnly)
+            {
+                UpdateAudioSelection();
+            }
+        }
+
+        private void UpdateVideoSelection()
+        {
             VideoOption selectedItem = (VideoOption)VideoOutputs.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
             string label = selectedItem.Extension + ", " + selectedItem.Resolution;
             UpdateSelectedOutput(selectedFormat, label);
         }
 
-        private void AudioFormatSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void UpdateAudioSelection()
         {
             AudioOption selectedItem = (AudioOption)AudioFormatSelector.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
@@ -235,7 +253,6 @@ namespace Downloader
         public List<string[]> GetAudioOutputs()
         {
             List<string[]> filtered = new List<string[]>();
-
             foreach (string outputLine in output)
             {
                 if (IsValidAudio(outputLine))
