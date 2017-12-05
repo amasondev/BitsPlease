@@ -42,16 +42,24 @@ namespace Downloader
 
         private async void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
+            if (VideoOutputs.SelectedValue == null)
+            {
+                MessageBox.Show("Please select a quality option.");
+                return;
+            }
             // TODO: Get file extension properly
-            string ext = System.IO.Path.GetExtension(FormatCode);
+            VideoOption selected = VideoOutputs.SelectedValue as VideoOption;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
+            saveFileDialog.Filter = "Video file (*" + selected.Extension + ")|*" + selected.Extension;
 
             if (saveFileDialog.ShowDialog() ?? false
                && !String.IsNullOrEmpty(urlInput.Text)
                && !String.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                ProcessStartInfo info = GetDownloaderStartInfo(urlInput.Text + " -o \"" + saveFileDialog.FileName + "\"");
+                ProcessStartInfo info = GetDownloaderStartInfo(
+                    "-f " + selected.FormatCode.ToString() + " " +
+                    urlInput.Text +
+                    " -o \"" + saveFileDialog.FileName + "\"");
 
                 // Begin downloading
                 // Disable controls
@@ -90,9 +98,14 @@ namespace Downloader
                         }
                         if (progressWindow.progress != null)
                             progressWindow.progress.Report(p);
+
+                        Console.WriteLine("YOUTUBE-DL: " + line);
                     }
 
-                    Console.WriteLine("YOUTUBE-DL: " + line);
+                    while ((line = process.StandardError.ReadLine()) != null)
+                    {
+                        Console.WriteLine("YOUTUBE-DL: " + line);
+                    }
                 });
 
                 process.WaitForExit();

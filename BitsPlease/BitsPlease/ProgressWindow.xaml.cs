@@ -15,71 +15,40 @@ using System.Windows.Shapes;
 
 namespace BitsPlease
 {
-  /// <summary>
-  /// Interaction logic for ProgressWindow.xaml
-  /// </summary>
-  public partial class ProgressWindow : Window
-  {
-    public IProgress<double> progress;
-    public string TaskTitle;
-
-    public ProgressWindow(string taskTitle)
+    /// <summary>
+    /// Interaction logic for ProgressWindow.xaml
+    /// </summary>
+    public partial class ProgressWindow : Window
     {
-      InitializeComponent();
-      TaskTitle = taskTitle;
-      this.Title = taskTitle;
+        public IProgress<double> progress;
+        public string TaskTitle;
 
-      //this.Loaded += ProgressWindow_Loaded;
-      this.Closing += ProgressWindow_Closing;
-
-      Progress<double> progressHandler = new Progress<double>(percent =>
-      {
-        PROGBAR_Job.Value = percent;
-
-        this.Title = TaskTitle + "... " + percent.ToString() + "%";
-      });
-      progress = progressHandler as IProgress<double>;
-    }
-
-    /*
-        private async void ProgressWindow_Loaded(object sender, RoutedEventArgs e)
+        public ProgressWindow(string taskTitle)
         {
-            // Parse process output and update progress bar
+            InitializeComponent();
+            TaskTitle = taskTitle;
+            this.Title = taskTitle;
 
-            parent.IsEnabled = false;
-            
-            await Task.Run(() =>
+            //this.Loaded += ProgressWindow_Loaded;
+            this.Closing += ProgressWindow_Closing;
+
+            Progress<double> progressHandler = new Progress<double>(percent =>
             {
-                string line;
-                int p = 0;
-                while ((line = process.StandardError.ReadLine()) != null)
-                {
-                    // TODO: Parse output and update percent
-                    p++;
-                    if (progress != null)
-                        progress.Report(p);
+                PROGBAR_Job.Value = percent;
 
-                    Console.WriteLine("FFMPEG: " + line);
-                }
+                this.Title = TaskTitle + "... " + percent.ToString() + "%";
             });
-
-            // Complete
-            parent.IsEnabled = true;
-            this.Closing -= ProgressWindow_Closing;
-            process.Close();
-            Console.WriteLine("Task Complete.");
-            Close();
+            progress = progressHandler as IProgress<double>;
         }
-        */
-    private void ProgressWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-      e.Cancel = true;
-    }
+        private void ProgressWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
 
-    public void Complete()
-    {
-      this.Closing -= ProgressWindow_Closing;
-      this.Close();
+        public void Complete()
+        {
+            this.Closing -= ProgressWindow_Closing;
+            this.Close();
+        }
     }
-  }
 }
