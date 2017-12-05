@@ -82,7 +82,7 @@ namespace Downloader
                 EnableVideoQuality();
                 DisableAudioQuality();
             }
-            UpdateSelectedOutput();
+            //UpdateSelectedOutput();
         }
 
         private void DisableVideoQuality()
@@ -106,15 +106,15 @@ namespace Downloader
         private void EnableAudioQuality()
         {
             AudioFormat.Visibility = Visibility.Visible;
-            //ComboboxItem SelectedAudio = (ComboboxItem)AudioFormatSelector.SelectedItem;
+            //ComboboxItem SelectedAudio
             // Your SelectedOutput becomes the last option that has been selected.
         }
 
-        private void UpdateSelectedOutput()
+        private void UpdateSelectedOutput(string formatCode, string label)
         {
             // Change the SelectedOutput text to the selected audio/video quality
-            SelectedOutput = "";
-            SelectedOutputLabel.Text = "Output:";
+            SelectedOutput = formatCode;
+            SelectedOutputLabel.Text = "Output: " + label;
         }
 
         private void OnURLInputTimerComplete(object sender, EventArgs e)
@@ -143,13 +143,22 @@ namespace Downloader
             urlInputTimer.Stop();
             urlInputTimer.Start();
         }
+
+        private void VideoOutputs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VideoOption selectedItem = (VideoOption)VideoOutputs.SelectedItem;
+            string selectedFormat = selectedItem.FormatCode;
+            string label = selectedItem.Extension + " " + selectedItem.Resolution;
+            UpdateSelectedOutput(selectedFormat, label);
+        }
     }
 
     public class VideoOption
     {
-        public string FormatCode;
-        public string Extension;
-        public string Resolution;
+        // Binder for VideoOutputs
+        public string FormatCode { get; set; }
+        public string Extension { get; set; }
+        public string Resolution { get; set; }
 
         public VideoOption(string[] qualityOption)
         {
