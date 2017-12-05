@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Downloader"
         xmlns:bp="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
-        Title="Video Downloader" MinHeight="500" Height="413" Width="468.806" MinWidth="302">
+        Title="Video Downloader" MinHeight="500" Height="508.8" Width="468.806" MinWidth="302">
     <Grid MinWidth="200">
 
         <StackPanel Margin="25,10,25,0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -35,11 +35,11 @@
                 </CheckBox>
                 <Grid x:Name="AudioFormat" Visibility="Hidden">
                     <Label Content="Audio Format:" Foreground="#FF4F4F4F" HorizontalAlignment="Center" Margin="98,0,125,-0.4"/>
-                    <ComboBox x:Name="AudioFormatSelector" DisplayMemberPath="Bitrate" VerticalAlignment="Center" Width="120" HorizontalAlignment="Right" SelectionChanged="AudioFormatSelector_SelectionChanged"/>
+                    <ComboBox x:Name="AudioFormatSelector" DisplayMemberPath="Bitrate" VerticalAlignment="Center" Width="160" HorizontalAlignment="Right" SelectionChanged="AudioFormatSelector_SelectionChanged"/>
                 </Grid>
             </Grid>
             <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
-            <ListView x:Name="VideoOutputs" Height="84" Cursor="Hand" SelectionChanged="VideoOutputs_SelectionChanged">
+            <ListView x:Name="VideoOutputs" Height="94" Cursor="Hand" SelectionChanged="VideoOutputs_SelectionChanged" Margin="0,0,-0.2,0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="90" Header="Extension"  DisplayMemberBinding="{Binding Extension}"/>
@@ -49,7 +49,7 @@
             </ListView>
             <TextBlock Name="SelectedOutputLabel" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
             <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <Button Margin="0,10,10,10" VerticalAlignment="Center" Click="DownloadVideoURL" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+                <Button Margin="0,10,10,10" VerticalAlignment="Center" Click="DownloadVideoURL" HorizontalAlignment="Center" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
                     <StackPanel>
                         <Canvas x:Name="Layer_1" Width="29.5989" Height="26.7807" Canvas.Left="0" Canvas.Top="0">
                             <Path x:Name="Path" Width="27.6256" Height="8.03676" Canvas.Left="0" Canvas.Top="16.7602" Stretch="Fill" Fill="#FF34E767" Data="F1 M 0,16.7617L 1.19209e-007,24.7969L 27.6256,24.7969L 27.6256,16.7962L 24.6034,16.7962L 24.6034,21.8916L 3.12462,21.8916L 3.12462,16.7602L 0,16.7617 Z "/>
