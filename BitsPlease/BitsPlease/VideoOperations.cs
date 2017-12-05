@@ -38,8 +38,7 @@ namespace BitsPlease
                 return;
             }
 
-            ProgressWindow progressWindow = new ProgressWindow(window);
-            progressWindow.Title = "Cropping...";
+            ProgressWindow progressWindow = new ProgressWindow("Cropping");
             progressWindow.Show();
 
             // Parse process output and update progress bar
@@ -108,8 +107,7 @@ namespace BitsPlease
                 return;
             }
 
-            ProgressWindow progressWindow = new ProgressWindow(window);
-            progressWindow.Title = "Trimming...";
+            ProgressWindow progressWindow = new ProgressWindow("Trimming");
             progressWindow.Show();
 
             window.IsEnabled = false;
