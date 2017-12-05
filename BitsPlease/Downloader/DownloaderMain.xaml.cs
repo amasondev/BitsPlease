@@ -314,8 +314,7 @@ namespace Downloader
             {
                 if (IsValidVideo(outputLine))
                 {
-                    string[] formattedLine = FilterVideo(outputLine);
-                    filtered.Add(formattedLine);
+                    filtered.Add(FlattenDetails(outputLine));
                 }
             }
             return filtered;
@@ -328,23 +327,27 @@ namespace Downloader
             {
                 if (IsValidAudio(outputLine))
                 {
-                    string[] dividedLine = outputLine.Split(',');
-                    filtered.Add(dividedLine);
+                    filtered.Add(FlattenDetails(outputLine));
                 }
             }
             return filtered;
         }
 
-        private string[] FilterVideo(string outputLine)
+        private string[] FlattenDetails(string outputLine)
         {
             /* yt-dl outputs a line such as: 
              * 43           webm       640x360    medium , vp8.0, vorbis@128k
-             * This retrieves format code, extension, and resolution 
+             * This produces [43, webm, 640x360, medium, vp8.0 ... ]
              */
 
             string[] dividedLine = outputLine.Split(',');
-            string firstEntry = dividedLine[0]; // 43           webm       640x360    medium 
-            return firstEntry.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
+            string firstEntry = dividedLine[0]; 
+            // 43           webm       640x360    medium 
+            
+            string[] initialDetails = firstEntry.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            // [43, webm, 640x360, medium]
+            string[] concatenated = initialDetails.Union(dividedLine).ToArray();
+            return concatenated;
         }
 
         private bool IsValidVideo(string outputLine)
