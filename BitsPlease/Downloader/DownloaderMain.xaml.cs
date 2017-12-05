@@ -132,12 +132,8 @@ namespace Downloader
             List<string[]> videoQualityList = processFilter.GetVideoOutputs();
             foreach (string[] qualityOption in videoQualityList)
             {
-                string extension = qualityOption[1];
-                VideoOutputs.Items.Add(extension);
+                VideoOutputs.Items.Add(new VideoOption(qualityOption));
             }
-
-            // Hide busy throbber
-            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
         private void addAudioOptions(ProcessFilter processFilter)
