@@ -150,6 +150,16 @@ namespace Cropper
             //AdornerLayer cropLayer = AdornerLayer.GetAdornerLayer(CROPCONTROL);
             //cropLayer.Add(new CropAdorner(CROPCONTROL));
         }
+
+        private void OnCropModified()
+        {
+            Rect cropSize = CROPCONTROL.GetVideoCropDimensions(VideoPreview.NaturalVideoWidth, VideoPreview.NaturalVideoHeight);
+
+            TB_X.Text = ((int)cropSize.X).ToString();
+            TB_Y.Text = ((int)cropSize.Y).ToString();
+            TB_Width.Text = ((int)cropSize.Width).ToString();
+            TB_Height.Text = ((int)cropSize.Height).ToString();
+        }
     }
 
 }

@@ -21,6 +21,9 @@ namespace Cropper
     /// </summary>
     public partial class CropControls : UserControl
     {
+        public delegate void CropModifiedEventHandler();
+        public event CropModifiedEventHandler CropModified;
+
         public CropControls()
         {
             InitializeComponent();
@@ -31,6 +34,21 @@ namespace Cropper
         {
             // On resize, create a clip mask for the backdrop grid
             UpdateBackdropMask();
+        }
+
+        public Rect GetVideoCropDimensions(int videoWidth, int videoHeight)
+        {
+            double left = (GRID_Crop.Margin.Left / ActualWidth) * (double)videoWidth;
+            double top = (GRID_Crop.Margin.Top / ActualHeight) * (double)videoHeight;
+            double width = (GRID_Crop.ActualWidth / ActualWidth) * (double)videoWidth;
+            double height = (GRID_Crop.ActualHeight / ActualHeight) * (double)videoHeight;
+
+            return new Rect(left, top, width, height);
+        }
+
+        public void SetVideoCropDimensions(int videoWidth, int videoHeight, Rect rect)
+        {
+
         }
 
         private void UpdateBackdropMask()
@@ -57,6 +75,8 @@ namespace Cropper
             backdropMask = Geometry.Combine(backdropMask, right, GeometryCombineMode.Union, null);
 
             GRID_Backdrop.Clip = backdropMask;
+
+            CropModified();
         }
 
         private void DragMove(object sender, DragDeltaEventArgs e)
