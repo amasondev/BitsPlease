@@ -8,23 +8,26 @@
         xmlns:local="clr-namespace:Cropper"
         mc:Ignorable="d"
         Title="Cropper" Height="543.292" Width="655.141">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
-    <TextBox x:Name="TB_X" HorizontalAlignment="Left" Height="23" Margin="16,0,0,70" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Width="58"/>
-    <TextBox x:Name="TB_Y" HorizontalAlignment="Left" Height="23" Margin="16,0,0,14" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Width="58"/>
-    <TextBox x:Name="TB_Width" HorizontalAlignment="Left" Height="23" Margin="108,0,0,70" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" Width="58"/>
-    <TextBox x:Name="TB_Height" HorizontalAlignment="Left" Margin="108,0,0,14" TextWrapping="Wrap" Text="100" Width="58" Height="23" VerticalAlignment="Bottom"/>
-    <Label Content="X:" HorizontalAlignment="Left" Margin="16,0,0,98" VerticalAlignment="Bottom"/>
-    <Label Content="Y:" Margin="16,0,0,42" HorizontalAlignment="Left" Width="20" Height="23" VerticalAlignment="Bottom"/>
-    <Label Content="Width:" HorizontalAlignment="Left" Margin="108,0,0,98" VerticalAlignment="Bottom"/>
-    <Label Content="Height:" HorizontalAlignment="Left" Margin="108,0,0,42" VerticalAlignment="Bottom"/>
-    <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-    <Button x:Name="BTN_Crop" Content="Crop" HorizontalAlignment="Right" Margin="0,0,10,10" Width="75" Click="Crop_OnClick" VerticalAlignment="Bottom"/>
-    <ffme:MediaElement x:Name="VideoPreview" Background="Gray" UnloadedBehavior="Manual" Margin="10,38,10,126" MessageLogged="OnMessageLogged" LoadedBehavior="Manual"/>
-    <Button x:Name="BTN_Play" Content="Play" HorizontalAlignment="Center" Margin="241,0,331,92" VerticalAlignment="Bottom" Width="75" Click="OnPlayClicked"/>
-    <Button x:Name="BTN_Pause" Content="Pause" HorizontalAlignment="Center" Margin="321,0,251,92" VerticalAlignment="Bottom" Width="75" Click="OnPauseClicked"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="TB_X" HorizontalAlignment="Left" Height="23" Margin="16,0,0,70" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Width="58"/>
+        <TextBox x:Name="TB_Y" HorizontalAlignment="Left" Height="23" Margin="16,0,0,14" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Width="58"/>
+        <TextBox x:Name="TB_Width" HorizontalAlignment="Left" Height="23" Margin="108,0,0,70" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" Width="58"/>
+        <TextBox x:Name="TB_Height" HorizontalAlignment="Left" Margin="108,0,0,14" TextWrapping="Wrap" Text="100" Width="58" Height="23" VerticalAlignment="Bottom"/>
+        <Label Content="X:" HorizontalAlignment="Left" Margin="16,0,0,98" VerticalAlignment="Bottom"/>
+        <Label Content="Y:" Margin="16,0,0,42" HorizontalAlignment="Left" Width="20" Height="23" VerticalAlignment="Bottom"/>
+        <Label Content="Width:" HorizontalAlignment="Left" Margin="108,0,0,98" VerticalAlignment="Bottom"/>
+        <Label Content="Height:" HorizontalAlignment="Left" Margin="108,0,0,42" VerticalAlignment="Bottom"/>
+        <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BTN_Crop" Content="Crop" HorizontalAlignment="Right" Margin="0,0,10,10" Width="75" Click="Crop_OnClick" VerticalAlignment="Bottom"/>
+        <Grid Margin="0,38,0,126">
+            <ffme:MediaElement x:Name="VideoPreview" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" SizeChanged="VideoDropWindow_SizeChanged" MediaOpened="VideoPreview_MediaOpened"/>
+            <local:CropControls x:Name="CROPCONTROL" Margin="0" Loaded="CROPCONTROL_Loaded"/>
+        </Grid>
+        <Button x:Name="BTN_Play" Content="Play" HorizontalAlignment="Center" Margin="241,0,331,92" VerticalAlignment="Bottom" Width="75" Click="OnPlayClicked"/>
+        <Button x:Name="BTN_Pause" Content="Pause" HorizontalAlignment="Center" Margin="321,0,251,92" VerticalAlignment="Bottom" Width="75" Click="OnPauseClicked"/>
 
-  </Grid>
+    </Grid>
 </bitsplease:VideoDropWindow>

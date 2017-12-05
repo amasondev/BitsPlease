@@ -65,7 +65,7 @@ namespace BitsPlease
             //this.Closing -= ProgressWindow_Closing;
             cropProcess.Close();
             Console.WriteLine("Task Complete.");
-            progressWindow.Close();
+            progressWindow.Complete();
 
                 
         }
@@ -132,7 +132,7 @@ namespace BitsPlease
             //this.Closing -= ProgressWindow_Closing;
             trimProcess.Close();
             Console.WriteLine("Task Complete.");
-            progressWindow.Close();
+            progressWindow.Complete();
             
         }
 

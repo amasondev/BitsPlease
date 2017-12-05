@@ -23,7 +23,7 @@ namespace BitsPlease
         public IProgress<double> progress;
         public string TaskTitle;
 
-        public ProgressWindow(string taskTitle)
+        public ProgressWindow(string taskTitle) :base()
         {
             InitializeComponent();
             TaskTitle = taskTitle;
