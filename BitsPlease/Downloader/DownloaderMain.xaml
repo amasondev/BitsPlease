@@ -66,26 +66,8 @@
                 <ListView x:Name="VideoOutputs" Height="84" Cursor="Hand">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="70">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Extension">Extension</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Resolution">Resolution</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Framerate">Framerate</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Filesize">Filesize</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
+                            <GridViewColumn Width="90" Header="Extension"  DisplayMemberBinding="{Binding Extension}"/>
+                            <GridViewColumn Width="90" Header="Resolution"  DisplayMemberBinding="{Binding Resolution}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

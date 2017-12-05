@@ -121,19 +121,22 @@ namespace Downloader
         {
             urlInputTimer.Stop();
             if (string.IsNullOrEmpty(urlInput.Text)) return;
-
             // Enable busy throbber
             BUSYdownload.Visibility = Visibility.Visible;
-
-            List<string[]> videoQualityList = GetVideoQualityList();
-            foreach (string[] qualityOption in videoQualityList)
-            {
-                string extension = qualityOption[1];
-                VideoOutputs.Items.Add(extension);
-            }
-
+            refreshVideoOptions();
             // Hide busy throbber
             BUSYdownload.Visibility = Visibility.Hidden;
+        }
+
+        private void refreshVideoOptions()
+        {
+            List<string[]> videoQualityList = GetVideoQualityList();
+            VideoOutputs.Items.Clear();
+            foreach (string[] qualityOption in videoQualityList)
+            {
+                VideoOption videoOption = new VideoOption(qualityOption);
+                VideoOutputs.Items.Add(videoOption);
+            }
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
@@ -141,7 +144,21 @@ namespace Downloader
             urlInputTimer.Stop();
             urlInputTimer.Start();
         }
-  }
+    }
+
+    public class VideoOption
+    {
+        public string FormatCode { get; set; }
+        public string Extension { get; set; }
+        public string Resolution { get; set; }
+
+        public VideoOption(string[] qualityOption)
+        {
+            FormatCode = qualityOption[0];
+            Extension = qualityOption[1];
+            Resolution = qualityOption[2];
+        }
+    }
 
   public class ProcessFilter
     {
@@ -160,14 +177,12 @@ namespace Downloader
 
         public List<string[]> GetVideoOutputs()
         {
-            List<string[]> filtered = GetFilteredVideo();
-            return filtered;
+            return GetFilteredVideo();
         }
 
         public List<string[]> GetAudioOutputs()
         {
-            List<string[]> filtered = GetFilteredAudio();
-            return filtered;
+            return GetFilteredAudio();
         }
 
         private List<string[]> GetFilteredVideo()
