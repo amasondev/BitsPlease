@@ -268,11 +268,13 @@ namespace Downloader
     {
         // Binder for AudioFormatSelector
         public string FormatCode { get; set; }
+        public string Extension { get; set; }
         public string Bitrate { get; set; }
 
         public AudioOption(string[] qualityOption)
         {
             FormatCode = qualityOption[0];
+            Extension = qualityOption[1];
             Bitrate = qualityOption[qualityOption.Length - 2];
         }
     }
