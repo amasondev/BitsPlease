@@ -62,6 +62,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="DropTimeline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SequencerMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +73,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DropTimeline.xaml.cs">
+      <DependentUpon>DropTimeline.xaml</DependentUpon>
     </Compile>
     <Compile Include="SequencerMain.xaml.cs">
       <DependentUpon>SequencerMain.xaml</DependentUpon>
@@ -100,6 +107,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BitsPlease\BitsPlease.csproj">
+      <Project>{a53f60a7-0ec5-40a9-8b42-0b0cd236d9fa}</Project>
+      <Name>BitsPlease</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

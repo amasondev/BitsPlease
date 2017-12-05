@@ -4,108 +4,104 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Downloader"
+        xmlns:bp="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
         Title="Video Downloader" MinHeight="600" Height="548" Width="657.806">
-    <Grid MinWidth="600">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
+  <Grid MinWidth="600">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="1*"/>
+    </Grid.ColumnDefinitions>
 
-        <Grid Grid.ColumnSpan="2" Width="500">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+    <Grid Grid.ColumnSpan="2" Width="500">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+      </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="25,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
-                <Label Content="Video Downloader" Margin="0,10,0,0" FontWeight="Bold" Foreground="#FF2C2C2C"/>
-                <Label Content="Video URL" Margin="0,10,10,0" Foreground="#FF4F4F4F"/>
-                <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
-                    <TextBox.BorderBrush>
-                        <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
-                            <GradientStop Color="#FFABADB3" Offset="0.05"/>
-                            <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
-                            <GradientStop Color="#FF8E8E8E" Offset="1"/>
-                        </LinearGradientBrush>
-                    </TextBox.BorderBrush>
-                </TextBox>
-                <Label Content="Destination" Foreground="#FF4F4F4F"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="destInput" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="1" Height="23" Width="220">
-                        <TextBox.BorderBrush>
-                            <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
-                                <GradientStop Color="#FFABADB3" Offset="0.05"/>
-                                <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
-                                <GradientStop Color="#FF8E8E8E" Offset="1"/>
-                            </LinearGradientBrush>
-                        </TextBox.BorderBrush>
-                    </TextBox>
-                    <Button x:Name="destBrowseButton" HorizontalAlignment="Right" Content="Browse" Width="69" Margin="0,0,0,1.8"/>
-                </Grid>
-                <Grid Margin="0, 10, 0, 5">
-                    <CheckBox VerticalAlignment="Center">
-                        <Label Name="AudioOnlyBox" Content="Audio Only" Foreground="#FF4F4F4F"/>
-                    </CheckBox>
-                    <Label Content="Audio Format:" Margin="101,0,0,0" Foreground="#FF4F4F4F"/>
-                    <ComboBox Name="AudioFormatSelector" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120"/>
-                </Grid>
-                <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
-                <ListView Name="OutputQualityList" Height="84">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="70">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Extension">Extension</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Resolution">Resolution</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Framerate">Framerate</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                            <GridViewColumn Width="80">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Tag="Filesize">Filesize</GridViewColumnHeader>
-                                </GridViewColumn.Header>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <TextBlock Name="SelectedOutput" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
-                <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                    <Button Margin="0,10,0,0" VerticalAlignment="Center" Click="DownloadVideoURL" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                        <StackPanel>
-                            <Canvas x:Name="Layer_1" Width="29.5989" Height="26.7807" Canvas.Left="0" Canvas.Top="0">
-                                <Path x:Name="Path" Width="27.6256" Height="8.03676" Canvas.Left="0" Canvas.Top="16.7602" Stretch="Fill" Fill="#FF34E767" Data="F1 M 0,16.7617L 1.19209e-007,24.7969L 27.6256,24.7969L 27.6256,16.7962L 24.6034,16.7962L 24.6034,21.8916L 3.12462,21.8916L 3.12462,16.7602L 0,16.7617 Z "/>
-                                <Path x:Name="Path_0" Width="11.8499" Height="18.727" Canvas.Left="8.05928" Canvas.Top="-6.55651e-007" Stretch="Fill" Fill="#FF34E767" Data="F1 M 12.125,-6.55651e-007L 15.7814,-6.55651e-007L 15.7814,13.5325L 19.9092,13.5325L 13.9684,18.727L 8.05928,13.5992L 12.1169,13.5992L 12.125,-6.55651e-007 Z "/>
-                            </Canvas>
-                            <Label Content="Download" Foreground="#FF5BE27A"/>
-                        </StackPanel>
-                    </Button>
-                    <Label x:Name="downloadPercentLabel" Content="Downloading: 0%" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}"/>
-                    <ProgressBar Height="15" VerticalAlignment="Top" Margin="20,0,20,10" />
-                </StackPanel>
-                <Button Name="BackButton" Content="&lt; Back to Suite" HorizontalAlignment="Left" Margin="0, 40" Height="32" Width="110"/>
-            </StackPanel>
+      <StackPanel Margin="25,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
+        <Label Content="Video Downloader" Margin="0,10,0,0" FontWeight="Bold" Foreground="#FF2C2C2C"/>
+        <Label Content="Video URL" Margin="0,10,10,0" Foreground="#FF4F4F4F"/>
+        <StackPanel Orientation="Horizontal">
+          <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"/>
+          <bp:BusyCircle x:Name="BUSYdownload" Height="23" Width="23" Margin="5,0,0,0"/>
+        </StackPanel>
+        <Label Content="Destination" Foreground="#FF4F4F4F"/>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBox x:Name="destInput" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="1" Height="23" Width="220">
+            <TextBox.BorderBrush>
+              <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                <GradientStop Color="#FF8E8E8E" Offset="1"/>
+              </LinearGradientBrush>
+            </TextBox.BorderBrush>
+          </TextBox>
+          <Button x:Name="destBrowseButton" HorizontalAlignment="Right" Content="Browse" Width="69" Margin="0,0,0,1.8"/>
         </Grid>
-        <Grid Grid.Column="3" HorizontalAlignment="Right">
-            <Rectangle MinWidth="175" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <StackPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="175">
-                <TextBox x:Name="test" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-                <Button Content="Download" VerticalAlignment="Top" Click="DownloadVideoURL" VerticalContentAlignment="Center"/>
-            </StackPanel>
+        <Grid Margin="0, 10, 0, 5">
+          <CheckBox VerticalAlignment="Center">
+            <Label Name="AudioOnlyBox" Content="Audio Only" Foreground="#FF4F4F4F"/>
+          </CheckBox>
+          <Label Content="Audio Format:" Margin="101,0,0,0" Foreground="#FF4F4F4F"/>
+          <ComboBox Name="AudioFormatSelector" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120"/>
         </Grid>
+        <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
+        <ListView Name="OutputQualityList" Height="84">
+          <ListView.View>
+            <GridView>
+              <GridViewColumn Width="70">
+                <GridViewColumn.Header>
+                  <GridViewColumnHeader Tag="Extension">Extension</GridViewColumnHeader>
+                </GridViewColumn.Header>
+              </GridViewColumn>
+              <GridViewColumn Width="80">
+                <GridViewColumn.Header>
+                  <GridViewColumnHeader Tag="Resolution">Resolution</GridViewColumnHeader>
+                </GridViewColumn.Header>
+              </GridViewColumn>
+              <GridViewColumn Width="80">
+                <GridViewColumn.Header>
+                  <GridViewColumnHeader Tag="Framerate">Framerate</GridViewColumnHeader>
+                </GridViewColumn.Header>
+              </GridViewColumn>
+              <GridViewColumn Width="80">
+                <GridViewColumn.Header>
+                  <GridViewColumnHeader Tag="Filesize">Filesize</GridViewColumnHeader>
+                </GridViewColumn.Header>
+              </GridViewColumn>
+            </GridView>
+          </ListView.View>
+        </ListView>
+        <TextBlock Name="SelectedOutput" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
+        <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+          <Button Margin="0,10,0,0" VerticalAlignment="Center" Click="DownloadVideoURL" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <StackPanel>
+              <Canvas x:Name="Layer_1" Width="29.5989" Height="26.7807" Canvas.Left="0" Canvas.Top="0">
+                <Path x:Name="Path" Width="27.6256" Height="8.03676" Canvas.Left="0" Canvas.Top="16.7602" Stretch="Fill" Fill="#FF34E767" Data="F1 M 0,16.7617L 1.19209e-007,24.7969L 27.6256,24.7969L 27.6256,16.7962L 24.6034,16.7962L 24.6034,21.8916L 3.12462,21.8916L 3.12462,16.7602L 0,16.7617 Z "/>
+                <Path x:Name="Path_0" Width="11.8499" Height="18.727" Canvas.Left="8.05928" Canvas.Top="-6.55651e-007" Stretch="Fill" Fill="#FF34E767" Data="F1 M 12.125,-6.55651e-007L 15.7814,-6.55651e-007L 15.7814,13.5325L 19.9092,13.5325L 13.9684,18.727L 8.05928,13.5992L 12.1169,13.5992L 12.125,-6.55651e-007 Z "/>
+              </Canvas>
+              <Label Content="Download" Foreground="#FF5BE27A"/>
+            </StackPanel>
+          </Button>
+          <Label x:Name="downloadPercentLabel" Content="Downloading: 0%" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}"/>
+          <ProgressBar Height="15" VerticalAlignment="Top" Margin="20,0,20,10" />
+        </StackPanel>
+        <Button Name="BackButton" Content="&lt; Back to Suite" HorizontalAlignment="Left" Margin="0, 40" Height="32" Width="110"/>
+      </StackPanel>
     </Grid>
+    <Grid Grid.Column="3" HorizontalAlignment="Right">
+      <Rectangle MinWidth="175" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+      <StackPanel Margin="10" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="175">
+        <TextBox x:Name="test" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Button Content="Download" VerticalAlignment="Top" Click="DownloadVideoURL" VerticalContentAlignment="Center"/>
+      </StackPanel>
+    </Grid>
+  </Grid>
 </Window>

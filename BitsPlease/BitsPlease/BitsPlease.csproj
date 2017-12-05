@@ -63,6 +63,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusyCircle.xaml.cs">
+      <DependentUpon>BusyCircle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlaybackTools.xaml.cs">
       <DependentUpon>PlaybackTools.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,10 @@
     <Compile Include="VideoTimelineBar.xaml.cs">
       <DependentUpon>VideoTimelineBar.xaml</DependentUpon>
     </Compile>
+    <Page Include="BusyCircle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Launcher.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

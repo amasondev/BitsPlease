@@ -12,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BitsPlease;
 
-namespace Sequencer
+namespace BitsPlease
 {
-    /// <summary>
-    /// Interaction logic for SequencerMain.xaml
-    /// </summary>
-    public partial class SequencerMain : Window
+  /// <summary>
+  /// Interaction logic for BusyCircle.xaml
+  /// </summary>
+  public partial class BusyCircle : UserControl
+  {
+    public BusyCircle()
     {
-        public SequencerMain()
-        {
-            InitializeComponent();
-        }
-
-    private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
-    {
-      Console.WriteLine(e.Message);
+      InitializeComponent();
     }
   }
 }

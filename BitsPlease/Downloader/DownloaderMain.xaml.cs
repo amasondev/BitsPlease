@@ -25,6 +25,7 @@ namespace Downloader
         public DownloaderMain()
         {
             InitializeComponent();
+            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
         private void DownloadVideoURL(object sender, RoutedEventArgs e)

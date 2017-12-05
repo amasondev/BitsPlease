@@ -12,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BitsPlease;
 
 namespace Sequencer
 {
     /// <summary>
-    /// Interaction logic for SequencerMain.xaml
+    /// Interaction logic for DropTimeline.xaml
     /// </summary>
-    public partial class SequencerMain : Window
+    public partial class DropTimeline : UserControl
     {
-        public SequencerMain()
+        public DropTimeline()
         {
             InitializeComponent();
         }
-
-    private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
-    {
-      Console.WriteLine(e.Message);
     }
-  }
 }
