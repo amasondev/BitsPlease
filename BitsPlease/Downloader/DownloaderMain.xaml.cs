@@ -134,8 +134,7 @@ namespace Downloader
             VideoOutputs.Items.Clear();
             foreach (string[] qualityOption in videoQualityList)
             {
-                VideoOption videoOption = new VideoOption(qualityOption);
-                VideoOutputs.Items.Add(videoOption);
+                VideoOutputs.Items.Add(new VideoOption(qualityOption));
             }
         }
 
@@ -148,9 +147,9 @@ namespace Downloader
 
     public class VideoOption
     {
-        public string FormatCode { get; set; }
-        public string Extension { get; set; }
-        public string Resolution { get; set; }
+        public string FormatCode;
+        public string Extension;
+        public string Resolution;
 
         public VideoOption(string[] qualityOption)
         {
@@ -177,44 +176,32 @@ namespace Downloader
 
         public List<string[]> GetVideoOutputs()
         {
-            return GetFilteredVideo();
-        }
-
-        public List<string[]> GetAudioOutputs()
-        {
-            return GetFilteredAudio();
-        }
-
-        private List<string[]> GetFilteredVideo()
-        {
             List<string[]> filtered = new List<string[]>();
             foreach (string outputLine in output)
             {
                 if (IsValidVideo(outputLine))
                 {
-                    string[] formattedLine = FilterVideo(outputLine);
-                    filtered.Add(formattedLine);
+                    string[] filteredVideoInfo = FilterVideoInfo(outputLine);
+                    filtered.Add(filteredVideoInfo);
                 }
             }
             return filtered;
         }
 
-        private string[] FilterVideo(string outputLine)
+        public string[] FilterVideoInfo(string outputLine)
         {
             /* yt-dl outputs a line such as: 
              * 43           webm       640x360    medium , vp8.0, vorbis@128k
-             * The goal is to get the format code, extension, and resolution 
-             * (File size is not offered in muxed video/audio option)
+             * This retrieves format code, extension, and resolution 
              */
 
             string[] dividedLine = outputLine.Split(','); 
             string firstEntry = dividedLine[0]; // 43           webm       640x360    medium 
-            string[] info = firstEntry.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
-            return info;
+            return firstEntry.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
         }
 
-        private List<string[]> GetFilteredAudio()
-        {
+        private List<string[]> GetAudioOutputs()
+    {
             List<string[]> filtered = new List<string[]>();
 
             foreach (string outputLine in output)
