@@ -15,28 +15,31 @@ using System.Windows.Shapes;
 
 namespace BitsPlease
 {
-    /// <summary>
-    /// Interaction logic for ProgressWindow.xaml
-    /// </summary>
-    public partial class ProgressWindow : Window
+  /// <summary>
+  /// Interaction logic for ProgressWindow.xaml
+  /// </summary>
+  public partial class ProgressWindow : Window
+  {
+    public IProgress<double> progress;
+    public string TaskTitle;
+
+    public ProgressWindow(string taskTitle)
     {
-        public IProgress<int> progress;
-        Window parent;
+      InitializeComponent();
+      TaskTitle = taskTitle;
+      this.Title = taskTitle;
 
-        public ProgressWindow(Window parent)
-        {
-            this.parent = parent;
-            InitializeComponent();
+      //this.Loaded += ProgressWindow_Loaded;
+      this.Closing += ProgressWindow_Closing;
 
-            //this.Loaded += ProgressWindow_Loaded;
-            //this.Closing += ProgressWindow_Closing;
+      Progress<double> progressHandler = new Progress<double>(percent =>
+      {
+        PROGBAR_Job.Value = percent;
 
-            Progress<int> progressHandler = new Progress<int>(percent =>
-            {
-                PROGBAR_Job.Value = (double)percent;
-            });
-            progress = progressHandler as IProgress<int>;
-        }
+        this.Title = TaskTitle + "... " + percent.ToString() + "%";
+      });
+      progress = progressHandler as IProgress<double>;
+    }
 
     /*
         private async void ProgressWindow_Loaded(object sender, RoutedEventArgs e)
@@ -68,9 +71,15 @@ namespace BitsPlease
             Close();
         }
         */
-        private void ProgressWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
+    private void ProgressWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+      e.Cancel = true;
     }
+
+    public void Complete()
+    {
+      this.Closing -= ProgressWindow_Closing;
+      this.Close();
+    }
+  }
 }

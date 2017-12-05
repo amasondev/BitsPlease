@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Windows.Threading;
+using Microsoft.Win32;
+using BitsPlease;
 
 namespace Downloader
 {
@@ -32,20 +34,76 @@ namespace Downloader
 
         public DownloaderMain()
         {
-            urlInputTimer = new DispatcherTimer{Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME)};
+            urlInputTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME) };
             urlInputTimer.Tick += OnURLInputTimerComplete;
             InitializeComponent();
             BUSYdownload.Visibility = Visibility.Hidden;
         }
 
-        private void DownloadVideoURL(object sender, RoutedEventArgs e)
+        private async void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(urlInput.Text))
+            // TODO: Get file extension properly
+            string ext = System.IO.Path.GetExtension(SelectedOutput);
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
+
+            if (saveFileDialog.ShowDialog() ?? false
+               && !String.IsNullOrEmpty(urlInput.Text)
+               && !String.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                ProcessStartInfo info = GetDownloaderStartInfo(urlInput.Text);
-                Process.Start(info);
+                ProcessStartInfo info = GetDownloaderStartInfo(urlInput.Text + " -o \"" + saveFileDialog.FileName + "\"");
+
+                // Begin downloading
+                // Disable controls
+                this.IsEnabled = false;
+                Process process = new Process();
+                process.StartInfo = info;
+
+                // Start process
+                if (!process.Start())
+                {
+                    MessageBox.Show("There was an error starting youtube-dl.exe");
+                    return;
+                }
+
+                // Create a progress window
+                ProgressWindow progressWindow = new ProgressWindow("Downloading " + saveFileDialog.SafeFileName);
+                progressWindow.Show();
+
+                // Parse process output and update progress
+                await Task.Run(() =>
+                {
+                    string line;
+                    double p = 0;
+                    while ((line = process.StandardOutput.ReadLine()) != null)
+                    {
+                // TODO: Bad parsing but it works for now
+                string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        Console.WriteLine("SPLIT LINE: ");
+
+                        if (segments.Length > 2 && segments[1].Contains('%'))
+                        {
+                            string percentstr = segments[1].TrimEnd('%');
+                            double percentdbl;
+                            if (double.TryParse(percentstr
+                              , out percentdbl))
+                                p = percentdbl;
+
+                        }
+                        if (progressWindow.progress != null)
+                            progressWindow.progress.Report(p);
+                    }
+
+                    Console.WriteLine("YOUTUBE-DL: " + line);
+                });
+
+                process.WaitForExit();
+                process.Close();
+                progressWindow.Complete();
+                this.IsEnabled = true;
             }
         }
+
 
         private ProcessStartInfo GetDownloaderStartInfo(string Arguments)
         {
@@ -68,15 +126,15 @@ namespace Downloader
             return new ProcessFilter(info);
         }
 
-        private void SetAudioOnly(object sender, RoutedEventArgs e) 
+        private void SetAudioOnly(object sender, RoutedEventArgs e)
         {
             bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
             if (IsAudioOnly)
             {
                 DisableVideoQuality();
                 EnableAudioQuality();
-            } 
-            else 
+            }
+            else
             {
                 EnableVideoQuality();
                 DisableAudioQuality();
