@@ -20,29 +20,31 @@ namespace BitsPlease
     /// </summary>
     public partial class ProgressWindow : Window
     {
-        Process process;
+        public IProgress<int> progress;
         Window parent;
 
-        public ProgressWindow(Process process, Window parent)
+        public ProgressWindow(Window parent)
         {
-            this.process = process;
             this.parent = parent;
             InitializeComponent();
 
-            this.Loaded += ProgressWindow_Loaded;
-            this.Closing += ProgressWindow_Closing;
+            //this.Loaded += ProgressWindow_Loaded;
+            //this.Closing += ProgressWindow_Closing;
+
+            Progress<int> progressHandler = new Progress<int>(percent =>
+            {
+                PROGBAR_Job.Value = (double)percent;
+            });
+            progress = progressHandler as IProgress<int>;
         }
 
+    /*
         private async void ProgressWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Parse process output and update progress bar
 
             parent.IsEnabled = false;
-            Progress<int> progressHandler = new Progress<int>(percent =>
-            {
-                PROGBAR_Job.Value = (double)percent;
-            });
-            var progress = progressHandler as IProgress<int>;
+            
             await Task.Run(() =>
             {
                 string line;
@@ -65,7 +67,7 @@ namespace BitsPlease
             Console.WriteLine("Task Complete.");
             Close();
         }
-
+        */
         private void ProgressWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;

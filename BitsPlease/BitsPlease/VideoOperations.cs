@@ -16,7 +16,7 @@ namespace BitsPlease
         public static string FFPROBE = "ffprobe.exe";
 
 
-        public static void PerformCrop(
+        public static async void PerformCrop(
           Window window,
           string inputPath,
           string outputPath,
@@ -38,9 +38,36 @@ namespace BitsPlease
                 return;
             }
 
-            ProgressWindow progressWindow = new ProgressWindow(cropProcess, window);
+            ProgressWindow progressWindow = new ProgressWindow(window);
             progressWindow.Title = "Cropping...";
             progressWindow.Show();
+
+            // Parse process output and update progress bar
+
+            window.IsEnabled = false;
+            
+            await Task.Run(() =>
+            {
+                string line;
+                int p = 0;
+                while ((line = cropProcess.StandardError.ReadLine()) != null)
+                {
+                    // TODO: Parse output and update percent
+                    p++;
+                    if (progressWindow.progress != null)
+                        progressWindow.progress.Report(p);
+
+                    Console.WriteLine("FFMPEG: " + line);
+                }
+            });
+
+            // Complete
+            window.IsEnabled = true;
+            //this.Closing -= ProgressWindow_Closing;
+            cropProcess.Close();
+            Console.WriteLine("Task Complete.");
+            progressWindow.Close();
+
                 
         }
 
@@ -66,7 +93,7 @@ namespace BitsPlease
             return process.Start();
         }
 
-        public static void PerformTrim(
+        public static async void PerformTrim(
                 Window window,
                 string inputPath,
                 string outputPath,
@@ -81,9 +108,33 @@ namespace BitsPlease
                 return;
             }
 
-            ProgressWindow progressWindow = new ProgressWindow(trimProcess, window);
+            ProgressWindow progressWindow = new ProgressWindow(window);
             progressWindow.Title = "Trimming...";
             progressWindow.Show();
+
+            window.IsEnabled = false;
+            
+            await Task.Run(() =>
+            {
+                string line;
+                int p = 0;
+                while ((line = trimProcess.StandardError.ReadLine()) != null)
+                {
+                    // TODO: Parse output and update percent
+                    p++;
+                    if (progressWindow.progress != null)
+                        progressWindow.progress.Report(p);
+
+                    Console.WriteLine("FFMPEG: " + line);
+                }
+            });
+
+            // Complete
+            window.IsEnabled = true;
+            //this.Closing -= ProgressWindow_Closing;
+            trimProcess.Close();
+            Console.WriteLine("Task Complete.");
+            progressWindow.Close();
             
         }
 
