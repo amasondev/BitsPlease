@@ -303,6 +303,7 @@ namespace Downloader
                     filtered.Add(FormatDetails(outputLine));
                 }
             }
+            filtered.Reverse();
             return filtered;
         }
 
@@ -316,6 +317,7 @@ namespace Downloader
                     filtered.Add(FormatDetails(outputLine));
                 }
             }
+            filtered.Reverse();
             return filtered;
         }
 
