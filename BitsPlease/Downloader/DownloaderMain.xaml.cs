@@ -61,12 +61,11 @@ namespace Downloader
             return startInfo;
         }
 
-        private List<string[]> GetVideoQualityList()
+        private ProcessFilter GetProcessFilter()
         {
             string query = "-F " + urlInput.Text;
             ProcessStartInfo info = GetDownloaderStartInfo(query);
-            List<string[]> output = new ProcessFilter(info).GetVideoOutputs();
-            return output;
+            return new ProcessFilter(info);
         }
 
         private void SetAudioOnly(object sender, RoutedEventArgs e) 
@@ -82,7 +81,6 @@ namespace Downloader
                 EnableVideoQuality();
                 DisableAudioQuality();
             }
-            UpdateSelectedOutput();
         }
 
         private void DisableVideoQuality()
@@ -106,15 +104,6 @@ namespace Downloader
         private void EnableAudioQuality()
         {
             AudioFormat.Visibility = Visibility.Visible;
-            //ComboboxItem SelectedAudio = (ComboboxItem)AudioFormatSelector.SelectedItem;
-            // Your SelectedOutput becomes the last option that has been selected.
-        }
-
-        private void UpdateSelectedOutput()
-        {
-            // Change the SelectedOutput text to the selected audio/video quality
-            SelectedOutput = "";
-            SelectedOutputLabel.Text = "Output:";
         }
 
         private void OnURLInputTimerComplete(object sender, EventArgs e)
@@ -124,8 +113,23 @@ namespace Downloader
 
             // Enable busy throbber
             BUSYdownload.Visibility = Visibility.Visible;
+            refreshOptions();
+            // Hide busy throbber
+            BUSYdownload.Visibility = Visibility.Hidden;
+        }
 
-            List<string[]> videoQualityList = GetVideoQualityList();
+        private void refreshOptions()
+        {
+            ProcessFilter processFilter = GetProcessFilter();
+            VideoOutputs.Items.Clear();
+            AudioFormatSelector.Items.Clear();
+            addVideoOptions(processFilter);
+            addAudioOptions(processFilter);
+        }
+
+        private void addVideoOptions(ProcessFilter processFilter)
+        {
+            List<string[]> videoQualityList = processFilter.GetVideoOutputs();
             foreach (string[] qualityOption in videoQualityList)
             {
                 string extension = qualityOption[1];
@@ -136,14 +140,73 @@ namespace Downloader
             BUSYdownload.Visibility = Visibility.Hidden;
         }
 
+        private void addAudioOptions(ProcessFilter processFilter)
+        {
+            List<string[]> audioQualityList = processFilter.GetAudioOutputs();
+            foreach (string[] qualityOption in audioQualityList)
+            {
+                AudioFormatSelector.Items.Add(new AudioOption(qualityOption));
+            }
+        }
+
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
         {
             urlInputTimer.Stop();
             urlInputTimer.Start();
         }
-  }
 
-  public class ProcessFilter
+        private void VideoOutputs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VideoOption selectedItem = (VideoOption)VideoOutputs.SelectedItem;
+            string selectedFormat = selectedItem.FormatCode;
+            string label = selectedItem.Extension + ", " + selectedItem.Resolution;
+            UpdateSelectedOutput(selectedFormat, label);
+        }
+
+        private void AudioFormatSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AudioOption selectedItem = (AudioOption)AudioFormatSelector.SelectedItem;
+            string selectedFormat = selectedItem.FormatCode;
+            string label = selectedItem.Bitrate;
+            UpdateSelectedOutput(selectedFormat, label);
+        }
+
+        private void UpdateSelectedOutput(string formatCode, string label)
+        {
+            SelectedOutput = formatCode;
+            SelectedOutputLabel.Text = "Output: " + label;
+        }
+    }
+
+    public class VideoOption
+    {
+        // Binder for VideoOutputs
+        public string FormatCode { get; set; }
+        public string Extension { get; set; }
+        public string Resolution { get; set; }
+
+        public VideoOption(string[] qualityOption)
+        {
+            FormatCode = qualityOption[0];
+            Extension = qualityOption[1];
+            Resolution = qualityOption[2];
+        }
+    }
+
+    public class AudioOption
+    {
+        // Binder for AudioFormatSelector
+        public string FormatCode { get; set; }
+        public string Bitrate { get; set; }
+
+        public AudioOption(string[] qualityOption)
+        {
+            FormatCode = qualityOption[0];
+            Bitrate = qualityOption[qualityOption.Length - 2];
+        }
+    }
+
+    public class ProcessFilter
     {
         Process process;
         List<string> output = new List<string>();
@@ -160,18 +223,6 @@ namespace Downloader
 
         public List<string[]> GetVideoOutputs()
         {
-            List<string[]> filtered = GetFilteredVideo();
-            return filtered;
-        }
-
-        public List<string[]> GetAudioOutputs()
-        {
-            List<string[]> filtered = GetFilteredAudio();
-            return filtered;
-        }
-
-        private List<string[]> GetFilteredVideo()
-        {
             List<string[]> filtered = new List<string[]>();
             foreach (string outputLine in output)
             {
@@ -184,21 +235,7 @@ namespace Downloader
             return filtered;
         }
 
-        private string[] FilterVideo(string outputLine)
-        {
-            /* yt-dl outputs a line such as: 
-             * 43           webm       640x360    medium , vp8.0, vorbis@128k
-             * The goal is to get the format code, extension, and resolution 
-             * (File size is not offered in muxed video/audio option)
-             */
-
-            string[] dividedLine = outputLine.Split(','); 
-            string firstEntry = dividedLine[0]; // 43           webm       640x360    medium 
-            string[] info = firstEntry.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
-            return info;
-        }
-
-        private List<string[]> GetFilteredAudio()
+        public List<string[]> GetAudioOutputs()
         {
             List<string[]> filtered = new List<string[]>();
 
@@ -211,6 +248,18 @@ namespace Downloader
                 }
             }
             return filtered;
+        }
+
+        private string[] FilterVideo(string outputLine)
+        {
+            /* yt-dl outputs a line such as: 
+             * 43           webm       640x360    medium , vp8.0, vorbis@128k
+             * This retrieves format code, extension, and resolution 
+             */
+
+            string[] dividedLine = outputLine.Split(',');
+            string firstEntry = dividedLine[0]; // 43           webm       640x360    medium 
+            return firstEntry.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // [43, webm, 640x360, medium]
         }
 
         private bool IsValidVideo(string outputLine)
