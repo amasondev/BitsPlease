@@ -35,6 +35,7 @@ namespace Downloader
             urlInputTimer = new DispatcherTimer{Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME)};
             urlInputTimer.Tick += OnURLInputTimerComplete;
             InitializeComponent();
+            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
         private void DownloadVideoURL(object sender, RoutedEventArgs e)
@@ -121,12 +122,18 @@ namespace Downloader
             urlInputTimer.Stop();
             if (string.IsNullOrEmpty(urlInput.Text)) return;
 
+            // Enable busy throbber
+            BUSYdownload.Visibility = Visibility.Visible;
+
             List<string[]> videoQualityList = GetVideoQualityList();
             foreach (string[] qualityOption in videoQualityList)
             {
                 string extension = qualityOption[1];
                 VideoOutputs.Items.Add(extension);
             }
+
+            // Hide busy throbber
+            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)

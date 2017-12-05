@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Downloader"
+        xmlns:bp="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
         Title="Video Downloader" MinHeight="600" Height="548" Width="657.806">
     <Grid MinWidth="600">
@@ -23,15 +24,18 @@
             <StackPanel Margin="25,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
                 <Label Content="Video Downloader" Margin="0,10,0,0" FontWeight="Bold" Foreground="#FF2C2C2C"/>
                 <Label Content="Video URL" Margin="0,10,10,0" Foreground="#FF4F4F4F"/>
-                <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="On_URLTextInput" MaxLines="1">
-                    <TextBox.BorderBrush>
-                        <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
-                            <GradientStop Color="#FFABADB3" Offset="0.05"/>
-                            <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
-                            <GradientStop Color="#FF8E8E8E" Offset="1"/>
-                        </LinearGradientBrush>
-                    </TextBox.BorderBrush>
-                </TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="urlInput" Margin="0,0,0,5" Height="23" Width="220" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="On_URLTextInput" MaxLines="1">
+                        <TextBox.BorderBrush>
+                            <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                                <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                                <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                                <GradientStop Color="#FF8E8E8E" Offset="1"/>
+                            </LinearGradientBrush>
+                       </TextBox.BorderBrush>
+                    </TextBox>
+                    <bp:BusyCircle x:Name="BUSYdownload"/>
+                </StackPanel>
                 <Label Content="Destination" Foreground="#FF4F4F4F"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

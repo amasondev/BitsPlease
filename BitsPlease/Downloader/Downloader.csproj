@@ -106,5 +106,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BitsPlease\BitsPlease.csproj">
+      <Project>{a53f60a7-0ec5-40a9-8b42-0b0cd236d9fa}</Project>
+      <Name>BitsPlease</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

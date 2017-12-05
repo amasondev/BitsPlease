@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ColorEffects
+namespace Sequencer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DropTimeline.xaml
     /// </summary>
-    public partial class ColorEffectsMain : Window
+    public partial class DropTimeline : UserControl
     {
-        public ColorEffectsMain()
+        public DropTimeline()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
     }
 }

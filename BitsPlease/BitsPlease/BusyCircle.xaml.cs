@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ColorEffects
+namespace BitsPlease
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class ColorEffectsMain : Window
+  /// <summary>
+  /// Interaction logic for BusyCircle.xaml
+  /// </summary>
+  public partial class BusyCircle : UserControl
+  {
+    public BusyCircle()
     {
-        public ColorEffectsMain()
-        {
-            //InitializeComponent();
-        }
+      InitializeComponent();
     }
+  }
 }
