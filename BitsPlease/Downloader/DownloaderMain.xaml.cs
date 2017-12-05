@@ -29,7 +29,7 @@ namespace Downloader
         DispatcherTimer urlInputTimer;
 
         StringDictionary Outputs = new StringDictionary();
-        string SelectedOutput; // This should get checked for validity if the URL changes.
+        string FormatCode; // This should get checked for validity if the URL changes.
         string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
 
         public DownloaderMain()
@@ -43,7 +43,7 @@ namespace Downloader
         private async void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
             // TODO: Get file extension properly
-            string ext = System.IO.Path.GetExtension(SelectedOutput);
+            string ext = System.IO.Path.GetExtension(FormatCode);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
 
@@ -244,7 +244,7 @@ namespace Downloader
 
         private void UpdateSelectedOutput(string formatCode, string label)
         {
-            SelectedOutput = formatCode;
+            FormatCode = formatCode;
             SelectedOutputLabel.Text = "Output: " + label;
         }
     }
