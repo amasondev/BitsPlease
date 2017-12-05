@@ -77,10 +77,8 @@ namespace Downloader
                     double p = 0;
                     while ((line = process.StandardOutput.ReadLine()) != null)
                     {
-                // TODO: Bad parsing but it works for now
-                string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        Console.WriteLine("SPLIT LINE: ");
-
+                        // TODO: Bad parsing but it works for now
+                        string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         if (segments.Length > 2 && segments[1].Contains('%'))
                         {
                             string percentstr = segments[1].TrimEnd('%');
