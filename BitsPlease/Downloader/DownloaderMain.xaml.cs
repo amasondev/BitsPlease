@@ -154,7 +154,6 @@ namespace Downloader
 
         private void DisableVideoQuality()
         {
-            // Video quality window gets blanked out.
             VideoOutputs.Cursor = Cursors.No;
         }
 
@@ -243,7 +242,7 @@ namespace Downloader
         {
             OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
-            string label = selectedItem.Extension + ", " + selectedItem.Resolution;
+            string label = "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
             UpdateSelectedOutput(selectedFormat, label);
         }
 
@@ -251,7 +250,7 @@ namespace Downloader
         {
             OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
             string selectedFormat = selectedItem.FormatCode;
-            string label = selectedItem.Bitrate;
+            string label = "Audio only - " + selectedItem.Bitrate;
             UpdateSelectedOutput(selectedFormat, label);
         }
 
