@@ -25,10 +25,10 @@
             </MenuItem>
         </Menu>
 
-        <TextBox x:Name="start" HorizontalAlignment="Left" Margin="10,0,0,10" TextWrapping="Wrap" Text="start" Width="120" AllowDrop="False" Grid.Row="2" Height="23" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="end" HorizontalAlignment="Left" Margin="135,0,0,10" TextWrapping="Wrap" Text="duration" Width="120" AllowDrop="False" Grid.Row="2" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="TB_Start" HorizontalAlignment="Left" Margin="10,84,0,0" Text="00:00:00" Width="75" AllowDrop="False" Grid.Row="2" MaxLines="1" Height="23" VerticalAlignment="Top"/>
+        <TextBox x:Name="TB_End" Margin="0,84,10,0" Text="00:01:00" AllowDrop="False" Grid.Row="2" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" MaxLines="1"/>
         <Button Content="Slice" Margin="0,0,10,10" Click="Trim" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" Grid.Row="2"/>
-        <ffme:MediaElement x:Name="VideoPreview" Margin="10,30,10,1" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" MediaOpened="VideoPreview_MediaOpened"/>
+        <ffme:MediaElement x:Name="VideoPreview" Margin="10,30,10,1" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" MediaOpened="VideoPreview_MediaOpened" RenderingVideo="VideoPreview_RenderingVideo"/>
         <Grid Margin="0,10" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -37,7 +37,7 @@
             <Button x:Name="BTN_Play" Content="Play" Height="20" Width="50" Click="BTN_Play_Click"/>
             <Button x:Name="BTN_Pause" Content="Pause" Grid.Column="1" Height="20" Width="50" Click="BTN_Pause_Click"/>
         </Grid>
-        <Slider Margin="10,10,10,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <local:SlicerTimeline x:Name="Timeline" Margin="10,10,10,0" Grid.Row="2" VerticalAlignment="Top" UpperValue="1" ValueChanged="SlicerTimeline_ValueChanged" PlayheadMoved="Timeline_PlayheadMoved" Height="50"/>
     </Grid>
 </bitsplease:VideoDropWindow>
 

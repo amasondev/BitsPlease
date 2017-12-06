@@ -50,7 +50,11 @@ namespace Slicer
 
         private void VideoPreview_MediaOpened(object sender, RoutedEventArgs e)
         {
-
+            if (VideoPreview.HasVideo)
+            {
+                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration);
+                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration);
+            }
         }
 
         private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
@@ -77,7 +81,7 @@ namespace Slicer
                     this,
                     inputFilePath,
                     saveFileDialog.FileName,
-                    start.Text, end.Text);
+                    TB_Start.Text, TB_End.Text);
             }
 
 
@@ -98,6 +102,48 @@ namespace Slicer
             {
                 VideoPreview.Pause();
                 Console.WriteLine("Pausing video.");
+            }
+        }
+
+        private void SlicerTimeline_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (VideoPreview.HasVideo)
+            {
+                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration);
+                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration);
+            }
+        }
+
+        private string GetTimecode(double timeValue, Duration duration)
+        {
+            string ret = "00:00:00";
+            if (duration != null && duration.HasTimeSpan)
+            {
+                Duration adjusted = new Duration(new TimeSpan((long)(duration.TimeSpan.Ticks * timeValue)));
+                ret = adjusted.TimeSpan.Hours.ToString("D2");
+                ret += ":" + adjusted.TimeSpan.Minutes.ToString("D2");
+                ret += ":" + adjusted.TimeSpan.Seconds.ToString();
+                ret += "." + adjusted.TimeSpan.Milliseconds.ToString("D");
+
+            }
+
+            return ret;
+        }
+
+        private void VideoPreview_RenderingVideo(object sender, Unosquare.FFME.RenderingVideoEventArgs e)
+        {
+            // TODO: Better math on this? Longs to double
+            double playpoint = (double)VideoPreview.Position.Ticks / (double)VideoPreview.NaturalDuration.TimeSpan.Ticks;
+            Timeline.Playhead = playpoint;
+        }
+
+        private void Timeline_PlayheadMoved(object sender, RoutedEventArgs e)
+        {
+            if (VideoPreview.HasVideo)
+            {
+                // TODO: Better math on this? Doubles to long
+                double tick = VideoPreview.NaturalDuration.TimeSpan.Ticks * Timeline.Playhead;
+                VideoPreview.Position = new TimeSpan((long)tick);
             }
         }
     }

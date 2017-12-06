@@ -146,8 +146,8 @@ namespace BitsPlease
             process = FFmpegProcess();
             process.StartInfo.Arguments +=
             "-y -i \"" + inputPath + "\"" + 
-            " -vcodec copy -acodec copy" +
-            " -ss " + start + " -t " + duration + " \"" + outputPath + "\"";
+            " -c copy" +
+            " -ss " + start + " -to " + duration + " \"" + outputPath + "\"";
 
             Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
 
