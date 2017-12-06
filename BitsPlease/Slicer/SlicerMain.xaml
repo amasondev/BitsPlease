@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Slicer"
         mc:Ignorable="d"
-        Title="Slicer" Height="523.548" Width="525">
+        Title="Slicer" Height="523.548" Width="525" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="311*"/>
