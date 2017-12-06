@@ -6,5 +6,12 @@
         xmlns:local="clr-namespace:BitsPlease"
         mc:Ignorable="d"
         Title="Working..." Height="60" Width="500" Cursor="Wait" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
-    <ProgressBar x:Name="PROGBAR_Job"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ProgressBar x:Name="PROGBAR_Job"/>
+        <Button x:Name="BTN_Cancel" Grid.Column="1" Content="Cancel" Height="20" Width="50" Margin="10,0" Click="BTN_Cancel_Click"/>
+    </Grid>
 </Window>

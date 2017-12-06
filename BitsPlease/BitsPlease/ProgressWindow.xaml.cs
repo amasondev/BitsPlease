@@ -22,6 +22,7 @@ namespace BitsPlease
     {
         public IProgress<double> progress;
         public string TaskTitle;
+        public event RoutedEventHandler OnGetCancel;
 
         public ProgressWindow(string taskTitle) :base()
         {
@@ -49,6 +50,12 @@ namespace BitsPlease
         {
             this.Closing -= ProgressWindow_Closing;
             this.Close();
+        }
+
+        private void BTN_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (OnGetCancel != null)
+                OnGetCancel(sender, e);
         }
     }
 }

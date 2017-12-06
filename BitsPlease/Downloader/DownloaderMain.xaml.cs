@@ -50,7 +50,7 @@ namespace Downloader
             // TODO: Get file extension properly
             OutputOption selected = VideoOutputs.SelectedValue as OutputOption;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Video file (*" + selected.Extension + ")|*" + selected.Extension;
+            saveFileDialog.Filter = "Video file (*." + selected.Extension + ")|*." + selected.Extension;
 
             if (saveFileDialog.ShowDialog() ?? false
                && !String.IsNullOrEmpty(urlInput.Text)
@@ -82,9 +82,20 @@ namespace Downloader
                 await Task.Run(() =>
                 {
                     string line;
+                    bool gotCancel = false;
+
+                    // Set up progress window cancel
+                    progressWindow.OnGetCancel += (s, ee) =>
+                    {
+                        gotCancel = true;
+                        process.Kill();
+                    };
+
                     double p = 0;
                     while ((line = process.StandardOutput.ReadLine()) != null)
                     {
+                        if (gotCancel) break;
+
                         // TODO: Bad parsing but it works for now
                         string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         if (segments.Length > 2 && segments[1].Contains('%'))

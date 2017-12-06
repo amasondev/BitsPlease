@@ -49,8 +49,17 @@ namespace BitsPlease
             {
                 string line;
                 int p = 0;
+                bool gotCancel = false;
+
+                    // Set up progress window cancel
+                    progressWindow.OnGetCancel += (s, ee) =>
+                    {
+                        gotCancel = true;
+                        cropProcess.Kill();
+                    };
                 while ((line = cropProcess.StandardError.ReadLine()) != null)
                 {
+                    if (gotCancel) break;
                     // TODO: Parse output and update percent
                     p++;
                     if (progressWindow.progress != null)
@@ -116,8 +125,18 @@ namespace BitsPlease
             {
                 string line;
                 int p = 0;
+                bool gotCancel = false;
+
+                    // Set up progress window cancel
+                    progressWindow.OnGetCancel += (s, ee) =>
+                    {
+                        gotCancel = true;
+                        trimProcess.Kill();
+                    };
                 while ((line = trimProcess.StandardError.ReadLine()) != null)
                 {
+                    if (gotCancel) break;
+
                     // TODO: Parse output and update percent
                     p++;
                     if (progressWindow.progress != null)
