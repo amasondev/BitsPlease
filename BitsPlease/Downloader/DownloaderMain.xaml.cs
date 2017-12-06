@@ -30,7 +30,6 @@ namespace Downloader
 
         StringDictionary Outputs = new StringDictionary();
         string FormatCode; // This should get checked for validity if the URL changes.
-        string PathToDownloadTo = "C:\\Users\\Alex\\Desktop";
 
         public DownloaderMain()
         {
