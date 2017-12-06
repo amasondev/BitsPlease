@@ -85,7 +85,8 @@ namespace Cropper
 
             GRID_Backdrop.Clip = backdropMask;
 
-            CropModified();
+            if (CropModified != null)
+                CropModified();
         }
 
         private void DragMove(object sender, DragDeltaEventArgs e)

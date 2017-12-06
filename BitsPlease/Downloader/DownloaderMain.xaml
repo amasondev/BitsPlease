@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Downloader"
         xmlns:bp="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
-        Title="Video Downloader" MinHeight="500" Height="508.8" Width="468.806" MinWidth="302" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+        Title="Video Downloader" MinHeight="500" Height="508.8" Width="468.806" MinWidth="302" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
     <Grid MinWidth="200">
 
         <StackPanel Margin="25,10,25,0" ScrollViewer.VerticalScrollBarVisibility="Disabled">

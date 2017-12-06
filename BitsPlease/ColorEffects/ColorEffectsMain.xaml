@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorEffects"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+        Title="MainWindow" Height="350" Width="525" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

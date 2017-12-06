@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Converter"
         xmlns:bitsplease="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
-        Title="Converter" MinWidth="500" MinHeight="400" Height="350.693" Width="442.003" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+        Title="Converter" MinWidth="500" MinHeight="400" Height="350.693" Width="442.003" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
     <Grid Grid.ColumnSpan="1" Margin="20" MaxWidth="700">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

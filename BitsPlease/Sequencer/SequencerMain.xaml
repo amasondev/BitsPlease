@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sequencer"
         mc:Ignorable="d"
-        Title="Sequencer" Height="821.1" Width="908.8" Background="White">
+        Title="Sequencer" Height="821.1" Width="908.8" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
