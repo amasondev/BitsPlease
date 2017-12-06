@@ -240,18 +240,37 @@ namespace Downloader
 
         private void UpdateVideoSelection()
         {
-            OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
-            string selectedFormat = selectedItem.FormatCode;
-            string label = "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
-            UpdateSelectedOutput(selectedFormat, label);
+            bool hasVideoOptions = VideoOutputs.Items.Count > 0;
+            string selectedFormat;
+            string label;
+            if (hasVideoOptions)
+            {
+                OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    selectedFormat = selectedItem.FormatCode;
+                    label = "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
+                }
+                else
+                {
+                    selectedFormat = "-1";
+                    label = "";
+                }
+                UpdateSelectedOutput(selectedFormat, label);
+            }
         }
 
         private void UpdateAudioSelection()
         {
-            OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
-            string selectedFormat = selectedItem.FormatCode;
-            string label = "Audio only - " + selectedItem.Bitrate;
-            UpdateSelectedOutput(selectedFormat, label);
+            bool hasAudioOptions = AudioFormatSelector.Items.Count > 0;
+            if (hasAudioOptions)
+            {
+                OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
+                string selectedFormat = selectedItem.FormatCode;
+                string label = "Audio only - " + selectedItem.Bitrate;
+                UpdateSelectedOutput(selectedFormat, label);
+            }
         }
 
         private void UpdateSelectedOutput(string formatCode, string label)
