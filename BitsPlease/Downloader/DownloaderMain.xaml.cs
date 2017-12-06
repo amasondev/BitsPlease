@@ -140,13 +140,6 @@ namespace Downloader
             return startInfo;
         }
 
-        private ProcessFilter GetProcessFilter()
-        {
-            string query = "-F " + urlInput.Text;
-            ProcessStartInfo info = GetDownloaderStartInfo(query);
-            return new ProcessFilter(info);
-        }
-
         private void SetAudioOnly(object sender, RoutedEventArgs e)
         {
             bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
@@ -184,25 +177,30 @@ namespace Downloader
             UpdateAudioSelection();
         }
 
-        private void OnURLInputTimerComplete(object sender, EventArgs e)
+        private async void OnURLInputTimerComplete(object sender, EventArgs e)
         {
             urlInputTimer.Stop();
             if (string.IsNullOrEmpty(urlInput.Text)) return;
 
             // Enable busy throbber
             BUSYdownload.Visibility = Visibility.Visible;
-            refreshOptions();
+            ProcessFilter processFilter = null;
+
+            string query = "-F " + urlInput.Text;
+            ProcessStartInfo info = GetDownloaderStartInfo(query);
+            await Task.Run(() =>
+            {
+                processFilter = new ProcessFilter(info);
+            });
+            if (processFilter != null)
+            {
+                VideoOutputs.Items.Clear();
+                AudioFormatSelector.Items.Clear();
+                addVideoOptions(processFilter);
+                addAudioOptions(processFilter);
+            }
             // Hide busy throbber
             BUSYdownload.Visibility = Visibility.Hidden;
-        }
-
-        private void refreshOptions()
-        {
-            ProcessFilter processFilter = GetProcessFilter();
-            VideoOutputs.Items.Clear();
-            AudioFormatSelector.Items.Clear();
-            addVideoOptions(processFilter);
-            addAudioOptions(processFilter);
         }
 
         private void addVideoOptions(ProcessFilter processFilter)
