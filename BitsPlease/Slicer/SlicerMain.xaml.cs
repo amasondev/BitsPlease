@@ -77,12 +77,15 @@ namespace Slicer
               && !string.IsNullOrEmpty(inputFilePath)
               && !string.IsNullOrEmpty(saveFileDialog.FileName))
             {
+                string start = TB_Start.Text;
+                string duration = GetTimecode(Timeline.UpperValue - Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
+
                 Console.WriteLine("Output file: " + saveFileDialog.FileName);
                 VideoOperations.PerformTrim(
                     this,
                     inputFilePath,
                     saveFileDialog.FileName,
-                    TB_Start.Text, TB_End.Text);
+                    start, duration);
             }
 
 

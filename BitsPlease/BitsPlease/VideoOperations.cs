@@ -164,9 +164,11 @@ namespace BitsPlease
         {
             process = FFmpegProcess();
             process.StartInfo.Arguments +=
-            "-y -i \"" + inputPath + "\"" + 
+            " -y -ss " + start +
+            " -i \"" + inputPath + "\"" + 
+            " -t " + duration +
             " -c copy" +
-            " -ss " + start + " -to " + duration + " \"" + outputPath + "\"";
+            " \"" + outputPath + "\"";
 
             Console.WriteLine("LAUNCHING: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments);
 
