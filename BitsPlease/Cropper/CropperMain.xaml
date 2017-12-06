@@ -20,7 +20,6 @@
         <Label Content="Y:" Margin="16,0,0,42" HorizontalAlignment="Left" Width="20" Height="23" VerticalAlignment="Bottom"/>
         <Label Content="Width:" HorizontalAlignment="Left" Margin="108,0,0,98" VerticalAlignment="Bottom"/>
         <Label Content="Height:" HorizontalAlignment="Left" Margin="108,0,0,42" VerticalAlignment="Bottom"/>
-        <Label x:Name="LBL_File" Content="File: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="BTN_Crop" Content="Crop" HorizontalAlignment="Right" Margin="0,0,10,10" Width="75" Click="Crop_OnClick" VerticalAlignment="Bottom"/>
         <Grid Margin="10,38,10,126">
             <ffme:MediaElement x:Name="VideoPreview" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" SizeChanged="VideoDropWindow_SizeChanged" MediaOpened="VideoPreview_MediaOpened"/>
@@ -28,6 +27,12 @@
         </Grid>
         <Button x:Name="BTN_Play" Content="Play" HorizontalAlignment="Center" Margin="241,0,331,92" VerticalAlignment="Bottom" Width="75" Click="OnPlayClicked"/>
         <Button x:Name="BTN_Pause" Content="Pause" HorizontalAlignment="Center" Margin="321,0,251,92" VerticalAlignment="Bottom" Width="75" Click="OnPauseClicked"/>
+        <Menu x:Name="MENU" VerticalAlignment="Top" Height="20">
+            <MenuItem Header="File">
+                <MenuItem Header="Open..." Click="FileOpen_Click"/>
+                <MenuItem Header="Exit" Click="FileExit_Click"/>
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </bitsplease:VideoDropWindow>

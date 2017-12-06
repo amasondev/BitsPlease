@@ -32,8 +32,15 @@ namespace Cropper
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // On resize, create a clip mask for the backdrop grid
-            UpdateBackdropMask();
+            // XAML designer bug without trycatch block
+            try
+            {
+                // On resize, create a clip mask for the backdrop grid
+                UpdateBackdropMask();
+            } catch (Exception ex)
+            {
+                return;
+            }
         }
 
         public Rect GetVideoCropDimensions(int videoWidth, int videoHeight)
@@ -53,6 +60,8 @@ namespace Cropper
 
         private void UpdateBackdropMask()
         {
+            if (GRID_Backdrop == null || GRID_Crop == null) return;
+
             Size size = new Size(ActualWidth, ActualHeight);
 
             // Rectangle for top, left, bottom, right

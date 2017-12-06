@@ -15,97 +15,90 @@ namespace Slicer
     /// Interaction logic for SlicerMain.xaml
     /// </summary>
     public partial class SlicerMain : VideoDropWindow
-  {
-    //public string FileLocation {get; set;}
-    string filelabelprefix, inputFilePath;
-
-
-    public SlicerMain()
     {
-      InitializeComponent();
-      filelabelprefix = LBL_File.Content.ToString();
+        //public string FileLocation {get; set;}
+        const string titlePrefix = "Slicer";
+        string inputFilePath;
+
+
+        public SlicerMain()
+        {
+            Unosquare.FFME.MediaElement.FFmpegDirectory = ".";
+            InitializeComponent();
+            Title = titlePrefix;
+        }
+
+
+        protected override void OnDropVideo(string filepath)
+        {
+            // Open the media in video preview
+            try
+            {
+                VideoPreview.Source = new Uri(filepath);
+                inputFilePath = filepath;
+                this.Title = titlePrefix + ": " + Path.GetFileName(filepath);
+
+                Console.WriteLine("Set media source to: " + VideoPreview.Source);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open media: " + ex.Message);
+                inputFilePath = "";
+                this.Title = titlePrefix;
+            }
+        }
+
+        private void VideoPreview_MediaOpened(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        private void Trim(object sender, RoutedEventArgs e)
+        {
+
+            string ext = Path.GetExtension(inputFilePath);
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
+
+            Console.WriteLine("Input file: " + inputFilePath);
+
+            if (saveFileDialog.ShowDialog() == true
+              && !string.IsNullOrEmpty(inputFilePath)
+              && !string.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                Console.WriteLine("Output file: " + saveFileDialog.FileName);
+                VideoOperations.PerformTrim(
+                    this,
+                    inputFilePath,
+                    saveFileDialog.FileName,
+                    start.Text, end.Text);
+            }
+
+
+        }
+
+        private void BTN_Play_Click(object sender, RoutedEventArgs e)
+        {
+            if (VideoPreview.HasVideo)
+            {
+                VideoPreview.Play();
+                Console.WriteLine("Playing video.");
+            }
+        }
+
+        private void BTN_Pause_Click(object sender, RoutedEventArgs e)
+        {
+            if (VideoPreview.HasVideo && VideoPreview.IsPlaying)
+            {
+                VideoPreview.Pause();
+                Console.WriteLine("Pausing video.");
+            }
+        }
     }
-
-
-    protected override void OnDropVideo(string filepath)
-    {
-      LBL_File.Content = filelabelprefix + filepath;
-
-      inputFilePath = filepath;
-    }
-
-
-    private void Trim(object sender, RoutedEventArgs e)
-    {
-      
-      string ext = Path.GetExtension(inputFilePath);
-
-      SaveFileDialog saveFileDialog = new SaveFileDialog();
-      saveFileDialog.Filter = "Video file (*" + ext + ")|*" + ext;
-
-      Console.WriteLine("Input file: " + inputFilePath);
-
-      if (saveFileDialog.ShowDialog() == true
-        && !string.IsNullOrEmpty(inputFilePath)
-        && !string.IsNullOrEmpty(saveFileDialog.FileName))
-      {
-        Console.WriteLine("Output file: " + saveFileDialog.FileName);
-        VideoOperations.PerformTrim(
-            this,
-            inputFilePath,
-            saveFileDialog.FileName,
-            start.Text, end.Text);
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      /* if (!String.IsNullOrEmpty(start.Text) && (!String.IsNullOrEmpty(end.Text)))
-      {
-
-          ss = start.Text;
-          t = end.Text;
-
-          Process process = new Process();
-          process.StartInfo.FileName = "ffmpeg.exe";
-          process.StartInfo.UseShellExecute = false;
-          process.StartInfo.RedirectStandardOutput = true;
-          process.StartInfo.CreateNoWindow = true;
-          process.StartInfo.Arguments = "-y -i \""+inputFilePath+"\" -ss "+ ss +" -t "+ t +" OutputVideoFile.mp4";
-          Console.WriteLine("COMMAND: ffmpeg " + process.StartInfo.Arguments);
-          process.Start();
-
-          StreamReader reader = process.StandardOutput;
-          string output = reader.ReadToEnd();
-          Console.WriteLine(output);
-          process.WaitForExit();
-          process.Close();
-      }*/
-    }
-
-
-  }
 }

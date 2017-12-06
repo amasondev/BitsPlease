@@ -17,8 +17,7 @@ namespace Cropper
     /// </summary>
     public partial class CropperMain : VideoDropWindow
     {
-        string filelabelprefix;
-
+        const string titlePrefix = "Cropper";
         string inputFilePath;
 
         public CropperMain()
@@ -26,22 +25,17 @@ namespace Cropper
             InitializeComponent();
 
             Unosquare.FFME.MediaElement.FFmpegDirectory = ".";
-
-            filelabelprefix = LBL_File.Content.ToString();
-
-
+            this.Title = titlePrefix;
         }
 
         protected override void OnDropVideo(string filepath)
         {
-            LBL_File.Content = filelabelprefix + filepath;
-
-            inputFilePath = filepath;
-
             // Open the media in video preview
             try
             {
                 VideoPreview.Source = new Uri(filepath);
+                inputFilePath = filepath;
+                this.Title = titlePrefix + ": " + Path.GetFileName(filepath);
 
                 Console.WriteLine("Set media source to: " + VideoPreview.Source);
             }
@@ -49,7 +43,7 @@ namespace Cropper
             {
                 MessageBox.Show("Failed to open media: " + ex.Message);
                 inputFilePath = "";
-                LBL_File.Content = filelabelprefix;
+                this.Title = titlePrefix;
             }
         }
 
@@ -74,7 +68,7 @@ namespace Cropper
 
             Console.WriteLine("Input file: " + inputFilePath);
 
-            if (saveFileDialog.ShowDialog() == true
+            if (saveFileDialog.ShowDialog(this) ?? false
               && !string.IsNullOrEmpty(inputFilePath)
               && !string.IsNullOrEmpty(saveFileDialog.FileName))
             {
@@ -120,7 +114,8 @@ namespace Cropper
 
         private void ResizeCropControls()
         {
-            if (!VideoPreview.HasVideo) return;
+            if (VideoPreview != null || !VideoPreview.HasVideo) return;
+
             double vidRatio = (double)VideoPreview.NaturalVideoHeight / (double)VideoPreview.NaturalVideoWidth;
             double prevRatio = VideoPreview.ActualHeight / VideoPreview.ActualWidth;
 
@@ -160,6 +155,8 @@ namespace Cropper
             TB_Width.Text = ((int)cropSize.Width).ToString();
             TB_Height.Text = ((int)cropSize.Height).ToString();
         }
+
+
     }
 
 }
