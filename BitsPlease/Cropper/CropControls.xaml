@@ -32,9 +32,9 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Top" Height="5"/>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="-5,-5,-5,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Top" Height="5" StrokeThickness="0"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="-5,-5,-5,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -43,9 +43,9 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Top" Height="5"/>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="0,-5,-5,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Top" Height="5" StrokeThickness="0"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="0,-5,-5,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -54,9 +54,9 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Bottom" Height="5"/>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="-5,5,-5,-5" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Bottom" Height="5" StrokeThickness="0"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="-5,5,-5,-5" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -65,9 +65,9 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Bottom" Height="5"/>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="-5,0,0,-5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Bottom" Height="5" StrokeThickness="0"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="-5,0,0,-5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -76,8 +76,8 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="-5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="-5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -86,8 +86,8 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="0,0,-5,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Right" Width="5" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="0,0,-5,0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -96,8 +96,8 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Top" Height="5" HorizontalAlignment="Stretch" Width="Auto"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="0,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Top" Height="5" HorizontalAlignment="Stretch" Width="Auto" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="0,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
@@ -106,8 +106,8 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="Blue" Margin="0" VerticalAlignment="Bottom" Height="5" HorizontalAlignment="Stretch" Width="Auto"/>
-                            <Rectangle Fill="#FF404040" Stroke="Gray" Width="10" Height="10" Margin="0,0,0,-5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Bottom" Height="5" HorizontalAlignment="Stretch" Width="Auto" StrokeThickness="0"/>
+                            <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="0,0,0,-5" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>
                 </Thumb.Template>
