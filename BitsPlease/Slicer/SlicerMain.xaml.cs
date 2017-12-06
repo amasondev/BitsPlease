@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using BitsPlease;
 using System.IO;
 using Microsoft.Win32;
+using System.Text.RegularExpressions;
 
 namespace Slicer
 {
@@ -52,8 +53,8 @@ namespace Slicer
         {
             if (VideoPreview.HasVideo)
             {
-                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration);
-                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration);
+                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
+                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration.TimeSpan);
             }
         }
 
@@ -109,17 +110,17 @@ namespace Slicer
         {
             if (VideoPreview.HasVideo)
             {
-                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration);
-                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration);
+                TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
+                TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration.TimeSpan);
             }
         }
 
-        private string GetTimecode(double timeValue, Duration duration)
+        private string GetTimecode(double timeValue, TimeSpan timeSpan)
         {
             string ret = "00:00:00";
-            if (duration != null && duration.HasTimeSpan)
+            if (timeSpan != null)
             {
-                Duration adjusted = new Duration(new TimeSpan((long)(duration.TimeSpan.Ticks * timeValue)));
+                Duration adjusted = new Duration(new TimeSpan((long)(timeSpan.Ticks * timeValue)));
                 ret = adjusted.TimeSpan.Hours.ToString("D2");
                 ret += ":" + adjusted.TimeSpan.Minutes.ToString("D2");
                 ret += ":" + adjusted.TimeSpan.Seconds.ToString();
@@ -128,6 +129,11 @@ namespace Slicer
             }
 
             return ret;
+        }
+
+        private double GetTimeValue(TimeSpan current, TimeSpan total)
+        {
+            return (double)current.Ticks / (double)total.Ticks;
         }
 
         private void VideoPreview_RenderingVideo(object sender, Unosquare.FFME.RenderingVideoEventArgs e)
@@ -146,5 +152,59 @@ namespace Slicer
                 VideoPreview.Position = new TimeSpan((long)tick);
             }
         }
+
+        private void ParseTimecodeTB(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            Console.WriteLine("Parsing timecode input: " + tb.Text);
+            
+            string[] input = tb.Text.Split(':');
+            Array.Reverse(input);
+
+            int milliseconds = 0;
+            int minutes = 0;
+            int hours = 0;
+
+            if (input.Length > 0)
+            {
+                double parsedSeconds;
+                if (double.TryParse(input[0], out parsedSeconds))
+                {
+                    milliseconds = (int)(1000 * parsedSeconds);
+                }
+            }
+            if (input.Length > 1)
+            {
+                double parsedMinutes;
+                if (double.TryParse(input[1], out parsedMinutes))
+                    minutes = (int)parsedMinutes;
+            }
+            if (input.Length > 2)
+            {
+                double parsedHours;
+                if (double.TryParse(input[2], out parsedHours))
+                    hours = (int)parsedHours;
+            }
+
+            TimeSpan timeSpan = new TimeSpan(0, hours, minutes, 0, milliseconds);
+            
+            tb.Text = GetTimecode(1.0, timeSpan);
+
+            // Set slider
+            if (VideoPreview.HasVideo)
+            {
+                if (tb == TB_Start) Timeline.LowerValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
+                if (tb == TB_End) Timeline.UpperValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
+            }
+        }
+
+        
+
+        private void ApproveTimecodeInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex approvedChars = new Regex("[0-9:.]+");
+            e.Handled = !approvedChars.IsMatch(e.Text);
+        }
+        
     }
 }

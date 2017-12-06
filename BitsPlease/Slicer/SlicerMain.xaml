@@ -25,8 +25,8 @@
             </MenuItem>
         </Menu>
 
-        <TextBox x:Name="TB_Start" HorizontalAlignment="Left" Margin="10,84,0,0" Text="00:00:00" Width="75" AllowDrop="False" Grid.Row="2" MaxLines="1" Height="23" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_End" Margin="0,84,10,0" Text="00:01:00" AllowDrop="False" Grid.Row="2" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" MaxLines="1"/>
+        <TextBox x:Name="TB_Start" HorizontalAlignment="Left" Margin="10,84,0,0" Text="00:00:00" Width="75" AllowDrop="False" Grid.Row="2" MaxLines="1" Height="23" VerticalAlignment="Top" PreviewTextInput="ApproveTimecodeInput" LostFocus="ParseTimecodeTB"/>
+        <TextBox x:Name="TB_End" Margin="0,84,10,0" Text="00:01:00" AllowDrop="False" Grid.Row="2" Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" MaxLines="1" PreviewTextInput="ApproveTimecodeInput" LostFocus="ParseTimecodeTB"/>
         <Button Content="Slice" Margin="0,0,10,10" Click="Trim" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" Grid.Row="2"/>
         <ffme:MediaElement x:Name="VideoPreview" Margin="10,30,10,1" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" MediaOpened="VideoPreview_MediaOpened" RenderingVideo="VideoPreview_RenderingVideo"/>
         <Grid Margin="0,10" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1">
