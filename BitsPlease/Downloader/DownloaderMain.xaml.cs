@@ -29,7 +29,6 @@ namespace Downloader
         DispatcherTimer urlInputTimer;
         bool isAudioOnly = false;
         OutputOption selectedOutput;
-        string formatCode;
 
         public DownloaderMain()
         {
@@ -58,9 +57,10 @@ namespace Downloader
 
         private bool CanStartProcess(SaveFileDialog saveFileDialog)
         {
-            return saveFileDialog.ShowDialog() ?? false
-               && !String.IsNullOrEmpty(urlInput.Text)
-               && !String.IsNullOrEmpty(saveFileDialog.FileName);
+            bool canShowDialog = saveFileDialog.ShowDialog() ?? false;
+            bool urlInputHasText = !String.IsNullOrEmpty(urlInput.Text);
+            bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
+            return canShowDialog && urlInputHasText && fileNameExists;
         }
 
         private async void DownloadVideoURL(object sender, RoutedEventArgs e)
@@ -76,23 +76,25 @@ namespace Downloader
             saveFileDialog.Filter = GetFileFilter(selected);
 
             if (!CanStartProcess(saveFileDialog)) return;
+
             string arguments = "-f " + selected.FormatCode + " " + urlInput.Text +
                                " -o \"" + saveFileDialog.FileName + "\"";
             ProcessStartInfo info = GetDownloaderStartInfo(arguments);
             Process process = new Process();
             process.StartInfo = info;
+            string fileName = saveFileDialog.SafeFileName;
             DisableUI();
 
             if (process.Start())
             {
-                string fileName = saveFileDialog.SafeFileName;
-                ProgressWindow progressWindow = CreateProgressWindow(fileName);
+                DownloadLauncher launcher = new DownloadLauncher(process, fileName);
 
-                // Parse process output and update progress
                 await Task.Run(() =>
                 {
-                    new Downloader(progressWindow, process).RunDownload();
+                    launcher.RunDownload();
                 });
+
+                launcher.EndDownload();
             }
             else
             { 
@@ -101,14 +103,6 @@ namespace Downloader
             }
 
             EnableUI();
-        }
-
-        private ProgressWindow CreateProgressWindow(string fileName)
-        {
-            string downloadLabel = "Downloading " + fileName;
-            ProgressWindow progressWindow = new ProgressWindow(downloadLabel);
-            progressWindow.Show();
-            return progressWindow;
         }
 
         private ProcessStartInfo GetDownloaderStartInfo(string Arguments)
@@ -167,9 +161,9 @@ namespace Downloader
             urlInputTimer.Stop();
             if (PreScreenedUrl())
             {
-                BUSYdownload.Visibility = Visibility.Visible;
+                EnableBusyIndicator();
                 PopulateOptions();
-                BUSYdownload.Visibility = Visibility.Hidden;
+                DisableBusyIndicator();
             }
         }
 
@@ -274,6 +268,16 @@ namespace Downloader
             return selectedOutput != null;
         }
 
+        private void EnableBusyIndicator()
+        {
+            BUSYdownload.Visibility = Visibility.Visible;
+        }
+
+        private void DisableBusyIndicator()
+        {
+            BUSYdownload.Visibility = Visibility.Hidden;
+        }
+
         private void DisableUI()
         {
             this.IsEnabled = false;
@@ -290,47 +294,36 @@ namespace Downloader
         }
     }
 
-    public class Downloader
+    public class DownloadLauncher
     {
         ProgressWindow progressWindow;
         Process process;
+        bool gotCancel = false;
 
-        public Downloader(ProgressWindow progressWindow, Process process)
+        public DownloadLauncher(Process process, string fileName)
         {
-            this.progressWindow = progressWindow;
+            CreateProgressWindow(fileName);
             this.process = process;
         }
 
         public void RunDownload()
         {
             string line;
-            bool gotCancel = false;
-
-            // Set up progress window cancel
-            progressWindow.OnGetCancel += (s, ee) =>
-            {
-                gotCancel = true;
-                process.Kill();
-            };
-
-            double p = 0;
+            double progressAmount = 0;
             while ((line = process.StandardOutput.ReadLine()) != null)
             {
                 if (gotCancel) break;
-
-                // TODO: Bad parsing but it works for now
-                string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (segments.Length > 2 && segments[1].Contains('%'))
+                string[] segments = GetSegments(line);
+                if (IsPercentageIndicator(segments))
                 {
-                    string percentstr = segments[1].TrimEnd('%');
+                    string percentstr = ParsePercent(segments);
                     double percentdbl;
-                    if (double.TryParse(percentstr
-                      , out percentdbl))
-                        p = percentdbl;
-
+                    if (double.TryParse(percentstr, out percentdbl))
+                    {
+                        progressAmount = percentdbl;
+                    }
                 }
-                if (progressWindow.progress != null)
-                    progressWindow.progress.Report(p);
+                ReportProgress(progressAmount);
 
                 Console.WriteLine("YOUTUBE-DL: " + line);
             }
@@ -339,10 +332,53 @@ namespace Downloader
             {
                 Console.WriteLine("YOUTUBE-DL: " + line);
             }
+        }
 
+        private void CreateProgressWindow(string fileName)
+        {
+            string downloadLabel = "Downloading " + fileName;
+            progressWindow = new ProgressWindow(downloadLabel);
+            progressWindow.Show();
+            SetProgressCancel();
+        }
+
+        private void SetProgressCancel()
+        {
+            progressWindow.OnGetCancel += (s, ee) =>
+            {
+                gotCancel = true;
+                process.Kill();
+            };
+        }
+
+        public void EndDownload()
+        {
             process.WaitForExit();
             process.Close();
             progressWindow.Complete();
+        }
+
+        private void ReportProgress(double progressAmount)
+        {
+            if (progressWindow.progress != null)
+            {
+                progressWindow.progress.Report(progressAmount);
+            }
+        }
+
+        private string[] GetSegments(string line)
+        {
+            return line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private bool IsPercentageIndicator(string[] segments)
+        {
+            return segments.Length > 2 && segments[1].Contains('%');
+        }
+
+        private string ParsePercent(string[] segments)
+        {
+            return segments[1].TrimEnd('%');
         }
     }
 
