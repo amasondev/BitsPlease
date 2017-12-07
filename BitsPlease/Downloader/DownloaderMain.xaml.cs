@@ -28,44 +28,21 @@ namespace Downloader
         private const double URLINPUT_WAIT_TIME = 1000.0f;
         DispatcherTimer urlInputTimer;
         bool isAudioOnly = false;
-        OutputOption selectedOutput;
+        VideoOutput selectedVideo;
+        String[] audioOptions = { "ogg", "wav", "mp3", "aac", "m4a" };
 
         public DownloaderMain()
         {
             InitializeUrlTimer();
             InitializeComponent();
             DisableBusyIndicator();
+            AddAudioOptions();
         }
 
         private void InitializeUrlTimer()
         {
             urlInputTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME) };
             urlInputTimer.Tick += OnURLInputTimerComplete;
-        }
-
-        private OutputOption GetOutputOption()
-        {
-            if (isAudioOnly)
-            {
-                return AudioOutputs.SelectedValue as OutputOption;
-            }
-            else
-            {
-                return VideoOutputs.SelectedValue as OutputOption;
-            }
-        }
-
-        private string GetFileFilter(OutputOption selected)
-        {
-            string extension = "(*." + selected.Extension + ")|*." + selected.Extension;
-            if (isAudioOnly)
-            {
-                return "Audio file " + extension;
-            }
-            else
-            {
-                return "Video file " + extension;
-            }
         }
 
         private void DownloadVideoURL(object sender, RoutedEventArgs e)
@@ -84,17 +61,12 @@ namespace Downloader
 
         private void StartDownloadProcess()
         {
-            OutputOption selected = GetOutputOption();
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = GetFileFilter(selected)
-            };
-
+            SaveFileDialog saveFileDialog = CreateSaveFileDialog();
             if (!CanStartProcess(saveFileDialog)) return;
 
             string safeName = saveFileDialog.SafeFileName;
-            string query = "-f " + selected.FormatCode + " " + urlInput.Text +
-                               " -o \"" + saveFileDialog.FileName + "\"";
+            string fileName = saveFileDialog.FileName;
+            string query = GenerateQuery(fileName);
             Process process = GetProcess(query);
             if (process.Start())
             {
@@ -104,7 +76,59 @@ namespace Downloader
             {
                 MessageBox.Show("There was an error starting youtube-dl.exe");
             }
+        }
 
+        private SaveFileDialog CreateSaveFileDialog()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = GetFileFilter()
+            };
+            return saveFileDialog;
+        }
+
+        private string GenerateQuery(string fileName)
+        {
+            string query;
+            if (isAudioOnly)
+            {
+                string extension = (string)AudioOutputs.SelectedValue;
+                query = "-x --audio-format " + extension + " --audio-quality 0 -i -o " + fileName + extension + " " + urlInput.Text;
+            }
+            else
+            {
+                VideoOutput video = VideoOutputs.SelectedValue as VideoOutput;
+                query = "-f " + video.FormatCode + " " + urlInput.Text +
+                               " -o \"" + fileName + "\"";
+            }
+            return query;
+        }
+
+        private string GetFileFilter()
+        {
+            string fileFilter;
+
+            if (isAudioOnly)
+            {
+                fileFilter = GetAudioFilter();
+            }
+            else
+            {
+                fileFilter = GetVideoFilter();
+            }
+            return fileFilter;
+        }
+
+        private string GetVideoFilter()
+        {
+            VideoOutput video = VideoOutputs.SelectedValue as VideoOutput;
+            return "Video file (*." + video.Extension + ")|*." + video.Extension;
+        }
+
+        private string GetAudioFilter()
+        {
+            string selectedAudio = (string)AudioOutputs.SelectedValue;
+            return "Audio file (*." + selectedAudio + ")|*." + selectedAudio;
         }
 
         private Process GetProcess(string query)
@@ -171,9 +195,7 @@ namespace Downloader
             urlInputTimer.Stop();
             if (PreScreenedUrl())
             {
-                EnableBusyIndicator();
                 PopulateOptions();
-                DisableBusyIndicator();
             }
         }
 
@@ -182,6 +204,7 @@ namespace Downloader
             ProcessFilter processFilter = null;
             string query = "-F " + urlInput.Text;
             ProcessStartInfo info = GetDownloaderStartInfo(query);
+            EnableBusyIndicator();
             await Task.Run(() =>
             {
                 processFilter = new ProcessFilter(info);
@@ -190,15 +213,14 @@ namespace Downloader
             {
                 ClearOptions();
                 AddVideoOptions(processFilter);
-                AddAudioOptions(processFilter);
             }
+            DisableBusyIndicator();
         }
 
         private void ClearOptions()
         {
             VideoOutputs.Items.Clear();
-            AudioOutputs.Items.Clear();
-            selectedOutput = null;
+            selectedVideo = null;
         }
 
         private void AddVideoOptions(ProcessFilter processFilter)
@@ -206,17 +228,16 @@ namespace Downloader
             List<string[]> videoQualityList = processFilter.GetVideoOutputs();
             foreach (string[] qualityOption in videoQualityList)
             {
-                VideoOutputs.Items.Add(new OutputOption(qualityOption));
+                VideoOutputs.Items.Add(new VideoOutput(qualityOption));
             }
             VideoOutputs.SelectedIndex = 0;
         }
 
-        private void AddAudioOptions(ProcessFilter processFilter)
+        private void AddAudioOptions()
         {
-            List<string[]> audioQualityList = processFilter.GetAudioOutputs();
-            foreach (string[] qualityOption in audioQualityList)
+            foreach (string option in audioOptions)
             {
-                AudioOutputs.Items.Add(new OutputOption(qualityOption));
+                AudioOutputs.Items.Add(option);
             }
             AudioOutputs.SelectedIndex = 0;
         }
@@ -248,14 +269,14 @@ namespace Downloader
             bool hasVideoOptions = VideoOutputs.Items.Count > 0;
             if (hasVideoOptions)
             {
-                OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
-                UpdateSelectedOutput(selectedItem, GetVideoLabel());
+                selectedVideo = (VideoOutput)VideoOutputs.SelectedItem;
+                UpdateSelectedOutput(GetVideoLabel());
             }
         }
 
         private string GetVideoLabel()
         {
-            OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
+            VideoOutput selectedItem = (VideoOutput)VideoOutputs.SelectedItem;
             if (selectedItem != null)
             {
                 return "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
@@ -271,21 +292,26 @@ namespace Downloader
             bool hasAudioOptions = AudioOutputs.Items.Count > 0;
             if (hasAudioOptions)
             {
-                OutputOption selectedItem = (OutputOption)AudioOutputs.SelectedItem;
-                string label = "Audio only - " + selectedItem.Bitrate;
-                UpdateSelectedOutput(selectedItem, label);
+                string label = "Audio only - " + AudioOutputs.SelectedItem;
+                UpdateSelectedOutput(label);
             }
         }
 
-        private void UpdateSelectedOutput(OutputOption selectedItem, string label)
+        private void UpdateSelectedOutput(string label)
         {
-            selectedOutput = selectedItem;
             SelectedOutputLabel.Text = "Output: " + label;
         }
 
         private bool IsValidOutput()
         {
-            return selectedOutput != null;
+            if (isAudioOnly)
+            {
+                return AudioOutputs.SelectedItem != null;
+            }
+            else
+            {
+                return selectedVideo != null;
+            }
         }
 
         private void EnableBusyIndicator()
@@ -320,7 +346,6 @@ namespace Downloader
             bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
             return canShowDialog && urlInputHasText && fileNameExists;
         }
-
     }
 
     public class DownloadLauncher
@@ -331,7 +356,7 @@ namespace Downloader
 
         public DownloadLauncher(Process process, string fileName)
         {
-            CreateProgressWindow(fileName);
+            InitializeProgressWindow(fileName);
             this.process = process;
         }
 
@@ -371,7 +396,7 @@ namespace Downloader
             }
         }
 
-        private void CreateProgressWindow(string fileName)
+        private void InitializeProgressWindow(string fileName)
         {
             string downloadLabel = "Downloading " + fileName;
             progressWindow = new ProgressWindow(downloadLabel);
@@ -419,7 +444,7 @@ namespace Downloader
         }
     }
 
-    public class OutputOption
+    public class VideoOutput
     {
         // Binder for XAML
         public string FormatCode { get; set; }
@@ -427,7 +452,7 @@ namespace Downloader
         public string Resolution { get; set; }
         public string Bitrate { get; set; }
 
-        public OutputOption(string[] qualityOption)
+        public VideoOutput(string[] qualityOption)
         {
             FormatCode = qualityOption[0];
             Extension = qualityOption[1];
@@ -458,20 +483,6 @@ namespace Downloader
             foreach (string outputLine in output)
             {
                 if (IsValidVideo(outputLine))
-                {
-                    filtered.Add(FormatDetails(outputLine));
-                }
-            }
-            filtered.Reverse();
-            return filtered;
-        }
-
-        public List<string[]> GetAudioOutputs()
-        {
-            List<string[]> filtered = new List<string[]>();
-            foreach (string outputLine in output)
-            {
-                if (IsValidAudio(outputLine))
                 {
                     filtered.Add(FormatDetails(outputLine));
                 }
