@@ -35,7 +35,7 @@
                 </CheckBox>
                 <Grid x:Name="AudioFormat" Visibility="Hidden">
                     <Label Content="Audio Format:" Foreground="#FF4F4F4F" HorizontalAlignment="Center" Margin="98,0,125,-0.4"/>
-                    <ComboBox x:Name="AudioOutputs" DisplayMemberPath="Bitrate" VerticalAlignment="Center" Width="160" HorizontalAlignment="Right" SelectionChanged="AudioFormatSelector_SelectionChanged"/>
+                    <ComboBox x:Name="AudioOutputs" VerticalAlignment="Center" Width="160" HorizontalAlignment="Right" SelectionChanged="AudioFormatSelector_SelectionChanged"/>
                 </Grid>
             </Grid>
             <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
