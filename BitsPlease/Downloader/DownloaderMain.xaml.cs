@@ -92,8 +92,8 @@ namespace Downloader
             string query;
             if (isAudioOnly)
             {
-                string selectedAudio = (string)AudioOutputs.SelectedValue;
-                query = "--extract-audio --audio-format " + selectedAudio + " --audio-quality 0 " + urlInput.Text;
+                string extension = (string)AudioOutputs.SelectedValue;
+                query = "-x --audio-format " + extension + " --audio-quality 0 -i -o " + fileName + extension + " " + urlInput.Text;
             }
             else
             {
