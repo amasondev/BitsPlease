@@ -27,9 +27,9 @@ namespace Downloader
     {
         private const double URLINPUT_WAIT_TIME = 1000.0f;
         DispatcherTimer urlInputTimer;
-
-        StringDictionary Outputs = new StringDictionary();
-        string FormatCode; // This should get checked for validity if the URL changes.
+        bool isAudioOnly = false;
+        OutputOption selectedOutput;
+        string formatCode;
 
         public DownloaderMain()
         {
@@ -39,92 +39,77 @@ namespace Downloader
             BUSYdownload.Visibility = Visibility.Hidden;
         }
 
+        private OutputOption GetOutputOption()
+        {
+            if (isAudioOnly)
+            {
+                return AudioFormatSelector.SelectedValue as OutputOption;
+            }
+            else
+            {
+                return VideoOutputs.SelectedValue as OutputOption;
+            }
+        }
+
+        private string GetFileFilter(OutputOption selected)
+        {
+            return "Video file (*." + selected.Extension + ")|*." + selected.Extension;
+        }
+
+        private bool CanStartProcess(SaveFileDialog saveFileDialog)
+        {
+            return saveFileDialog.ShowDialog() ?? false
+               && !String.IsNullOrEmpty(urlInput.Text)
+               && !String.IsNullOrEmpty(saveFileDialog.FileName);
+        }
+
         private async void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
-            if (VideoOutputs.SelectedValue == null)
+            if (!IsValidOutput())
             {
                 MessageBox.Show("Please select a quality option.");
                 return;
             }
             // TODO: Get file extension properly
-            OutputOption selected = VideoOutputs.SelectedValue as OutputOption;
+            OutputOption selected = GetOutputOption();
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Video file (*." + selected.Extension + ")|*." + selected.Extension;
+            saveFileDialog.Filter = GetFileFilter(selected);
 
-            if (saveFileDialog.ShowDialog() ?? false
-               && !String.IsNullOrEmpty(urlInput.Text)
-               && !String.IsNullOrEmpty(saveFileDialog.FileName))
+            if (!CanStartProcess(saveFileDialog)) return;
+            string arguments = "-f " + selected.FormatCode + " " + urlInput.Text +
+                               " -o \"" + saveFileDialog.FileName + "\"";
+            ProcessStartInfo info = GetDownloaderStartInfo(arguments);
+            Process process = new Process();
+            process.StartInfo = info;
+            DisableUI();
+
+            if (process.Start())
             {
-                ProcessStartInfo info = GetDownloaderStartInfo(
-                    "-f " + selected.FormatCode.ToString() + " " +
-                    urlInput.Text +
-                    " -o \"" + saveFileDialog.FileName + "\"");
-
-                // Begin downloading
-                // Disable controls
-                this.IsEnabled = false;
-                Process process = new Process();
-                process.StartInfo = info;
-
-                // Start process
-                if (!process.Start())
-                {
-                    MessageBox.Show("There was an error starting youtube-dl.exe");
-                    return;
-                }
-
-                // Create a progress window
-                ProgressWindow progressWindow = new ProgressWindow("Downloading " + saveFileDialog.SafeFileName);
-                progressWindow.Show();
+                string fileName = saveFileDialog.SafeFileName;
+                ProgressWindow progressWindow = CreateProgressWindow(fileName);
 
                 // Parse process output and update progress
                 await Task.Run(() =>
                 {
-                    string line;
-                    bool gotCancel = false;
-
-                    // Set up progress window cancel
-                    progressWindow.OnGetCancel += (s, ee) =>
-                    {
-                        gotCancel = true;
-                        process.Kill();
-                    };
-
-                    double p = 0;
-                    while ((line = process.StandardOutput.ReadLine()) != null)
-                    {
-                        if (gotCancel) break;
-
-                        // TODO: Bad parsing but it works for now
-                        string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (segments.Length > 2 && segments[1].Contains('%'))
-                        {
-                            string percentstr = segments[1].TrimEnd('%');
-                            double percentdbl;
-                            if (double.TryParse(percentstr
-                              , out percentdbl))
-                                p = percentdbl;
-
-                        }
-                        if (progressWindow.progress != null)
-                            progressWindow.progress.Report(p);
-
-                        Console.WriteLine("YOUTUBE-DL: " + line);
-                    }
-
-                    while ((line = process.StandardError.ReadLine()) != null)
-                    {
-                        Console.WriteLine("YOUTUBE-DL: " + line);
-                    }
+                    new Downloader(progressWindow, process).RunDownload();
                 });
-
-                process.WaitForExit();
-                process.Close();
-                progressWindow.Complete();
-                this.IsEnabled = true;
             }
+            else
+            { 
+                MessageBox.Show("There was an error starting youtube-dl.exe");
+                return;
+            }
+
+            EnableUI();
         }
 
+        private ProgressWindow CreateProgressWindow(string fileName)
+        {
+            string downloadLabel = "Downloading " + fileName;
+            ProgressWindow progressWindow = new ProgressWindow(downloadLabel);
+            progressWindow.Show();
+            return progressWindow;
+        }
 
         private ProcessStartInfo GetDownloaderStartInfo(string Arguments)
         {
@@ -142,8 +127,8 @@ namespace Downloader
 
         private void SetAudioOnly(object sender, RoutedEventArgs e)
         {
-            bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
-            if (IsAudioOnly)
+            isAudioOnly = AudioOnlyBox.IsChecked ?? false;
+            if (isAudioOnly)
             {
                 DisableVideoQuality();
                 EnableAudioQuality();
@@ -177,15 +162,20 @@ namespace Downloader
             UpdateAudioSelection();
         }
 
-        private async void OnURLInputTimerComplete(object sender, EventArgs e)
+        private void OnURLInputTimerComplete(object sender, EventArgs e)
         {
             urlInputTimer.Stop();
-            if (string.IsNullOrEmpty(urlInput.Text)) return;
+            if (PreScreenedUrl())
+            {
+                BUSYdownload.Visibility = Visibility.Visible;
+                PopulateOptions();
+                BUSYdownload.Visibility = Visibility.Hidden;
+            }
+        }
 
-            // Enable busy throbber
-            BUSYdownload.Visibility = Visibility.Visible;
+        private async void PopulateOptions()
+        {
             ProcessFilter processFilter = null;
-
             string query = "-F " + urlInput.Text;
             ProcessStartInfo info = GetDownloaderStartInfo(query);
             await Task.Run(() =>
@@ -196,14 +186,12 @@ namespace Downloader
             {
                 VideoOutputs.Items.Clear();
                 AudioFormatSelector.Items.Clear();
-                addVideoOptions(processFilter);
-                addAudioOptions(processFilter);
+                AddVideoOptions(processFilter);
+                AddAudioOptions(processFilter);
             }
-            // Hide busy throbber
-            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
-        private void addVideoOptions(ProcessFilter processFilter)
+        private void AddVideoOptions(ProcessFilter processFilter)
         {
             List<string[]> videoQualityList = processFilter.GetVideoOutputs();
             foreach (string[] qualityOption in videoQualityList)
@@ -212,7 +200,7 @@ namespace Downloader
             }
         }
 
-        private void addAudioOptions(ProcessFilter processFilter)
+        private void AddAudioOptions(ProcessFilter processFilter)
         {
             List<string[]> audioQualityList = processFilter.GetAudioOutputs();
             foreach (string[] qualityOption in audioQualityList)
@@ -230,8 +218,7 @@ namespace Downloader
 
         private void VideoOutputs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
-            if (!IsAudioOnly)
+            if (!isAudioOnly)
             {
                 UpdateVideoSelection();
             }
@@ -239,8 +226,7 @@ namespace Downloader
 
         private void AudioFormatSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bool IsAudioOnly = AudioOnlyBox.IsChecked ?? false;
-            if (IsAudioOnly)
+            if (isAudioOnly)
             {
                 UpdateAudioSelection();
             }
@@ -249,7 +235,6 @@ namespace Downloader
         private void UpdateVideoSelection()
         {
             bool hasVideoOptions = VideoOutputs.Items.Count > 0;
-            string selectedFormat;
             string label;
             if (hasVideoOptions)
             {
@@ -257,15 +242,13 @@ namespace Downloader
 
                 if (selectedItem != null)
                 {
-                    selectedFormat = selectedItem.FormatCode;
                     label = "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
+                    UpdateSelectedOutput(selectedItem, label);
                 }
                 else
                 {
-                    selectedFormat = "-1";
                     label = "";
                 }
-                UpdateSelectedOutput(selectedFormat, label);
             }
         }
 
@@ -275,16 +258,91 @@ namespace Downloader
             if (hasAudioOptions)
             {
                 OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
-                string selectedFormat = selectedItem.FormatCode;
                 string label = "Audio only - " + selectedItem.Bitrate;
-                UpdateSelectedOutput(selectedFormat, label);
+                UpdateSelectedOutput(selectedItem, label);
             }
         }
 
-        private void UpdateSelectedOutput(string formatCode, string label)
+        private void UpdateSelectedOutput(OutputOption selectedItem, string label)
         {
-            FormatCode = formatCode;
+            selectedOutput = selectedItem;
             SelectedOutputLabel.Text = "Output: " + label;
+        }
+
+        private bool IsValidOutput()
+        {
+            return selectedOutput != null;
+        }
+
+        private void DisableUI()
+        {
+            this.IsEnabled = false;
+        }
+
+        private void EnableUI()
+        {
+            this.IsEnabled = true;
+        }
+
+        private bool PreScreenedUrl()
+        {
+            return !string.IsNullOrEmpty(urlInput.Text);
+        }
+    }
+
+    public class Downloader
+    {
+        ProgressWindow progressWindow;
+        Process process;
+
+        public Downloader(ProgressWindow progressWindow, Process process)
+        {
+            this.progressWindow = progressWindow;
+            this.process = process;
+        }
+
+        public void RunDownload()
+        {
+            string line;
+            bool gotCancel = false;
+
+            // Set up progress window cancel
+            progressWindow.OnGetCancel += (s, ee) =>
+            {
+                gotCancel = true;
+                process.Kill();
+            };
+
+            double p = 0;
+            while ((line = process.StandardOutput.ReadLine()) != null)
+            {
+                if (gotCancel) break;
+
+                // TODO: Bad parsing but it works for now
+                string[] segments = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (segments.Length > 2 && segments[1].Contains('%'))
+                {
+                    string percentstr = segments[1].TrimEnd('%');
+                    double percentdbl;
+                    if (double.TryParse(percentstr
+                      , out percentdbl))
+                        p = percentdbl;
+
+                }
+                if (progressWindow.progress != null)
+                    progressWindow.progress.Report(p);
+
+                Console.WriteLine("YOUTUBE-DL: " + line);
+            }
+
+            while ((line = process.StandardError.ReadLine()) != null)
+            {
+                Console.WriteLine("YOUTUBE-DL: " + line);
+            }
+
+            process.WaitForExit();
+            process.Close();
+            progressWindow.Complete();
         }
     }
 
