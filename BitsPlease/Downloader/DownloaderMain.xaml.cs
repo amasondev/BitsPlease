@@ -304,7 +304,14 @@ namespace Downloader
 
         private bool IsValidOutput()
         {
-            return selectedVideo != null;
+            if (isAudioOnly)
+            {
+                return AudioOutputs.SelectedItem != null;
+            }
+            else
+            {
+                return selectedVideo != null;
+            }
         }
 
         private void EnableBusyIndicator()
