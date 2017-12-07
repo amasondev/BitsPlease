@@ -49,14 +49,14 @@
             </ListView>
             <TextBlock Name="SelectedOutputLabel" Margin="0,10,0,15" Text="Output:" Foreground="Black" />
             <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                <Button Margin="0,10,10,10" VerticalAlignment="Center" Click="DownloadVideoURL" HorizontalAlignment="Center" Width="70" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
-                    <StackPanel>
-                        <Canvas x:Name="Layer_1" Width="29.5989" Height="26.7807" Canvas.Left="0" Canvas.Top="0">
-                            <Path x:Name="Path" Width="27.6256" Height="8.03676" Canvas.Left="0" Canvas.Top="16.7602" Stretch="Fill" Fill="#FF34E767" Data="F1 M 0,16.7617L 1.19209e-007,24.7969L 27.6256,24.7969L 27.6256,16.7962L 24.6034,16.7962L 24.6034,21.8916L 3.12462,21.8916L 3.12462,16.7602L 0,16.7617 Z "/>
-                            <Path x:Name="Path_0" Width="11.8499" Height="18.727" Canvas.Left="8.05928" Canvas.Top="-6.55651e-007" Stretch="Fill" Fill="#FF34E767" Data="F1 M 12.125,-6.55651e-007L 15.7814,-6.55651e-007L 15.7814,13.5325L 19.9092,13.5325L 13.9684,18.727L 8.05928,13.5992L 12.1169,13.5992L 12.125,-6.55651e-007 Z "/>
+                <Button VerticalAlignment="Center" Click="DownloadVideoURL" HorizontalAlignment="Center" Height="60" Background="#00000000" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="{x:Null}">
+                    <Grid Width="120">
+                        <Canvas HorizontalAlignment="Left" x:Name="Layer_1" Height="26.7807" Canvas.Left="0" Canvas.Top="0">
+                            <Path x:Name="Path" Width="30.6256" Height="8.03676" Canvas.Left="0" Canvas.Top="16.7602" Stretch="Fill" Fill="#FF17D94E" Data="F1 M 0,16.7617L 1.19209e-007,24.7969L 27.6256,24.7969L 27.6256,16.7962L 24.6034,16.7962L 24.6034,21.8916L 3.12462,21.8916L 3.12462,16.7602L 0,16.7617 Z "/>
+                            <Path x:Name="Path_0" Width="13.8499" Height="18.727" Canvas.Left="8.05928" Canvas.Top="-6.55651e-007" Stretch="Fill" Fill="#FF17D94E" Data="F1 M 12.125,-6.55651e-007L 15.7814,-6.55651e-007L 15.7814,13.5325L 19.9092,13.5325L 13.9684,18.727L 8.05928,13.5992L 12.1169,13.5992L 12.125,-6.55651e-007 Z "/>
                         </Canvas>
-                        <Label Content="Download" Foreground="#FF5BE27A"/>
-                    </StackPanel>
+                        <Label HorizontalAlignment="Right" Content="Download" Foreground="#FF34D364" FontSize="16"/>
+                    </Grid>
                 </Button>
             </StackPanel>
             <Button Name="BackButton" Content="&lt; Back to Suite" HorizontalAlignment="Left" Margin="0, 40" Height="32" Width="110"/>
