@@ -122,13 +122,13 @@ namespace Downloader
         private string GetVideoFilter()
         {
             VideoOutput video = VideoOutputs.SelectedValue as VideoOutput;
-            return "(*." + video.Extension + ")|*." + video.Extension;
+            return "Video file (*." + video.Extension + ")|*." + video.Extension;
         }
 
         private string GetAudioFilter()
         {
             string selectedAudio = (string)AudioOutputs.SelectedValue;
-            return "(*." + selectedAudio + ")|*." + selectedAudio;
+            return "Audio file (*." + selectedAudio + ")|*." + selectedAudio;
         }
 
         private Process GetProcess(string query)
