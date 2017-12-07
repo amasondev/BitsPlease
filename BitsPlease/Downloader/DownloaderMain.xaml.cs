@@ -47,7 +47,7 @@ namespace Downloader
         {
             if (isAudioOnly)
             {
-                return AudioFormatSelector.SelectedValue as OutputOption;
+                return AudioOutputs.SelectedValue as OutputOption;
             }
             else
             {
@@ -68,42 +68,43 @@ namespace Downloader
             }
         }
 
-        private bool CanStartProcess(SaveFileDialog saveFileDialog)
-        {
-            bool canShowDialog = saveFileDialog.ShowDialog() ?? false;
-            bool urlInputHasText = !String.IsNullOrEmpty(urlInput.Text);
-            bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
-            return canShowDialog && urlInputHasText && fileNameExists;
-        }
-
         private void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
-            if (!IsValidOutput())
+            if (IsValidOutput())
+            {
+                DisableUI();
+                StartDownloadProcess();
+                EnableUI();
+            }
+            else
             {
                 MessageBox.Show("Please select a quality option.");
-                return;
             }
+        }
+
+        private void StartDownloadProcess()
+        {
             OutputOption selected = GetOutputOption();
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = GetFileFilter(selected);
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = GetFileFilter(selected)
+            };
 
             if (!CanStartProcess(saveFileDialog)) return;
 
             string safeName = saveFileDialog.SafeFileName;
             string query = "-f " + selected.FormatCode + " " + urlInput.Text +
                                " -o \"" + saveFileDialog.FileName + "\"";
-
-            DisableUI();
             Process process = GetProcess(query);
             if (process.Start())
             {
                 new DownloadLauncher(process, safeName).Run();
             }
             else
-            { 
+            {
                 MessageBox.Show("There was an error starting youtube-dl.exe");
             }
-            EnableUI();
+
         }
 
         private Process GetProcess(string query)
@@ -196,7 +197,8 @@ namespace Downloader
         private void ClearOptions()
         {
             VideoOutputs.Items.Clear();
-            AudioFormatSelector.Items.Clear();
+            AudioOutputs.Items.Clear();
+            selectedOutput = null;
         }
 
         private void AddVideoOptions(ProcessFilter processFilter)
@@ -206,6 +208,7 @@ namespace Downloader
             {
                 VideoOutputs.Items.Add(new OutputOption(qualityOption));
             }
+            VideoOutputs.SelectedIndex = 0;
         }
 
         private void AddAudioOptions(ProcessFilter processFilter)
@@ -213,9 +216,9 @@ namespace Downloader
             List<string[]> audioQualityList = processFilter.GetAudioOutputs();
             foreach (string[] qualityOption in audioQualityList)
             {
-                AudioFormatSelector.Items.Add(new OutputOption(qualityOption));
+                AudioOutputs.Items.Add(new OutputOption(qualityOption));
             }
-            AudioFormatSelector.SelectedIndex = 0;
+            AudioOutputs.SelectedIndex = 0;
         }
 
         private void On_URLTextInput(object sender, TextChangedEventArgs e)
@@ -265,10 +268,10 @@ namespace Downloader
 
         private void UpdateAudioSelection()
         {
-            bool hasAudioOptions = AudioFormatSelector.Items.Count > 0;
+            bool hasAudioOptions = AudioOutputs.Items.Count > 0;
             if (hasAudioOptions)
             {
-                OutputOption selectedItem = (OutputOption)AudioFormatSelector.SelectedItem;
+                OutputOption selectedItem = (OutputOption)AudioOutputs.SelectedItem;
                 string label = "Audio only - " + selectedItem.Bitrate;
                 UpdateSelectedOutput(selectedItem, label);
             }
@@ -309,6 +312,15 @@ namespace Downloader
         {
             return !string.IsNullOrEmpty(urlInput.Text);
         }
+
+        private bool CanStartProcess(SaveFileDialog saveFileDialog)
+        {
+            bool canShowDialog = saveFileDialog.ShowDialog() ?? false;
+            bool urlInputHasText = !String.IsNullOrEmpty(urlInput.Text);
+            bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
+            return canShowDialog && urlInputHasText && fileNameExists;
+        }
+
     }
 
     public class DownloadLauncher
