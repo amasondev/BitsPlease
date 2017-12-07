@@ -32,10 +32,15 @@ namespace Downloader
 
         public DownloaderMain()
         {
+            InitializeUrlTimer();
+            InitializeComponent();
+            DisableBusyIndicator();
+        }
+
+        private void InitializeUrlTimer()
+        {
             urlInputTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(URLINPUT_WAIT_TIME) };
             urlInputTimer.Tick += OnURLInputTimerComplete;
-            InitializeComponent();
-            BUSYdownload.Visibility = Visibility.Hidden;
         }
 
         private OutputOption GetOutputOption()
@@ -52,7 +57,15 @@ namespace Downloader
 
         private string GetFileFilter(OutputOption selected)
         {
-            return "Video file (*." + selected.Extension + ")|*." + selected.Extension;
+            string extension = "(*." + selected.Extension + ")|*." + selected.Extension;
+            if (isAudioOnly)
+            {
+                return "Audio file " + extension;
+            }
+            else
+            {
+                return "Video file " + extension;
+            }
         }
 
         private bool CanStartProcess(SaveFileDialog saveFileDialog)
@@ -63,49 +76,45 @@ namespace Downloader
             return canShowDialog && urlInputHasText && fileNameExists;
         }
 
-        private async void DownloadVideoURL(object sender, RoutedEventArgs e)
+        private void DownloadVideoURL(object sender, RoutedEventArgs e)
         {
             if (!IsValidOutput())
             {
                 MessageBox.Show("Please select a quality option.");
                 return;
             }
-            // TODO: Get file extension properly
             OutputOption selected = GetOutputOption();
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = GetFileFilter(selected);
 
             if (!CanStartProcess(saveFileDialog)) return;
 
-            string arguments = "-f " + selected.FormatCode + " " + urlInput.Text +
+            string safeName = saveFileDialog.SafeFileName;
+            string query = "-f " + selected.FormatCode + " " + urlInput.Text +
                                " -o \"" + saveFileDialog.FileName + "\"";
-            ProcessStartInfo info = GetDownloaderStartInfo(arguments);
-            Process process = new Process();
-            process.StartInfo = info;
-            string fileName = saveFileDialog.SafeFileName;
-            DisableUI();
 
+            DisableUI();
+            Process process = GetProcess(query);
             if (process.Start())
             {
-                DownloadLauncher launcher = new DownloadLauncher(process, fileName);
-
-                await Task.Run(() =>
-                {
-                    launcher.RunDownload();
-                });
-
-                launcher.EndDownload();
+                new DownloadLauncher(process, safeName).Run();
             }
             else
             { 
                 MessageBox.Show("There was an error starting youtube-dl.exe");
-                return;
             }
-
             EnableUI();
         }
 
-        private ProcessStartInfo GetDownloaderStartInfo(string Arguments)
+        private Process GetProcess(string query)
+        {
+            ProcessStartInfo info = GetDownloaderStartInfo(query);
+            Process process = new Process();
+            process.StartInfo = info;
+            return process;
+        }
+
+        private ProcessStartInfo GetDownloaderStartInfo(string query)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo("youtube-dl.exe")
             {
@@ -113,7 +122,7 @@ namespace Downloader
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                Arguments = Arguments
+                Arguments = query
             };
 
             return startInfo;
@@ -178,11 +187,16 @@ namespace Downloader
             });
             if (processFilter != null)
             {
-                VideoOutputs.Items.Clear();
-                AudioFormatSelector.Items.Clear();
+                ClearOptions();
                 AddVideoOptions(processFilter);
                 AddAudioOptions(processFilter);
             }
+        }
+
+        private void ClearOptions()
+        {
+            VideoOutputs.Items.Clear();
+            AudioFormatSelector.Items.Clear();
         }
 
         private void AddVideoOptions(ProcessFilter processFilter)
@@ -229,20 +243,23 @@ namespace Downloader
         private void UpdateVideoSelection()
         {
             bool hasVideoOptions = VideoOutputs.Items.Count > 0;
-            string label;
             if (hasVideoOptions)
             {
                 OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
+                UpdateSelectedOutput(selectedItem, GetVideoLabel());
+            }
+        }
 
-                if (selectedItem != null)
-                {
-                    label = "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
-                    UpdateSelectedOutput(selectedItem, label);
-                }
-                else
-                {
-                    label = "";
-                }
+        private string GetVideoLabel()
+        {
+            OutputOption selectedItem = (OutputOption)VideoOutputs.SelectedItem;
+            if (selectedItem != null)
+            {
+                return "Video - " + selectedItem.Extension + ", " + selectedItem.Resolution;
+            }
+            else
+            {
+                return "";
             }
         }
 
@@ -306,7 +323,16 @@ namespace Downloader
             this.process = process;
         }
 
-        public void RunDownload()
+        public async void Run()
+        {
+            await Task.Run(() =>
+            {
+                RunDownload();
+            });
+            EndDownload();
+        }
+
+        private void RunDownload()
         {
             string line;
             double progressAmount = 0;
@@ -324,7 +350,6 @@ namespace Downloader
                     }
                 }
                 ReportProgress(progressAmount);
-
                 Console.WriteLine("YOUTUBE-DL: " + line);
             }
 
@@ -351,7 +376,7 @@ namespace Downloader
             };
         }
 
-        public void EndDownload()
+        private void EndDownload()
         {
             process.WaitForExit();
             process.Close();
@@ -412,6 +437,7 @@ namespace Downloader
             process.Start();
             process.BeginOutputReadLine();
             process.WaitForExit();
+            process.Close();
         }
 
         public List<string[]> GetVideoOutputs()
