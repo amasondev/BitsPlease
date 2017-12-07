@@ -195,9 +195,7 @@ namespace Downloader
             urlInputTimer.Stop();
             if (PreScreenedUrl())
             {
-                EnableBusyIndicator();
                 PopulateOptions();
-                DisableBusyIndicator();
             }
         }
 
@@ -206,6 +204,7 @@ namespace Downloader
             ProcessFilter processFilter = null;
             string query = "-F " + urlInput.Text;
             ProcessStartInfo info = GetDownloaderStartInfo(query);
+            EnableBusyIndicator();
             await Task.Run(() =>
             {
                 processFilter = new ProcessFilter(info);
@@ -215,6 +214,7 @@ namespace Downloader
                 ClearOptions();
                 AddVideoOptions(processFilter);
             }
+            DisableBusyIndicator();
         }
 
         private void ClearOptions()
