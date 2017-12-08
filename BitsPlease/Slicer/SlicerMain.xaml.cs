@@ -9,6 +9,7 @@ using BitsPlease;
 using System.IO;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace Slicer
 {
@@ -105,9 +106,20 @@ namespace Slicer
         {
             if (VideoPreview.HasVideo)
             {
+                PlayingIconColour();
                 VideoPreview.Play();
                 Console.WriteLine("Playing video.");
             }
+        }
+
+        private void PlayingIconColour()
+        {
+            PlayIcon.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF17D94E"));
+        }
+
+        private void PausingIconColour()
+        {
+            PlayIcon.Fill = new SolidColorBrush(Color.FromRgb(0,0,0));
         }
 
         private void PauseVideo()
@@ -116,6 +128,7 @@ namespace Slicer
             {
                 VideoPreview.Pause();
                 Console.WriteLine("Pausing video.");
+                PausingIconColour();
             }
         }
 
