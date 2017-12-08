@@ -100,6 +100,7 @@ namespace Slicer
         {
             wasPlaying = false;
             PauseVideo();
+            PausingIconColour();
         }
 
         private void PlayVideo()
@@ -128,7 +129,6 @@ namespace Slicer
             {
                 VideoPreview.Pause();
                 Console.WriteLine("Pausing video.");
-                PausingIconColour();
             }
         }
 
