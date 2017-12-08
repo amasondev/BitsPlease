@@ -156,7 +156,7 @@ namespace Slicer
             Timeline.Playhead = playpoint;
         }
 
-        private void Timeline_PlayheadMoving(object sender, RoutedEventArgs e)
+        private void Timeline_PlayheadDragging(object sender, RoutedEventArgs e)
         {
             PauseVideo();
         }
@@ -167,11 +167,24 @@ namespace Slicer
             {
                 // TODO: Better math on this? Doubles to long
                 double tick = VideoPreview.NaturalDuration.TimeSpan.Ticks * Timeline.Playhead;
-                VideoPreview.Position = new TimeSpan((long)tick);
+                TimeSpan timeSpan = new TimeSpan((long)tick);
+                VideoPreview.Position = timeSpan;
             }
             if (wasPlaying)
             {
                 PlayVideo();
+            }
+        }
+
+        private void UpdateSeekTime(object sender, RoutedEventArgs e)
+        {
+            if (VideoPreview.HasVideo)
+            {
+                double tick = VideoPreview.NaturalDuration.TimeSpan.Ticks * Timeline.Playhead;
+                TimeSpan timeSpan = new TimeSpan((long)tick);
+                double timeValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
+                string timeCode = GetTimecode(timeValue, timeSpan);
+                SeekTime.Text = timeCode;
             }
         }
 
