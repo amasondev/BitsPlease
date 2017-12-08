@@ -41,7 +41,6 @@ namespace Slicer
                 this.Title = titlePrefix + ": " + Path.GetFileName(filepath);
                 GetStartedLabel.Visibility = Visibility.Hidden;
                 Console.WriteLine("Set media source to: " + VideoPreview.Source);
-                AdjustVolume();
             }
             catch (Exception ex)
             {
@@ -58,6 +57,7 @@ namespace Slicer
                 TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
                 TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration.TimeSpan);
                 UpdateDuration();
+                AdjustVolume();
             }
         }
 
