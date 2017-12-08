@@ -54,6 +54,7 @@ namespace Slicer
             {
                 TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
                 TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration.TimeSpan);
+                UpdateDuration();
             }
         }
 
@@ -124,6 +125,7 @@ namespace Slicer
             {
                 TB_Start.Text = GetTimecode(Timeline.LowerValue, VideoPreview.NaturalDuration.TimeSpan);
                 TB_End.Text = GetTimecode(Timeline.UpperValue, VideoPreview.NaturalDuration.TimeSpan);
+                UpdateDuration();
             }
         }
 
@@ -183,6 +185,13 @@ namespace Slicer
                 TimeSpan timeSpan = new TimeSpan((long)tick);
                 SeekTime.Text = timeSpan.ToString();
             }
+        }
+
+        private void UpdateDuration()
+        {
+            double timeDifference = Timeline.UpperValue - Timeline.LowerValue;
+            string timeCode = GetTimecode(timeDifference, VideoPreview.NaturalDuration.TimeSpan);
+            Duration.Text = timeCode;
         }
 
         private void ParseTimecodeTB(object sender, RoutedEventArgs e)
