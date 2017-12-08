@@ -40,6 +40,7 @@
         <Grid Margin="10,38,10,126">
             <ffme:MediaElement x:Name="VideoPreview" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" SizeChanged="VideoDropWindow_SizeChanged" MediaOpened="VideoPreview_MediaOpened"/>
             <local:CropControls x:Name="CROPCONTROL" Margin="0" Loaded="CROPCONTROL_Loaded" CropModified="OnCropModified"/>
+            <TextBlock x:Name="GetStartedLabel" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="Drag a video here to get started" Foreground="White" FontSize="16"/>
         </Grid>
         <Menu x:Name="MENU" VerticalAlignment="Top" Height="20" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
             <MenuItem Header="File">
