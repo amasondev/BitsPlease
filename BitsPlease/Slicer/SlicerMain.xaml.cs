@@ -22,6 +22,7 @@ namespace Slicer
         const string titlePrefix = "Slicer";
         string inputFilePath;
         bool wasPlaying = false;
+        bool isAudioMuted = false;
 
         public SlicerMain()
         {
@@ -273,6 +274,23 @@ namespace Slicer
         {
             double volumeValue = VolumeControl.Value / 10;
             VideoPreview.Volume = volumeValue;
+        }
+
+        private void Toggle_Mute(object sender, RoutedEventArgs e)
+        {
+            isAudioMuted = !isAudioMuted;
+            if (isAudioMuted)
+            {
+                VideoPreview.Volume = 0;
+                SoundButton.Visibility = Visibility.Hidden;
+                MuteButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AdjustVolume();
+                SoundButton.Visibility = Visibility.Visible;
+                MuteButton.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
