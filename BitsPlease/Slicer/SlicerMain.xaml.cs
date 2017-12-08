@@ -37,7 +37,7 @@ namespace Slicer
                 VideoPreview.Source = new Uri(filepath);
                 inputFilePath = filepath;
                 this.Title = titlePrefix + ": " + Path.GetFileName(filepath);
-
+                GetStartedLabel.Visibility = Visibility.Hidden;
                 Console.WriteLine("Set media source to: " + VideoPreview.Source);
             }
             catch (Exception ex)
