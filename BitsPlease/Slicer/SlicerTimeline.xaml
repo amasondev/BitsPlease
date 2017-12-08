@@ -85,7 +85,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
+        <Grid Height="38" Grid.Row="1">
             <Rectangle Height="20" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
         </Grid>
         <Slider x:Name="PlayheadSlider"
