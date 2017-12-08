@@ -20,6 +20,7 @@ namespace Cropper
     {
         const string titlePrefix = "Cropper";
         string inputFilePath;
+        bool isAudioMuted = false;
 
         public CropperMain()
         {
@@ -151,6 +152,7 @@ namespace Cropper
         private void VideoPreview_MediaOpened(object sender, RoutedEventArgs e)
         {
             ResizeCropControls();
+            AdjustVolume();
         }
 
         private void CROPCONTROL_Loaded(object sender, RoutedEventArgs e)
@@ -169,6 +171,33 @@ namespace Cropper
             TB_Height.Text = ((int)cropSize.Height).ToString();
         }
 
+        private void VolumeControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            AdjustVolume();
+        }
+
+        private void AdjustVolume()
+        {
+            double volumeValue = VolumeControl.Value / 10;
+            VideoPreview.Volume = volumeValue;
+        }
+
+        private void Toggle_Mute(object sender, RoutedEventArgs e)
+        {
+            isAudioMuted = !isAudioMuted;
+            if (isAudioMuted)
+            {
+                VideoPreview.Volume = 0;
+                SoundButton.Visibility = Visibility.Hidden;
+                MuteButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AdjustVolume();
+                SoundButton.Visibility = Visibility.Visible;
+                MuteButton.Visibility = Visibility.Hidden;
+            }
+        }
 
     }
 
