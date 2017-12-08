@@ -20,7 +20,7 @@ namespace Slicer
         //public string FileLocation {get; set;}
         const string titlePrefix = "Slicer";
         string inputFilePath;
-
+        bool wasPlaying = false;
 
         public SlicerMain()
         {
@@ -87,11 +87,21 @@ namespace Slicer
                     saveFileDialog.FileName,
                     start, duration);
             }
-
-
         }
 
         private void BTN_Play_Click(object sender, RoutedEventArgs e)
+        {
+            wasPlaying = true;
+            PlayVideo();
+        }
+
+        private void BTN_Pause_Click(object sender, RoutedEventArgs e)
+        {
+            wasPlaying = false;
+            PauseVideo();
+        }
+
+        private void PlayVideo()
         {
             if (VideoPreview.HasVideo)
             {
@@ -100,7 +110,7 @@ namespace Slicer
             }
         }
 
-        private void BTN_Pause_Click(object sender, RoutedEventArgs e)
+        private void PauseVideo()
         {
             if (VideoPreview.HasVideo && VideoPreview.IsPlaying)
             {
@@ -146,6 +156,11 @@ namespace Slicer
             Timeline.Playhead = playpoint;
         }
 
+        private void Timeline_PlayheadMoving(object sender, RoutedEventArgs e)
+        {
+            PauseVideo();
+        }
+
         private void Timeline_PlayheadMoved(object sender, RoutedEventArgs e)
         {
             if (VideoPreview.HasVideo)
@@ -153,6 +168,10 @@ namespace Slicer
                 // TODO: Better math on this? Doubles to long
                 double tick = VideoPreview.NaturalDuration.TimeSpan.Ticks * Timeline.Playhead;
                 VideoPreview.Position = new TimeSpan((long)tick);
+            }
+            if (wasPlaying)
+            {
+                PlayVideo();
             }
         }
 
@@ -200,8 +219,6 @@ namespace Slicer
                 if (tb == TB_End) Timeline.UpperValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
             }
         }
-
-        
 
         private void ApproveTimecodeInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {

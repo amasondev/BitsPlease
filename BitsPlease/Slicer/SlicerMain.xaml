@@ -54,7 +54,7 @@
                 </Canvas>
             </Button>
         </Grid>
-        <local:SlicerTimeline x:Name="Timeline" Margin="10,10,10,0" Grid.Row="2" VerticalAlignment="Top" UpperValue="1" ValueChanged="SlicerTimeline_ValueChanged" Thumb.DragCompleted="Timeline_PlayheadMoved" Height="50"/>
+        <local:SlicerTimeline x:Name="Timeline" Margin="10,10,10,0" Grid.Row="2" VerticalAlignment="Top" UpperValue="1" ValueChanged="SlicerTimeline_ValueChanged" Thumb.DragStarted="Timeline_PlayheadMoving" Thumb.DragCompleted="Timeline_PlayheadMoved" Height="50"/>
     </Grid>
 </bitsplease:VideoDropWindow>
 
