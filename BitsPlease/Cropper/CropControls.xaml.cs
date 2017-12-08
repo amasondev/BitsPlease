@@ -64,14 +64,16 @@ namespace Cropper
             if (GRID_Backdrop == null || GRID_Crop == null) return;
 
             Size size = new Size(ActualWidth, ActualHeight);
+            double width = checkMinimum(size.Width);
+            double height = checkMinimum(size.Height);
 
             // Rectangle for top, left, bottom, right
             // Top
             RectangleGeometry top = new RectangleGeometry(new Rect(
-                0, 0, size.Width, GRID_Crop.Margin.Top));
+                0, 0, width, GRID_Crop.Margin.Top));
             // Left
             RectangleGeometry left = new RectangleGeometry(new Rect(
-                0, 0, GRID_Crop.Margin.Left, size.Height));
+                0, 0, GRID_Crop.Margin.Left, height));
             // Bottom
             RectangleGeometry bottom = new RectangleGeometry(new Rect(
                 0, size.Height - GRID_Crop.Margin.Bottom, size.Width, GRID_Crop.Margin.Bottom));
@@ -90,6 +92,18 @@ namespace Cropper
                 CropModified();
         }
 
+        private double checkMinimum(double side)
+        {
+            if (side > 0)
+            {
+                return side;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
         private void DragMove(object sender, DragDeltaEventArgs e)
         {
             marginHandler.SetX(e.HorizontalChange);
@@ -102,14 +116,12 @@ namespace Cropper
         {
             marginHandler.SetTop(e.VerticalChange);
             marginHandler.SetLeft(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Left_DragDelta(object sender, DragDeltaEventArgs e)
         {
             marginHandler.SetLeft(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
@@ -117,14 +129,12 @@ namespace Cropper
         {
             marginHandler.SetBottom(e.VerticalChange);
             marginHandler.SetLeft(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Bottom_DragDelta(object sender, DragDeltaEventArgs e)
         {
             marginHandler.SetBottom(e.VerticalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
@@ -132,14 +142,12 @@ namespace Cropper
         {
             marginHandler.SetBottom(e.VerticalChange);
             marginHandler.SetRight(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Right_DragDelta(object sender, DragDeltaEventArgs e)
         {
             marginHandler.SetRight(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
@@ -147,7 +155,6 @@ namespace Cropper
         {
             marginHandler.SetTop(e.VerticalChange);
             marginHandler.SetRight(e.HorizontalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
@@ -199,36 +206,40 @@ namespace Cropper
         public void SetLeft(double horizontalChange)
         {
             double desiredLeft = left + horizontalChange;
-            if (desiredLeft >= 0 && IsMinimumWidth() || desiredLeft < left)
+            if (IsMinimumWidth() || desiredLeft < left)
             {
                 left = desiredLeft;
+                SetMargins();
             }
         }
 
         public void SetTop(double verticalChange)
         {
             double desiredTop = top + verticalChange;
-            if (desiredTop >= 0 && IsMinimumHeight() || desiredTop < top)
+            if (IsMinimumHeight() || desiredTop < top)
             {
                 top = desiredTop;
+                SetMargins();
             }
         }
 
         public void SetRight(double horizontalChange)
         {
             double desiredRight = right - horizontalChange;
-            if (desiredRight >= 0 && IsMinimumWidth() || desiredRight < right)
+            if (IsMinimumWidth() || desiredRight < right)
             {
                 right = desiredRight;
+                SetMargins();
             }
         }
 
         public void SetBottom(double verticalChange)
         {
             double desiredBottom = bottom - verticalChange;
-            if (desiredBottom >= 0 && IsMinimumHeight() || desiredBottom < bottom)
+            if (IsMinimumHeight() || desiredBottom < bottom)
             {
                 bottom = desiredBottom;
+                SetMargins();
             }
         }
 
@@ -254,8 +265,29 @@ namespace Cropper
             }
         }
 
+        public void CheckMargins()
+        {
+            if (left < 0)
+            {
+                left = 0;
+            }
+            if (right < 0)
+            {
+                right = 0;
+            }
+            if (top < 0)
+            {
+                top = 0;
+            }
+            if (bottom < 0)
+            {
+                bottom = 0;
+            }
+        }
+
         public void SetMargins()
         {
+            CheckMargins();
             GRID_Crop.Margin = new Thickness(left, top, right, bottom);
         }
     }
