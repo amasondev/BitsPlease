@@ -19,7 +19,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Menu x:Name="MENU" VerticalAlignment="Top" Height="20">
+        <Menu x:Name="MENU" VerticalAlignment="Top" Height="25" Background="#FFF0F0F0">
             <MenuItem Header="File">
                 <MenuItem Header="Open..." Click="FileOpen_Click"/>
                 <MenuItem Header="Exit" Click="FileExit_Click"/>

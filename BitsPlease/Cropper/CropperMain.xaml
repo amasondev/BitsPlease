@@ -41,7 +41,7 @@
             <ffme:MediaElement x:Name="VideoPreview" Background="Gray" UnloadedBehavior="Manual" MessageLogged="OnMessageLogged" LoadedBehavior="Manual" SizeChanged="VideoDropWindow_SizeChanged" MediaOpened="VideoPreview_MediaOpened"/>
             <local:CropControls x:Name="CROPCONTROL" Margin="0" Loaded="CROPCONTROL_Loaded" CropModified="OnCropModified"/>
         </Grid>
-        <Menu x:Name="MENU" VerticalAlignment="Top" Height="20">
+        <Menu x:Name="MENU" VerticalAlignment="Top" Height="20" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
             <MenuItem Header="File">
                 <MenuItem Header="Open..." Click="FileOpen_Click"/>
                 <MenuItem Header="Exit" Click="FileExit_Click"/>
