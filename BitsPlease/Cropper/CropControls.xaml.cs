@@ -161,7 +161,6 @@ namespace Cropper
         private void Top_DragDelta(object sender, DragDeltaEventArgs e)
         {
             marginHandler.SetTop(e.VerticalChange);
-            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
     }
@@ -184,29 +183,10 @@ namespace Cropper
             bottom = GRID_Crop.Margin.Bottom;
         }
 
-        public void ResetMargins()
-        {
-            left = 10;
-            right = 10;
-            top = 10;
-            bottom = 10;
-            SetMargins();
-        }
-
-        private bool IsMinimumWidth()
-        {
-            return GRID_Crop.ActualWidth >= minimumSize;
-        }
-
-        private bool IsMinimumHeight()
-        {
-            return GRID_Crop.ActualHeight >= minimumSize;
-        }
-
         public void SetLeft(double horizontalChange)
         {
             double desiredLeft = left + horizontalChange;
-            if (IsMinimumWidth() || desiredLeft < left)
+            if ((IsMinimumWidth() || desiredLeft < left) && WithinBoundaries(desiredLeft))
             {
                 left = desiredLeft;
                 SetMargins();
@@ -216,7 +196,7 @@ namespace Cropper
         public void SetTop(double verticalChange)
         {
             double desiredTop = top + verticalChange;
-            if (IsMinimumHeight() || desiredTop < top)
+            if ((IsMinimumHeight() || desiredTop < top) && WithinBoundaries(desiredTop))
             {
                 top = desiredTop;
                 SetMargins();
@@ -226,7 +206,7 @@ namespace Cropper
         public void SetRight(double horizontalChange)
         {
             double desiredRight = right - horizontalChange;
-            if (IsMinimumWidth() || desiredRight < right)
+            if ((IsMinimumWidth() || desiredRight < right) && WithinBoundaries(desiredRight))
             {
                 right = desiredRight;
                 SetMargins();
@@ -236,7 +216,7 @@ namespace Cropper
         public void SetBottom(double verticalChange)
         {
             double desiredBottom = bottom - verticalChange;
-            if (IsMinimumHeight() || desiredBottom < bottom)
+            if ((IsMinimumHeight() || desiredBottom < bottom) && WithinBoundaries(desiredBottom))
             {
                 bottom = desiredBottom;
                 SetMargins();
@@ -265,30 +245,24 @@ namespace Cropper
             }
         }
 
-        public void CheckMargins()
-        {
-            if (left < 0)
-            {
-                left = 0;
-            }
-            if (right < 0)
-            {
-                right = 0;
-            }
-            if (top < 0)
-            {
-                top = 0;
-            }
-            if (bottom < 0)
-            {
-                bottom = 0;
-            }
-        }
-
         public void SetMargins()
         {
-            CheckMargins();
             GRID_Crop.Margin = new Thickness(left, top, right, bottom);
+        }
+
+        private bool IsMinimumWidth()
+        {
+            return GRID_Crop.ActualWidth >= minimumSize;
+        }
+
+        private bool IsMinimumHeight()
+        {
+            return GRID_Crop.ActualHeight >= minimumSize;
+        }
+
+        private bool WithinBoundaries(double desiredPosition)
+        {
+            return desiredPosition >= 0;
         }
     }
 }
