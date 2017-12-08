@@ -165,6 +165,7 @@ namespace Cropper
         double right;
         double top;
         double bottom;
+        double minimumSize = 20;
         Grid GRID_Crop;
 
         public GridMarginHandler(Grid GRID_Crop)
@@ -176,28 +177,59 @@ namespace Cropper
             bottom = GRID_Crop.Margin.Bottom;
         }
 
+        public void ResetMargins()
+        {
+            left = 10;
+            right = 10;
+            top = 10;
+            bottom = 10;
+            SetMargins();
+        }
+
+        private bool IsMinimumWidth()
+        {
+            return GRID_Crop.ActualWidth >= minimumSize;
+        }
+
+        private bool IsMinimumHeight()
+        {
+            return GRID_Crop.ActualHeight >= minimumSize;
+        }
+
         public void SetLeft(double horizontalChange)
         {
             double desiredLeft = left + horizontalChange;
-            if (desiredLeft >= 0) left = desiredLeft;
+            if (desiredLeft >= 0 && IsMinimumWidth() || desiredLeft < left)
+            {
+                left = desiredLeft;
+            }
         }
 
         public void SetTop(double verticalChange)
         {
             double desiredTop = top + verticalChange;
-            if (desiredTop >= 0) top = desiredTop;
+            if (desiredTop >= 0 && IsMinimumHeight() || desiredTop < top)
+            {
+                top = desiredTop;
+            }
         }
 
         public void SetRight(double horizontalChange)
         {
             double desiredRight = right - horizontalChange;
-            if (desiredRight >= 0) right = desiredRight;
+            if (desiredRight >= 0 && IsMinimumWidth() || desiredRight < right)
+            {
+                right = desiredRight;
+            }
         }
 
         public void SetBottom(double verticalChange)
         {
             double desiredBottom = bottom - verticalChange;
-            if (desiredBottom >= 0) bottom = desiredBottom;
+            if (desiredBottom >= 0 && IsMinimumHeight() || desiredBottom < bottom)
+            {
+                bottom = desiredBottom;
+            }
         }
 
         public void SetX(double horizontalChange)

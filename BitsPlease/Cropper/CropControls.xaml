@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid x:Name="GRID_Backdrop" Background="#7F000000"/>
-        <Grid x:Name="GRID_Crop" MinWidth="50" MinHeight="50" Margin="63,33,53,65">
+        <Grid x:Name="GRID_Crop" MinWidth="10" MinHeight="10" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
