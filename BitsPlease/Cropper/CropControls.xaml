@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid x:Name="GRID_Backdrop" Background="#7F000000"/>
-        <Grid x:Name="GRID_Crop" MinWidth="1" MinHeight="1" Margin="63,33,53,65">
+        <Grid x:Name="GRID_Crop" MinWidth="50" MinHeight="50" Margin="63,33,53,65">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -32,7 +32,7 @@
                 <Thumb.Template>
                     <ControlTemplate>
                         <Grid>
-                            <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Top" Height="5" StrokeThickness="0"/>
+                            <Rectangle Margin="0" VerticalAlignment="Top" Height="5" StrokeThickness="0" Fill="DarkRed"/>
                             <Rectangle Fill="DarkRed" Margin="0" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Left" Width="5" StrokeThickness="0"/>
                             <Rectangle Fill="Red" Stroke="Gray" Width="10" Height="10" Margin="-5,-5,-5,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </Grid>

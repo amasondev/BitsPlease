@@ -23,11 +23,12 @@ namespace Cropper
     {
         public delegate void CropModifiedEventHandler();
         public event CropModifiedEventHandler CropModified;
+        GridMarginHandler marginHandler;
 
         public CropControls()
         {
             InitializeComponent();
-
+            marginHandler = new GridMarginHandler(GRID_Crop);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -120,138 +121,109 @@ namespace Cropper
 
         private void THUMB_topleft_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredLeft = newLeft + e.HorizontalChange;
-            double desiredTop = newTop + e.VerticalChange;
-
-            if (desiredLeft >= 0) newLeft = desiredLeft;
-            if (desiredTop >= 0) newTop = desiredTop;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetTop(e.VerticalChange);
+            marginHandler.SetLeft(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Left_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredLeft = newLeft + e.HorizontalChange;
-
-            if (desiredLeft >= 0) newLeft = desiredLeft;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetLeft(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void THUMB_bottomLeft_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredLeft = newLeft + e.HorizontalChange;
-            double desiredBottom = newBottom - e.VerticalChange;
-
-            if (desiredLeft >= 0) newLeft = desiredLeft;
-            if (desiredBottom >= 0) newBottom = desiredBottom;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetBottom(e.VerticalChange);
+            marginHandler.SetLeft(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Bottom_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-            
-            double desiredBottom = newBottom - e.VerticalChange;
-            
-            if (desiredBottom >= 0) newBottom = desiredBottom;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetBottom(e.VerticalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void THUMB_bottomRight_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredRight = newRight - e.HorizontalChange;
-            double desiredBottom = newBottom - e.VerticalChange;
-
-            if (desiredRight >= 0) newRight = desiredRight;
-            if (desiredBottom >= 0) newBottom = desiredBottom;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetBottom(e.VerticalChange);
+            marginHandler.SetRight(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Right_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredRight = newRight - e.HorizontalChange;
-
-            if (desiredRight >= 0) newRight = desiredRight;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetRight(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void THUMB_topRight_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredRight = newRight - e.HorizontalChange;
-            double desiredTop = newTop + e.VerticalChange;
-
-            if (desiredRight >= 0) newRight = desiredRight;
-            if (desiredTop >= 0) newTop = desiredTop;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetTop(e.VerticalChange);
+            marginHandler.SetRight(e.HorizontalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
         private void Top_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-            
-            double desiredTop = newTop + e.VerticalChange;
-            
-            if (desiredTop >= 0) newTop = desiredTop;
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetTop(e.VerticalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
+        }
+    }
+
+    public class GridMarginHandler
+    {
+        double left;
+        double right;
+        double top;
+        double bottom;
+        Grid GRID_Crop;
+
+        public GridMarginHandler(Grid GRID_Crop)
+        {
+            this.GRID_Crop = GRID_Crop;
+            left = GRID_Crop.Margin.Left;
+            right = GRID_Crop.Margin.Right;
+            top = GRID_Crop.Margin.Top;
+            bottom = GRID_Crop.Margin.Bottom;
+        }
+
+        public void SetLeft(double horizontalChange)
+        {
+            double desiredLeft = left + horizontalChange;
+            if (desiredLeft >= 0) left = desiredLeft;
+        }
+
+        public void SetTop(double verticalChange)
+        {
+            double desiredTop = top + verticalChange;
+            if (desiredTop >= 0) top = desiredTop;
+        }
+
+        public void SetRight(double horizontalChange)
+        {
+            double desiredRight = right - horizontalChange;
+            if (desiredRight >= 0) right = desiredRight;
+        }
+
+        public void SetBottom(double verticalChange)
+        {
+            double desiredBottom = bottom - verticalChange;
+            if (desiredBottom >= 0) bottom = desiredBottom;
+        }
+
+        public void SetMargins()
+        {
+            GRID_Crop.Margin = new Thickness(left, top, right, bottom);
         }
     }
 }
