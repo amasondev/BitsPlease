@@ -92,30 +92,9 @@ namespace Cropper
 
         private void DragMove(object sender, DragDeltaEventArgs e)
         {
-            double newLeft = GRID_Crop.Margin.Left;
-            double newRight = GRID_Crop.Margin.Right;
-            double newTop = GRID_Crop.Margin.Top;
-            double newBottom = GRID_Crop.Margin.Bottom;
-
-            double desiredLeft = newLeft + e.HorizontalChange;
-            double desiredRight = newRight - e.HorizontalChange;
-            double desiredTop = newTop + e.VerticalChange;
-            double desiredBottom = newBottom - e.VerticalChange;
-
-            if (desiredLeft >= 0 && desiredRight >= 0)
-            {
-                newLeft = desiredLeft;
-                newRight = desiredRight;
-            }
-
-            if (desiredTop >= 0 && desiredBottom >= 0)
-            {
-                newTop += e.VerticalChange;
-                newBottom -= e.VerticalChange;
-            }
-
-            GRID_Crop.Margin = new Thickness(newLeft, newTop, newRight, newBottom);
-
+            marginHandler.SetX(e.HorizontalChange);
+            marginHandler.SetY(e.VerticalChange);
+            marginHandler.SetMargins();
             UpdateBackdropMask();
         }
 
@@ -219,6 +198,28 @@ namespace Cropper
         {
             double desiredBottom = bottom - verticalChange;
             if (desiredBottom >= 0) bottom = desiredBottom;
+        }
+
+        public void SetX(double horizontalChange)
+        {
+            double desiredLeft = left + horizontalChange;
+            double desiredRight = right - horizontalChange;
+            if (desiredLeft >= 0 && desiredRight >= 0)
+            {
+                left = desiredLeft;
+                right = desiredRight;
+            }
+        }
+
+        public void SetY(double verticalChange)
+        {
+            double desiredTop = top + verticalChange;
+            double desiredBottom = bottom - verticalChange;
+            if (desiredTop >= 0 && desiredBottom >= 0)
+            {
+                top = desiredTop;
+                bottom = desiredBottom;
+            }
         }
 
         public void SetMargins()
