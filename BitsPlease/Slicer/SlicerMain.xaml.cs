@@ -29,7 +29,6 @@ namespace Slicer
             Title = titlePrefix;
         }
 
-
         protected override void OnDropVideo(string filepath)
         {
             // Open the media in video preview
@@ -182,9 +181,7 @@ namespace Slicer
             {
                 double tick = VideoPreview.NaturalDuration.TimeSpan.Ticks * Timeline.Playhead;
                 TimeSpan timeSpan = new TimeSpan((long)tick);
-                double timeValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
-                string timeCode = GetTimecode(timeValue, timeSpan);
-                SeekTime.Text = timeCode;
+                SeekTime.Text = timeSpan.ToString();
             }
         }
 
