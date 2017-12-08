@@ -9,6 +9,7 @@ using BitsPlease;
 using System.IO;
 using Microsoft.Win32;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace Cropper
 {
@@ -89,6 +90,7 @@ namespace Cropper
             {
                 VideoPreview.Play();
                 Console.WriteLine("Playing video.");
+                PlayingIconColour();
             }
         }
 
@@ -98,7 +100,18 @@ namespace Cropper
             {
                 VideoPreview.Pause();
                 Console.WriteLine("Pausing video.");
+                PausingIconColour();
             }
+        }
+
+        private void PlayingIconColour()
+        {
+            PlayIcon.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF17D94E"));
+        }
+
+        private void PausingIconColour()
+        {
+            PlayIcon.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
         private void OnMessageLogged(object sender, Unosquare.FFME.MediaLogMessagEventArgs e)
