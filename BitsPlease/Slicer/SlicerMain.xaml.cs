@@ -40,6 +40,7 @@ namespace Slicer
                 this.Title = titlePrefix + ": " + Path.GetFileName(filepath);
                 GetStartedLabel.Visibility = Visibility.Hidden;
                 Console.WriteLine("Set media source to: " + VideoPreview.Source);
+                AdjustVolume();
             }
             catch (Exception ex)
             {
@@ -262,6 +263,16 @@ namespace Slicer
             Regex approvedChars = new Regex("[0-9:.]+");
             e.Handled = !approvedChars.IsMatch(e.Text);
         }
-        
+
+        private void VolumeControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            AdjustVolume();
+        }
+
+        private void AdjustVolume()
+        {
+            double volumeValue = VolumeControl.Value / 10;
+            VideoPreview.Volume = volumeValue;
+        }
     }
 }
