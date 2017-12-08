@@ -172,6 +172,7 @@ namespace Slicer
 
         private void Timeline_PlayheadDragging(object sender, RoutedEventArgs e)
         {
+            TempPauseLabel.Visibility = Visibility.Visible;
             PauseVideo();
         }
 
@@ -186,6 +187,7 @@ namespace Slicer
             }
             if (wasPlaying)
             {
+                TempPauseLabel.Visibility = Visibility.Hidden;
                 PlayVideo();
             }
         }
