@@ -214,11 +214,10 @@ namespace Slicer
             Duration.Text = timeCode;
         }
 
-        private void ParseTimecodeTB(object sender, RoutedEventArgs e)
+        private void ParseTimecode(TextBox tb)
         {
-            TextBox tb = sender as TextBox;
             Console.WriteLine("Parsing timecode input: " + tb.Text);
-            
+
             string[] input = tb.Text.Split(':');
             Array.Reverse(input);
 
@@ -248,7 +247,7 @@ namespace Slicer
             }
 
             TimeSpan timeSpan = new TimeSpan(0, hours, minutes, 0, milliseconds);
-            
+
             tb.Text = GetTimecode(1.0, timeSpan);
 
             // Set slider
@@ -257,6 +256,12 @@ namespace Slicer
                 if (tb == TB_Start) Timeline.LowerValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
                 if (tb == TB_End) Timeline.UpperValue = GetTimeValue(timeSpan, VideoPreview.NaturalDuration.TimeSpan);
             }
+        }
+
+        private void ParseTimecodeTB(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            ParseTimecode(tb);
         }
 
         private void ApproveTimecodeInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -291,6 +296,12 @@ namespace Slicer
                 SoundButton.Visibility = Visibility.Visible;
                 MuteButton.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void ParseAllTimecodes(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ParseTimecode(TB_Start);
+            ParseTimecode(TB_End);
         }
     }
 }

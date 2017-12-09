@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Slicer"
         mc:Ignorable="d"
-        Title="Slicer" MinHeight="550" MinWidth="500" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}" Height="478.8" Width="393.6">
+        Title="Slicer" MinHeight="550" MinWidth="500" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}" Height="478.8" Width="393.6" MouseDown="ParseAllTimecodes">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="311*"/>
