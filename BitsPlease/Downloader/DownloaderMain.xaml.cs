@@ -230,11 +230,12 @@ namespace Downloader
 
         private void DisableVideoQuality()
         {
-            VideoOutputs.Cursor = Cursors.No;
+            VideoQualityInactive.Visibility = Visibility.Visible;
         }
 
         private void EnableVideoQuality()
         {
+            VideoQualityInactive.Visibility = Visibility.Hidden;
             VideoOutputs.Cursor = Cursors.Hand;
             UpdateVideoSelection();
         }

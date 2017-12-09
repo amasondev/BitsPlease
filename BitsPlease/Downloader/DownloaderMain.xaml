@@ -38,14 +38,17 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
-                    <ListView x:Name="VideoOutputs" Cursor="Hand" SelectionChanged="VideoOutputs_SelectionChanged" Height="130">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="90" Header="Extension"  DisplayMemberBinding="{Binding Extension}"/>
-                                <GridViewColumn Width="90" Header="Resolution"  DisplayMemberBinding="{Binding Resolution}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <Grid>
+                        <ListView x:Name="VideoOutputs" Cursor="Hand" SelectionChanged="VideoOutputs_SelectionChanged" Height="130">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="90" Header="Extension"  DisplayMemberBinding="{Binding Extension}"/>
+                                    <GridViewColumn Width="90" Header="Resolution"  DisplayMemberBinding="{Binding Resolution}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Rectangle x:Name="VideoQualityInactive" Visibility="Hidden" Cursor="No" Height="130" Fill="#66E7E7E7"/>
+                    </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <Label Content="Preview" Foreground="#FF575757"/>
