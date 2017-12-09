@@ -247,7 +247,7 @@ namespace Downloader
         private void EnableAudioQuality()
         {
             AudioFormat.Visibility = Visibility.Visible;
-            UpdateAudioSelection();
+            CheckAudioOptions();
         }
 
         private void OnURLInputTimerComplete(object sender, EventArgs e)
@@ -299,6 +299,7 @@ namespace Downloader
             {
                 AddVideoOptions(processFilter);
                 PlaceholderPreview.Visibility = Visibility.Hidden;
+                CheckAudioOptions();
             }
             DisableBusyIndicator();
         }
@@ -306,6 +307,7 @@ namespace Downloader
         private void ClearOptions()
         {
             VideoOutputs.Items.Clear();
+            ClearSelectedOutput();
             selectedVideo = null;
         }
 
@@ -344,10 +346,7 @@ namespace Downloader
 
         private void AudioFormatSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (isAudioOnly)
-            {
-                UpdateAudioSelection();
-            }
+            CheckAudioOptions();
         }
 
         private void UpdateVideoSelection()
@@ -375,8 +374,7 @@ namespace Downloader
 
         private void UpdateAudioSelection()
         {
-            bool hasAudioOptions = AudioOutputs.Items.Count > 0;
-            if (hasAudioOptions)
+            if (PreScreenedUrl())
             {
                 string label = "Audio only - " + AudioOutputs.SelectedItem;
                 UpdateSelectedOutput(label);
@@ -443,7 +441,16 @@ namespace Downloader
             bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
             return canShowDialog && urlInputHasText && fileNameExists;
         }
-}
+
+        private void CheckAudioOptions()
+        {
+            bool outputsExist = VideoOutputs.Items.Count > 0;
+            if (isAudioOnly && outputsExist)
+            {
+                UpdateAudioSelection();
+            }
+        }
+    }
 
     public class DownloadLauncher
     {
