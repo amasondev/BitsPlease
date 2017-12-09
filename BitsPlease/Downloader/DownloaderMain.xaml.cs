@@ -360,6 +360,7 @@ namespace Downloader
             if (hasVideoOptions)
             {
                 selectedVideo = (VideoOutput)VideoOutputs.SelectedItem;
+                UpdateSelectedOutput(GetVideoLabel());
             }
         }
 
@@ -382,7 +383,13 @@ namespace Downloader
             if (hasAudioOptions)
             {
                 string label = "Audio only - " + AudioOutputs.SelectedItem;
+                UpdateSelectedOutput(label);
             }
+        }
+
+        private void UpdateSelectedOutput(string label)
+        {
+            SelectedOutputLabel.Text = "Output: " + label;
         }
 
         private bool IsValidOutput()
@@ -429,7 +436,7 @@ namespace Downloader
             bool fileNameExists = !String.IsNullOrEmpty(saveFileDialog.FileName);
             return canShowDialog && urlInputHasText && fileNameExists;
         }
-    }
+}
 
     public class DownloadLauncher
     {
