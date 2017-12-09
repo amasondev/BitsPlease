@@ -37,6 +37,8 @@ namespace Downloader
             InitializeComponent();
             DisableBusyIndicator();
             AddAudioOptions();
+            
+            TB_VideoTitle.Content = "";
         }
 
         private void InitializeUrlTimer()
@@ -76,6 +78,68 @@ namespace Downloader
             {
                 MessageBox.Show("There was an error starting youtube-dl.exe");
             }
+        }
+
+        /// <summary>
+        /// Downloads the video thumbnail.
+        /// </summary>
+        /// <param name="url">Video URL</param>
+        /// <param name="imagePath">Output path of the image file</param>
+        /// <returns>True if image is downloaded.</returns>
+        private bool DownloadVideoThumbnail(string url, out string imagePath)
+        {
+            imagePath = "";
+            string outputarg = System.IO.Path.GetTempFileName();
+            string imageName = "";
+            string args = url + " --skip-download --write-thumbnail -o " + outputarg;
+            Console.WriteLine("Getting Thumbnail: " + args);
+            Process p = GetProcess(args);
+            p.Start();
+            string line;
+            while ((line = p.StandardOutput.ReadLine()) != null)
+            {
+                Console.WriteLine("Getting Thumbnail: " + line);
+                if (line.Contains("Writing thumbnail to:"))
+                {
+                    int index = line.IndexOf("Writing thumbnail to:");
+                    imageName = line.Substring(index + 21);
+                    imageName = imageName.Trim(' ');
+                    Console.WriteLine("Got thumbnail: " + imageName);
+                    imagePath = imageName;
+                }
+            }
+            while ((line = p.StandardError.ReadLine()) != null)
+            {
+                Console.WriteLine("Error getting thumbnail: " + line);
+            }
+            p.WaitForExit();
+            p.Close();
+
+            return false;
+        }
+
+        private bool GetVideoTitle(string url, out string title)
+        {
+            title = "";
+            string args = " -e " + url;
+            Console.WriteLine("Getting Title: " + args);
+            Process p = GetProcess(args);
+            p.Start();
+            string line;
+            while ((line = p.StandardOutput.ReadLine()) != null)
+            {
+                Console.WriteLine("Getting title: " + line);
+                title = line;
+            }
+
+            while ((line = p.StandardError.ReadLine()) != null)
+            {
+                Console.WriteLine("Error getting title: " + line);
+            }
+            p.WaitForExit();
+            p.Close();
+
+            return false;
         }
 
         private SaveFileDialog CreateSaveFileDialog()
@@ -202,18 +266,44 @@ namespace Downloader
         private async void PopulateOptions()
         {
             ProcessFilter processFilter = null;
-            string query = "-F " + urlInput.Text;
+            string thumbnailLocation = "";
+            string url = urlInput.Text;
+            string title = "";
+            TB_VideoTitle.Content = "";
+            IMG_Thumbnail.Source = null;
+            string query = "-F " + url;
             ProcessStartInfo info = GetDownloaderStartInfo(query);
             EnableBusyIndicator();
-            await Task.Run(() =>
+
+            Task getTitle = new Task(() =>
+            {
+                GetVideoTitle(url, out title);
+            });
+            Task getQuality = new Task(() =>
             {
                 processFilter = new ProcessFilter(info);
             });
+            Task getThumb = new Task(() =>
+            {
+                DownloadVideoThumbnail(url, out thumbnailLocation);
+            });
+            getTitle.Start();
+            getThumb.Start();
+            getQuality.Start();
+            await Task.WhenAll(getTitle, getThumb, getQuality);
+
+            TB_VideoTitle.Content = title;
+
+            if (!string.IsNullOrEmpty(thumbnailLocation))
+                IMG_Thumbnail.Source = new BitmapImage(new Uri(thumbnailLocation, UriKind.Absolute));
+
             if (processFilter != null)
             {
                 ClearOptions();
                 AddVideoOptions(processFilter);
             }
+
+
             DisableBusyIndicator();
         }
 
@@ -270,7 +360,6 @@ namespace Downloader
             if (hasVideoOptions)
             {
                 selectedVideo = (VideoOutput)VideoOutputs.SelectedItem;
-                UpdateSelectedOutput(GetVideoLabel());
             }
         }
 
@@ -293,13 +382,7 @@ namespace Downloader
             if (hasAudioOptions)
             {
                 string label = "Audio only - " + AudioOutputs.SelectedItem;
-                UpdateSelectedOutput(label);
             }
-        }
-
-        private void UpdateSelectedOutput(string label)
-        {
-            SelectedOutputLabel.Text = "Output: " + label;
         }
 
         private bool IsValidOutput()
