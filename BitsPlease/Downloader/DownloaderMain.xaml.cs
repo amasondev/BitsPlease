@@ -255,6 +255,8 @@ namespace Downloader
             urlInputTimer.Stop();
             if (PreScreenedUrl())
             {
+                ClearSelectedOutput();
+                ClearOptions();
                 PopulateOptions();
             }
         }
@@ -295,11 +297,9 @@ namespace Downloader
 
             if (processFilter != null)
             {
-                ClearOptions();
                 AddVideoOptions(processFilter);
+                PlaceholderPreview.Visibility = Visibility.Hidden;
             }
-
-
             DisableBusyIndicator();
         }
 
@@ -386,6 +386,11 @@ namespace Downloader
         private void UpdateSelectedOutput(string label)
         {
             SelectedOutputLabel.Text = "Output: " + label;
+        }
+
+        private void ClearSelectedOutput()
+        {
+            SelectedOutputLabel.Text = "";
         }
 
         private bool IsValidOutput()

@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Downloader"
         xmlns:bp="clr-namespace:BitsPlease;assembly=BitsPlease"
         mc:Ignorable="d"
-        Title="Video Downloader" MinWidth="500" MinHeight="475" Height="442.4" Width="455.8" MaxWidth="500" MaxHeight="475" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
+        Title="Video Downloader" MinWidth="500" MinHeight="490" Height="442.4" Width="455.8" MaxWidth="500" MaxHeight="525" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,10 +30,11 @@
                 </Grid>
             </Grid>
 
-            <Grid HorizontalAlignment="Left" Margin="0,5,0,0" MinWidth="425" MinHeight="170">
+            <Grid HorizontalAlignment="Left" Margin="0,5,0,0" MinWidth="425" MinHeight="180">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" MinWidth="200"/>
-                    <ColumnDefinition Width="1*" MinWidth="250"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="1*" MinWidth="225"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label Content="Video Quality" Foreground="#FF4F4F4F"/>
@@ -46,13 +47,13 @@
                         </ListView.View>
                     </ListView>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                <StackPanel Grid.Column="2">
                     <Label Content="Preview" Foreground="#FF575757"/>
-                    <Grid Height="130">
-                        <Rectangle Fill="#FFE0E0E0"/>
-                        <Image x:Name="IMG_Thumbnail"/>
-                        <Grid x:Name="BUSYdownload"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                            <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Grid MinHeight="130" HorizontalAlignment="Left">
+                        <Rectangle x:Name="PlaceholderPreview" Fill="#FFE0E0E0" Stretch="UniformToFill" MaxHeight="130"/>
+                        <Image x:Name="IMG_Thumbnail" MaxHeight="150" HorizontalAlignment="Left"/>
+                        <Grid x:Name="BUSYdownload"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel VerticalAlignment="Center">
                                 <bp:BusyCircle Height="23" RenderTransformOrigin="-0.13,0.478"/>
                                 <Label Content="Retrieving data... Please wait!" HorizontalAlignment="Center" Foreground="#FF6F6F6F"/>
                             </StackPanel>
