@@ -55,10 +55,6 @@ namespace Downloader
                 StartDownloadProcess();
                 EnableUI();
             }
-            else
-            {
-                MessageBox.Show("Please select a quality option.");
-            }
         }
 
         private void StartDownloadProcess()
@@ -394,9 +390,15 @@ namespace Downloader
 
         private bool IsValidOutput()
         {
+            if (!PreScreenedUrl())
+            {
+                MessageBox.Show("Please input a video URL.");
+                return false;
+            }
+
             if (isAudioOnly)
             {
-                return AudioOutputs.SelectedItem != null;
+                return true;
             }
             else
             {
